@@ -1,0 +1,54 @@
+@import "./reset.scss";
+
+@import "./variable";
+
+* {
+  box-sizing: border-box;
+  font-family: Futura, "Noto Sans CJK TC", 'Noto Serif TC', sans-serif;
+}
+
+// ------  copy ------
+/*
+@include full-screen {
+
+}
+@include screen-up {
+
+}
+@include screen {
+
+}
+@include pad-up {
+
+}
+@include pad {
+
+}
+@include pad-m {
+
+}
+@include mobile {
+
+}
+*/
+
+/*
+@include flex-col(6);
+*/
+
+/*
+@extend %flex-row-space-between-center;
+@extend %flex-column-flex-start-baseline;
+*/
+
+/*
+@include font-h1(bold);
+@include font-h2(500);
+@include font-h3;
+@include font-h4;
+@include font-h5;
+@include font-content;
+@include font-button;
+@include font-caption;
+@include font-overline;
+*/

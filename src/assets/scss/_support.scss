@@ -1,0 +1,178 @@
+// ------ RWD
+@mixin full-screen {
+  @media screen and (min-width: 1280px) {
+    @content;
+  }
+}
+@mixin screen-up {
+  @media screen and (min-width: 768px) {
+    @content;
+  }
+}
+@mixin screen {
+  @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @content;
+  }
+}
+@mixin pad-up {
+  @media screen and (min-width: 481px) {
+    @content;
+  }
+}
+@mixin pad {
+  @media screen and (min-width: 481px) and (max-width: 767px) {
+    @content;
+  }
+}
+@mixin pad-m {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+@mixin mobile {
+  @media(max-width: 480px){
+    @content;
+  }
+}
+
+// ------ flex-box
+$flex-direction: (row column);
+$flex-justify: (center space-between flex-start);
+$flex-align: (center space-between baseline);
+
+// 寬度比例
+@mixin flex-col($i) {
+  flex: 0 0 ((100% / 12) * $i);
+}
+
+// 內部對齊
+@each $direction in $flex-direction {
+  @each $justify in $flex-justify {
+    @each $align in $flex-align {
+      %flex-#{$direction}-#{$justify}-#{$align} {
+          display: flex;
+          flex-direction: $direction;
+          justify-content: $justify;
+          align-items: $align;
+      }
+    }
+  }
+}
+
+// ------ 文字
+@mixin font-h1($b: 1) {
+  font-size: $font-size-h1;
+  line-height: $font-size-h1 * $line-height-scale-h1;
+  letter-spacing: $letter-spacing-h1;
+  font-weight: $b;
+}
+@mixin font-h2($b: 1) {
+  font-size: $font-size-h2;
+  line-height: $font-size-h2 * $line-height-scale-h2;
+  letter-spacing: $letter-spacing-h2;
+  font-weight: $b;
+}
+@mixin font-h3($b: 1) {
+  font-size: $font-size-h3;
+  line-height: $font-size-h3 * $line-height-scale-h3;
+  letter-spacing: $letter-spacing-h3;
+  font-weight: $b;
+}
+@mixin font-h4($b: 1) {
+  font-size: $font-size-h4;
+  line-height: $font-size-h4 * $line-height-scale-h4;
+  letter-spacing: $letter-spacing-h4;
+  font-weight: $b;
+}
+@mixin font-h5($b: 1) {
+  font-size: $font-size-h5;
+  line-height: $font-size-h5 * $line-height-scale-h5;
+  letter-spacing: $letter-spacing-h5;
+  font-weight: $b;
+}
+@mixin font-content($b: normal) {
+  font-size: $font-size-content;
+  line-height: $font-size-content * $line-height-scale-content;
+  letter-spacing: $letter-spacing-content;
+  font-weight: $b;
+}
+@mixin font-button($b: normal) {
+  font-size: $font-size-button;
+  line-height: $font-size-button * $line-height-scale-button;
+  letter-spacing: $letter-spacing-button;
+  font-weight: $b;
+}
+@mixin font-caption($b: normal) {
+  font-size: $font-size-caption;
+  line-height: $font-size-caption * $line-height-scale-caption;
+  letter-spacing: $letter-spacing-caption;
+  font-weight: $b;
+}
+@mixin font-overline($b: normal) {
+  font-size: $font-size-overline;
+  line-height: $font-size-overline * $line-height-scale-overline;
+  letter-spacing: $letter-spacing-overline;
+  font-weight: $b;
+}
+
+// 按鈕
+@mixin btn($radius: $normal-bora) {
+  @include flex-row-center-center;
+  border-radius: $radius;
+  cursor: pointer;
+}
+
+@mixin btn-outline($color: primary) {
+  background-color: $grey-100;
+  @if $color == primary {
+    border: 1px solid $primary-300;
+    color: $primary-400;
+    &:hover {
+      background-color: $primary-400;
+      color: $primary-100;
+    }
+    &:focus, &.active {
+      border: 3px solid $primary-300;
+    }
+  }
+  @if $color == accent {
+    border: 1px solid $accent-300;
+    color: $accent-400;
+    &:hover {
+      background-color: $accent-400;
+      color: $accent-100;
+    }
+    &:focus, &.active {
+      border: 3px solid $accent-300;
+    }
+  }
+  @if $color == primalertary {
+    border: 1px solid $alert-300;
+    color: $alert-400;
+    &:hover {
+      background-color: $alert-400;
+      color: $alert-100;
+    }
+    &:focus, &.active {
+      border: 3px solid $alert-300;
+    }
+  }
+  @if $color == primalertary {
+    border: 1px solid $grey-300;
+    color: $grey-400;
+    &:hover {
+      background-color: $grey-400;
+      color: $grey-100;
+    }
+    &:focus, &.active {
+      border: 3px solid $grey-300;
+    }
+  }
+  
+  &:disabled {
+    background-color: $grey-100;
+    color: $grey-300;
+    border: 1px solid $grey-300;
+  }
+}
+

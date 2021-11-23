@@ -1,0 +1,82 @@
+// 色票
+$primary-100: #E9F4EE;
+$primary-200: #BFE0CF;
+$primary-300: #88C6A5;
+$primary-400: #4EA476;
+$primary-500: #408560;
+$primary-600: #316649;
+
+$accent-100: #F9EBDB;
+$accent-200: #F2D7B9;
+$accent-300: #ECC496;
+$accent-400: #DE9848;
+$accent-500: #D28226;
+$accent-600: #AB6A1F;
+
+$alert-100: #FDF4F6;
+$alert-200: #F7D2DB;
+$alert-300: #EB8CA3;
+$alert-400: #DD3E64;
+$alert-500: #CA234C;
+$alert-600: #A31C3D;
+
+$grey-100: #FFFFFF;
+$grey-200: #F1F1F1;
+$grey-300: #C5C5C5;
+$grey-400: #9A9A9A;
+$grey-500: #767676;
+$grey-600: #464646;
+
+// 各字型大小 (font-size)
+$font-size-h1: 2.488rem;        // 45px
+$font-size-h2: 2.074rem;        // 37px
+$font-size-h3: 1.728rem;        // 31px
+$font-size-h4: 1.440rem;        // 26px
+$font-size-h5: 1.2rem;          // 22px
+$font-size-content: 1rem;       // 18px
+$font-size-button: 0.833rem;    // 15px
+$font-size-caption: 0.694rem;   // 12px
+$font-size-overline: 0.579rem;  // 10px
+
+// 行距比例 (font-size * n = line-height)
+$line-height-scale-h1: 1.2;
+$line-height-scale-h2: 1.23;
+$line-height-scale-h3: 1.16;
+$line-height-scale-h4: 1.2;
+$line-height-scale-h5: 1.2;
+$line-height-scale-content: 1.56;
+$line-height-scale-button: 1.33;
+$line-height-scale-caption: 1.5;
+$line-height-scale-overline: 1.4;
+
+// 各字型字距 (letter-spacing)
+$letter-spacing-h1: 0.12em;
+$letter-spacing-h2: 0.08em;
+$letter-spacing-h3: 0.07em;
+$letter-spacing-h4: 0.05em;
+$letter-spacing-h5: 0.04em;
+$letter-spacing-content: 0.03em;
+$letter-spacing-button: 0.03em;
+$letter-spacing-caption: 0.01em;
+$letter-spacing-overline: 0.01em;
+
+// 版型 (固定 height、width)
+$nav-bar-h: 78px;
+$nav-bar-m-h: 49px;
+
+// 內距 (padding)
+$btn-tag-p: 2px 6px;
+$btn-option-p: 2px 8px;
+$btn-input-p: 6px 19px;
+$btn-msg-p: 8px 11px;
+$btn-nav-p: 9px 21px;
+
+// 外距 (margin)
+$icon-m: 4px;
+$tag-m: 8px;
+$option-m: 12px;
+
+// 圓角 (border-radius)
+$normal-bora: 8px;
+$oval-bora: 30%;
+$cycle-bora: 50%;
