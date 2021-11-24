@@ -36,9 +36,9 @@
 }
 
 // ------ flex-box
-$flex-direction: (row column);
-$flex-justify: (center space-between flex-start);
-$flex-align: (center space-between baseline);
+// $flex-direction: (row column);
+// $flex-justify: (center space-between flex-start);
+// $flex-align: (center space-between baseline);
 
 // 寬度比例
 @mixin flex-col($i) {
@@ -46,17 +46,143 @@ $flex-align: (center space-between baseline);
 }
 
 // 內部對齊
-@each $direction in $flex-direction {
-  @each $justify in $flex-justify {
-    @each $align in $flex-align {
-      %flex-#{$direction}-#{$justify}-#{$align} {
-          display: flex;
-          flex-direction: $direction;
-          justify-content: $justify;
-          align-items: $align;
-      }
-    }
-  }
+// @each $direction in $flex-direction {
+//   @each $justify in $flex-justify {
+//     @each $align in $flex-align {
+//       %flex-#{$direction}-#{$justify}-#{$align} {
+//           display: flex;
+//           flex-direction: $direction;
+//           justify-content: $justify;
+//           align-items: $align;
+//       }
+//     }
+//   }
+// }
+
+@mixin flex-row-center-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-row-center-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: space-between;
+}
+
+@mixin flex-row-center-baseline {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+
+@mixin flex-row-space-between-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-row-space-between-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: space-between;
+}
+
+@mixin flex-row-space-between-baseline {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+@mixin flex-row-flex-start-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin flex-row-flex-start-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: space-between;
+}
+
+@mixin flex-row-flex-start-baseline {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+@mixin flex-column-center-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-column-center-space-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-between;
+}
+
+@mixin flex-column-center-baseline {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+}
+
+@mixin flex-column-space-between-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-column-space-between-space-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: space-between;
+}
+
+@mixin flex-column-space-between-baseline {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+@mixin flex-column-flex-start-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin flex-column-flex-start-space-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: space-between;
+}
+
+@mixin flex-column-flex-start-baseline {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: baseline;
 }
 
 // ------ 文字
@@ -122,57 +248,39 @@ $flex-align: (center space-between baseline);
   cursor: pointer;
 }
 
-@mixin btn-outline($color: primary) {
-  background-color: $grey-100;
-  @if $color == primary {
-    border: 1px solid $primary-300;
-    color: $primary-400;
-    &:hover {
-      background-color: $primary-400;
-      color: $primary-100;
-    }
-    &:focus, &.active {
-      border: 3px solid $primary-300;
-    }
+// 客製按鈕
+@mixin btn-outline-color($color, $bg, $bo) {
+  color: $color;
+  background-color: $bg;
+  border: 1px solid $bo;
+  &:hover, &.hover {
+    background-color: $color;
+    color:$bg;
   }
-  @if $color == accent {
-    border: 1px solid $accent-300;
-    color: $accent-400;
-    &:hover {
-      background-color: $accent-400;
-      color: $accent-100;
-    }
-    &:focus, &.active {
-      border: 3px solid $accent-300;
-    }
+  &:focus, &.focus, &:active, &.active {
+    border: 3px solid $bo;
   }
-  @if $color == primalertary {
-    border: 1px solid $alert-300;
-    color: $alert-400;
-    &:hover {
-      background-color: $alert-400;
-      color: $alert-100;
-    }
-    &:focus, &.active {
-      border: 3px solid $alert-300;
-    }
-  }
-  @if $color == primalertary {
-    border: 1px solid $grey-300;
-    color: $grey-400;
-    &:hover {
-      background-color: $grey-400;
-      color: $grey-100;
-    }
-    &:focus, &.active {
-      border: 3px solid $grey-300;
-    }
-  }
-  
-  &:disabled {
+
+  &:disabled, &.disabled {
     background-color: $grey-100;
     color: $grey-300;
     border: 1px solid $grey-300;
+  }
+}
+
+// 一般按鈕
+@mixin btn-outline($color: primary) {
+  @if $color == primary {
+    @include btn-outline-color($primary-400, $grey-100, $primary-300);
+  }
+  @if $color == accent {
+    @include btn-outline-color($accent-400, $grey-100, $accent-300);
+  }
+  @if $color == alert {
+    @include btn-outline-color($alert-400, $grey-100, $alert-300);
+  }
+  @if $color == disabled {
+    @include btn-outline-color($grey-400, $grey-100, $grey-300);
   }
 }
 

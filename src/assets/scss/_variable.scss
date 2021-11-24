@@ -63,6 +63,8 @@ $letter-spacing-overline: 0.01em;
 // 版型 (固定 height、width)
 $nav-bar-h: 78px;
 $nav-bar-m-h: 49px;
+$footer-h: 60px;
+$footer-m-h: 40px;
 
 // 內距 (padding)
 $btn-tag-p: 2px 6px;
@@ -72,11 +74,16 @@ $btn-msg-p: 8px 11px;
 $btn-nav-p: 9px 21px;
 
 // 外距 (margin)
-$icon-m: 4px;
-$tag-m: 8px;
-$option-m: 12px;
+$icon-ma: 4px;
+$tag-ma: 8px;
+$option-ma: 12px;
+$nav-ma: 16px;
 
 // 圓角 (border-radius)
 $normal-bora: 8px;
 $oval-bora: 30%;
 $cycle-bora: 50%;
+
+// z-index 順序
+$nav-popup: 100;
+$footer: 50;
