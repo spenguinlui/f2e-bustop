@@ -39,7 +39,7 @@
         <div class="expand-btn" @click="mobileExpanding = !mobileExpanding"><i class="fas fa-angle-up"></i></div>
         <!-- 回前一頁 -->
         <div class="back-btn" @click="goBackRouteList"><i class="fas fa-angle-left"></i></div>
-        <div class="route-name">307</div>
+        <div class="route-name">{{ targetRouteDetailName }}</div>
         <div class="info"><i class="fas fa-info-circle"></i></div>
       </div>
     </div>
@@ -47,8 +47,8 @@
     <!-- 公車&客運 進入第二層細節才出現 -->
     <div class="route-path-block"
       v-show="isBike ? false : isCityBus ? isCityBusDetail : isInterCityBusDetail">
-      <div class="left-block">往撫遠街</div>
-      <div class="right-block">往板橋</div>
+      <div class="left-block" @click="checkGoAndBackRoute(true)">去程</div>
+      <div class="right-block" @click="checkGoAndBackRoute(false)">回程</div>
     </div>
 
     <!-- 公車&客運 桌面版一開始出現 -->
@@ -66,7 +66,7 @@
             <CardRotue :data="data" :key="data.a"/>
           </template>
         </template>
-        <template v-if="isCityBus && interCityBusDataList.length > 0">
+        <template v-if="isInterCityBus && interCityBusDataList.length > 0">
           <template v-for="data in interCityBusDataList">
             <CardRotue :data="data" :key="data.a"/>
           </template>
@@ -74,8 +74,13 @@
       </div>
 
       <!-- 即時路況 -->
-      <div v-show="isBike ? false : isCityBus ? isCityBusDetail : isInterCityBusDetail">
-        <template v-for="(data, index) in cityBusRealTimeData">
+      <div v-show="isBike ? false : isCityBus && isCityBusDetail">
+        <template v-for="(data, index) in (isCityBusGo ? goCityBusRouteDetailList : backCityBusRouteDetailList)">
+          <CardRealTime :data="data" :key="index"/>
+        </template>
+      </div>
+      <div v-show="isBike ? false : isInterCityBus && isInterCityBusDetail">
+        <template v-for="(data, index) in goInterCityBusRouteDetailList">
           <CardRealTime :data="data" :key="index"/>
         </template>
       </div>
@@ -111,8 +116,10 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'targetMode', 'targetCity', 'searchKeyword', 'cityBusRealTimeData', 'cityBusDataList', 'interCityBusDataList', 'bikeDataList',
-      'isCityBus', 'isCityBusDetail', 'isInterCityBus', 'isInterCityBusDetail', 'isBike'])
+      'targetMode', 'targetCity', 'searchKeyword',
+      'bikeDataList', 'cityBusDataList', 'interCityBusDataList',
+      'goCityBusRouteDetailList', 'backCityBusRouteDetailList', 'goInterCityBusRouteDetailList', 'backInterCityBusRouteDetailList',
+      'isCityBus', 'isCityBusDetail', 'isInterCityBus', 'isInterCityBusDetail', 'isBike', 'isCityBusGo', 'isInterCityBusGo', 'targetRouteDetailName'])
   },
   methods: {
     locateCurrentPosition() {
@@ -149,6 +156,9 @@ export default {
     goBackRouteList() {
       if (this.targetMode.cityBus.currentMode) { this.targetMode.cityBus.routeDetail = false }
       if (this.targetMode.interCityBus.currentMode) { this.targetMode.interCityBus.routeDetail = false }
+    },
+    checkGoAndBackRoute(toggle) {
+      this.$store.commit("CHECK_GO_ROUTE", toggle);
     }
   },
   components: {
@@ -261,14 +271,15 @@ export default {
         @include font-button(bold);
         background-color: $primary-200;
         padding: 8px 0;
-        .left-block {
+        .left-block , .right-block {
           @include flex-row-center-center;
           @include flex-col(6);
+          cursor: pointer;
+        }
+        .left-block {
           color: $primary-500;
         }
         .right-block {
-          @include flex-row-center-center;
-          @include flex-col(6);
           color: $grey-100;
           border-left: 1px solid $grey-100;
         }
@@ -402,14 +413,15 @@ export default {
         @include font-content(bold);
         background-color: $primary-200;
         padding: 10px 0;
-        .left-block {
+        .left-block, .right-block {
           @include flex-row-center-center;
           @include flex-col(6);
+          cursor: pointer;
+        }
+        .left-block {
           color: $primary-500;
         }
         .right-block {
-          @include flex-row-center-center;
-          @include flex-col(6);
           color: $grey-100;
           border-left: 1px solid $grey-100;
         }

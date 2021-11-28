@@ -6,7 +6,7 @@
         <div class="city-tag" v-if="isCityBus">{{ data.City }}</div>
         <div class="near-stop" v-if="isCityBus"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div>
       </div>
-      <div class="right-block" @click="goRuteDetail('0')"><i class="fas fa-angle-right"></i></div>
+      <div class="right-block" @click="goRuteDetail(data.RouteName.Zh_tw)"><i class="fas fa-angle-right"></i></div>
     </div>
     <div class="card-route-content">
       <div class="star-stop">{{ data.DepartureStopNameZh }}</div>
@@ -25,12 +25,15 @@ export default {
     ...mapGetters(['isCityBus', 'isInterCityBus'])
   },
   methods: {
-    goRuteDetail(index) {
+    goRuteDetail(routeName) {
       if (this.isCityBus) {
-        this.$store.dispatch("getRouteDetail", { busType: 'cityBus', index });
+        this.$store.commit("CHECK_OUTE_ROUTE_DETAIL", "cityBus");
+        this.$store.dispatch("getRouteDetail", { busType: 'cityBus', routeName });
       } else {
-        this.$store.dispatch("getRouteDetail", { busType: 'interCityBus', index });
+        this.$store.commit("CHECK_OUTE_ROUTE_DETAIL", "interCityBus");
+        this.$store.dispatch("getRouteDetail", { busType: 'interCityBus', routeName });
       }
+      this.$store.commit("UPDATE_TARGET_ROUTE_NAME", routeName);
     }
   },
 }

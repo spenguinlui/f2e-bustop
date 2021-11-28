@@ -2,8 +2,6 @@ import axios from 'axios';
 import { authorizationHeader, urlQueryStr, urlPath } from "../modules/api";
 import { distance, distanceZh } from "../modules/calculate";
 
-import estimateTimeMock from "../json/citybusEstimateTime.json";
-
 import mapModules from "./map";
 
 export const storeObject = {
@@ -27,13 +25,17 @@ export const storeObject = {
       },
     },
     searchKeyword: "",
-    dataList: [{a: 1},{a: 2},{a: 3},{a: 4},{a: 5},{a: 6},{a: 7}],
     targetCity: "Taipei",
-    cityBusRealTimeData: estimateTimeMock,
-    interCityBusRealTimeData: [],
+
     bikeDataList: [],
     cityBusDataList: [],
-    interCityBusDataList: []
+    cityBusRouteDetailList: [],
+    interCityBusDataList: [],
+    interCityBusRouteDetailList: [],
+
+    targetRouteDetailName: "",
+    isCityBusGo: true,
+    isInterCityBusGo: true
   },
   getters: {
     landingPageShow: state => state.landingPageShow,
@@ -42,10 +44,21 @@ export const storeObject = {
     targetCity: state => state.targetCity,
     
     // dataList
-    cityBusRealTimeData: state => state.cityBusRealTimeData,
     bikeDataList: state => state.bikeDataList,
     cityBusDataList: state => state.cityBusDataList,
+    goCityBusRouteDetailList(state) {
+      return state.cityBusRouteDetailList.length !== 0 ? state.cityBusRouteDetailList[0].Stops : []
+    },
+    backCityBusRouteDetailList(state) {
+      return state.cityBusRouteDetailList.length !== 0 ? state.cityBusRouteDetailList[1].Stops : []
+    },
     interCityBusDataList: state => state.interCityBusDataList,
+    goInterCityBusRouteDetailList(state) {
+      return state.interCityBusRouteDetailList.length !== 0 ? state.interCityBusRouteDetailList[0].Stops : []
+    }, 
+    backInterCityBusRouteDetailList(state) {
+      return state.interCityBusRouteDetailList.length !== 0 ? state.interCityBusRouteDetailList[0].Stops : []
+    }, 
 
     // in charge
     isCityBus: state => state.targetMode.cityBus.currentMode,
@@ -53,6 +66,10 @@ export const storeObject = {
     isInterCityBus: state => state.targetMode.interCityBus.currentMode,
     isInterCityBusDetail: state => state.targetMode.interCityBus.currentMode ? state.targetMode.interCityBus.routeDetail : false,
     isBike: state => state.targetMode.bike.currentMode,
+
+    isCityBusGo: state => state.isCityBusGo,
+    isInterCityBusGo: state => state.isInterCityBusGo,
+    targetRouteDetailName: state => state.targetRouteDetailName
   },
   mutations: {
     TOGGLE_LANDING_APGE(state, toggle) {
@@ -107,7 +124,7 @@ export const storeObject = {
     SLICE_ONE_CHAR_FROM_KEYWORD: state => state.searchKeyword = state.searchKeyword.substr(0, state.searchKeyword.length - 1),
     
     // 切換至路線動態
-    CHECK_OUTE_ROUTE_DETAIL(state, { busType, index }) {
+    CHECK_OUTE_ROUTE_DETAIL(state, busType) {
       if (busType === "cityBus") {
         state.targetMode.cityBus.routeDetail = true;
       } else if (busType === "interCityBus") {
@@ -115,7 +132,6 @@ export const storeObject = {
       } else {
         console.log(`CHECK_OUTE_ROUTE_DETAIL 錯誤: ${busType}`)
       }
-      console.log(index);
     },
     // 切換回路線列表
     CHECK_OUTE_ROUTE_LIST(state, busType) {
@@ -127,11 +143,20 @@ export const storeObject = {
         console.log(`CHECK_OUTE_ROUTE_DETAIL 錯誤: ${busType}`)
       }
     },
+    // 決定顯示去程&回程
+    CHECK_GO_ROUTE(state, toggle) {
+      state.isCityBusGo = toggle;
+    },
+    UPDATE_TARGET_ROUTE_NAME(state, routeName) {
+      state.targetRouteDetailName = routeName
+    },
 
     // 市區公車
     UPDATE_CITY_BUS_DATA: (state, dataList) => state.cityBusDataList = dataList,
+    UPDATE_CITY_BUS_ROUTE_DETAIL: (state, dataList) => state.cityBusRouteDetailList = dataList,
     // 公路客運
     UPDATE_INTER_CITY_BUS_DATA: (state, dataList) => state.interCityBusDataList = dataList,
+    UPDATE_INTER_CITY_BUS_ROUTE_DETAIL: (state, dataList) => state.interCityBusRouteDetailList = dataList,
 
     // 單車 ------------
     // 更新單車資料
@@ -161,9 +186,44 @@ export const storeObject = {
       commit("CHECK_OUT_CITY", city);
       // ... 要資料
     },
-    getRouteDetail({ commit }, { busType, index }) {
-      // ... 要資料
-      commit("CHECK_OUTE_ROUTE_DETAIL", { busType, index });
+    getRouteDetail({ commit }, { busType, routeName }) {
+      const urlOfStop = (busType === "cityBus") ? `Bus/DisplayStopOfRoute/City/${this.state.targetCity}/${routeName}` : `Bus/StopOfRoute/InterCity/${this.state.targetCity}/${routeName}`;
+      const urlOfTime = (busType === "cityBus") ? `Bus/EstimatedTimeOfArrival/City/${this.state.targetCity}/${routeName}` : `Bus/EstimatedTimeOfArrival/InterCity/${this.state.targetCity}/${routeName}`;
+      const header = authorizationHeader();
+      
+      // 公車要兩次
+      if (busType === "cityBus") {
+        let stopList = [];
+        axios({
+          method: 'get',
+          url: urlQueryStr(urlOfStop, { select: ['Direction', 'Stops']}),
+          headers: header
+        }).then((res) => {
+          stopList = res.data;
+          axios({
+            method: 'get',
+            url: urlQueryStr(urlOfTime),
+            headers: header
+          }).then((res) => {
+            const timeList = res.data;
+            // 去程加入預估時間
+            stopList[0].Stops = stopList[0].Stops.map((stopData) => {
+              let findData = timeList.find(timeData => timeData.Direction === 0 && stopData.StopUID === timeData.StopUID);
+              if (findData) stopData = {...stopData, ...findData}
+              return stopData
+            })
+            // 回程加入預估時間
+            stopList[1].Stops = stopList[1].Stops.map((stopData) => {
+              let findData = timeList.find(timeData => timeData.Direction === 1 && stopData.StopUID === timeData.StopUID);
+              if (findData) stopData = {...stopData, ...findData}
+              return stopData
+            })
+            commit("UPDATE_CITY_BUS_ROUTE_DETAIL", stopList);
+          })
+        })
+      } else {
+        console.log("客運資料待解析");
+      }
     },
     getCityBusDataListWithKeyWord({ commit }, { city, keyword }) {
       const header = authorizationHeader();
@@ -185,7 +245,6 @@ export const storeObject = {
         url: urlQueryStr(`Bus/Route/InterCity/`, routeQuery),
         headers: header
       }).then((res) => {
-        console.log(res)
         commit("UPDATE_INTER_CITY_BUS_DATA", res.data);
       })
     },

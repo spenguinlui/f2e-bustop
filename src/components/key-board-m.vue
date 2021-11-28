@@ -78,7 +78,11 @@ export default {
   methods: {
     enterBtn(msg) {
       this.$store.commit("ENTER_MSG_TO_KEYWORD", msg);
-      this.$store.dispatch("getCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      if (this.isCityBus) {
+        this.$store.dispatch("getCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      } else {
+        this.$store.dispatch("getInterCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      }
     },
     backSpaceBtn() {
       this.$store.commit("SLICE_ONE_CHAR_FROM_KEYWORD");
