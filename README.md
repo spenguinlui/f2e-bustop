@@ -1,24 +1,36 @@
-# f2e-bustop
+# 作品說明
 
-## Project setup
+The F2E 全台公車動態時刻查詢應用服務
+
+# 系統說明
+
+系統運行方式:
 ```
 yarn install
+yarn run serve
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+# 資料夾說明
 
-### Compiles and minifies for production
-```
-yarn build
-```
+* assets/images - 圖片與 icon
+* assets/scss - scss 引用檔
+* components - vue 元件
+* json - 靜態 json 檔引用
+* modules - 引用 js function 或物件
+* pages - 畫面主要底版
+* store - vuex 存放
 
-### Lints and fixes files
-```
-yarn lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 使用技術
+
+* Vue Cli
+* Vuex
+* Axios
+* jsSHA
+* Leaflet
+
+# 使用第三方服務
+
+* fontawesome
+
+
