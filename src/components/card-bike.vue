@@ -14,7 +14,7 @@
           data.AvailableRentBikes > 0 && data.AvailableReturnBikes == 0 ? '只可借車' :
           data.AvailableRentBikes == 0 && data.AvailableReturnBikes > 0 ? '只可還車' : '站點施工中'
         }}</div>
-        <div class="right-msg"><i class="fas fa-map-marker-alt"></i>距離25公尺</div>
+        <div class="right-msg"><i class="fas fa-map-marker-alt"></i>距離{{ data.DistanceZH }}</div>
       </div>
     </div>
     <div class="card-content-row">

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 
 import Vuex from 'vuex';
-import { storeObject } from './store';
+import { storeObject } from './store/index';
 
 import 'leaflet/dist/leaflet.css';
 

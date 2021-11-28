@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { authorizationHeader, urlQueryStr, urlPath } from "./modules/api";
-import { distance, distanceZh } from "./modules/calculate";
-// import L from 'leaflet';
+import { authorizationHeader, urlQueryStr, urlPath } from "../modules/api";
+import { distance, distanceZh } from "../modules/calculate";
 
-import estimateTimeMock from "./json/citybusEstimateTime.json";
+import estimateTimeMock from "../json/citybusEstimateTime.json";
+
+import mapModules from "./map";
 
 export const storeObject = {
   state: {
     landingPageShow: false,
-    targetType: "bike",  // city-bus, inter-city-bus, bike
     targetMode: {
       cityBus: {
         currentMode: true,
@@ -26,20 +26,15 @@ export const storeObject = {
         lisboardShow: true
       },
     },
-    currentPosition: {
-      latitude: "25.046951",
-      longitude: "121.516887", // 預設台北車站
-    },
     searchKeyword: "",
     dataList: [{a: 1},{a: 2},{a: 3},{a: 4},{a: 5},{a: 6},{a: 7}],
     targetCity: "臺北市",
     cityBusRealTimeData: estimateTimeMock,
     interCityBusRealTimeData: [],
-    bikeDataList: []
+    bikeDataList: [],
   },
   getters: {
     landingPageShow: state => state.landingPageShow,
-    targetType: state => state.targetType,
     targetMode: state => state.targetMode,
     searchKeyword: state => state.searchKeyword,
     targetCity: state => state.targetCity,
@@ -54,7 +49,7 @@ export const storeObject = {
     isCityBusDetail: (state) => state.targetMode.cityBus.currentMode ? state.targetMode.cityBus.routeDetail : false,
     isInterCityBus: state => state.targetMode.interCityBus.currentMode,
     isInterCityBusDetail: state => state.targetMode.interCityBus.currentMode ? state.targetMode.interCityBus.routeDetail : false,
-    isBike: state => state.targetMode.bike.currentMode
+    isBike: state => state.targetMode.bike.currentMode,
   },
   mutations: {
     TOGGLE_LANDING_APGE(state, toggle) {
@@ -127,7 +122,15 @@ export const storeObject = {
 
   actions: {
     updateTargetData({ commit }, targetType) {
-      // ... 要資料
+      if (targetType === "cityBus") {
+        // ... 要附近站點
+      } else if (targetType === "interCityBus") {
+        // ... 要附近站點
+      } else if (targetType === "bike") {
+        this.dispatch("getBikeDataList");
+      } else {
+        console.log(`updateTargetData 錯誤: ${targetType}`);
+      }
       commit("CHECK_OUT_TARGET_MODE", targetType);
     },
     filterByCity({ commit }, city) {
@@ -138,8 +141,9 @@ export const storeObject = {
       commit("CHECK_OUTE_ROUTE_DETAIL", { busType, index });
     },
     getBikeDataList({ commit }) {
-      const stationQuery = { position: this.state.currentPosition, select: ['StationUID', 'AuthorityID','StationName', 'StationPosition'] };
-      const availabilityQuery = { position: this.state.currentPosition, select: ['StationUID', 'AvailableRentBikes', 'AvailableReturnBikes'] };
+      const position = this.state.map.currentPosition;
+      const stationQuery = { position: position, select: ['StationUID', 'AuthorityID','StationName', 'StationPosition'] };
+      const availabilityQuery = { position: position, select: ['StationUID', 'AvailableRentBikes', 'AvailableReturnBikes'] };
       const header = authorizationHeader();
       
       let dataList = [];
@@ -164,11 +168,12 @@ export const storeObject = {
             data.StationName.Zh_tw = data.StationName.Zh_tw.replace("YouBike2.0_", "");
             const lat = data.StationPosition.PositionLat;
             const lon = data.StationPosition.PositionLon;
-            data.Distance = distance(lat, lon, this.state.currentPosition.latitude, this.state.currentPosition.longitude);
+            data.Distance = distance(lat, lon, position.latitude, position.longitude);
             data.DistanceZH = distanceZh(data.Distance);
             return data;
           });
           commit("UPDATE_BIKE_DATA_LIST", avaDataList);
+          this.dispatch("map/setBikeRentDataOnMap", avaDataList);
         }).catch((e) => {
           console.log(e)
           // 錯誤處理
@@ -178,5 +183,8 @@ export const storeObject = {
         // 錯誤處理
       })
     }
+  },
+  modules: {
+    map: mapModules
   }
 }

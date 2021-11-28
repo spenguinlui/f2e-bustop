@@ -111,7 +111,16 @@ export default {
   },
   methods: {
     locateCurrentPosition() {
-      console.log("定位！")
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const currentPosition = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+          this.$store.dispatch("map/setCurrentPosition", currentPosition);
+        }, () => {
+          window.alert("重新定位失敗")
+        })
+      } else {
+        window.alert("重新定位失敗")
+      }
     },
     goSearch() {
       console.log("搜尋")
@@ -119,17 +128,14 @@ export default {
     sortBikeByDistace() {
       this.$store.commit("SORT_BY_DISTANCE");
       this.sortBlockShow = false;
-      console.log("距離排序")
     },
     sortBikeByRent() {
       this.$store.commit("SORT_BY_RENT");
       this.sortBlockShow = false;
-      console.log("借車排序")
     },
     sortBikeByReturn() {
       this.$store.commit("SORT_BY_RETURN");
       this.sortBlockShow = false;
-      console.log("還車排序")
     },
     goBackRouteList() {
       if (this.targetMode.cityBus.currentMode) { this.targetMode.cityBus.routeDetail = false }
@@ -153,6 +159,7 @@ export default {
       width: 100%;
       height: 170px;
       border-radius: $normal-bora;
+      background-color: $grey-100;
       position: absolute;
       left: 0;
       bottom: 0;
@@ -171,17 +178,18 @@ export default {
       }
       .locate-icon {
         @include flex-row-center-center;
+        @include btn-filled($primary-500);
+        @include btn($cycle-bora);
         position: absolute;
         top: -68px;
         right: 24px;
         width: 48px;
         height: 48px;
-        background-color: $grey-100;
-        color: $grey-500;
         box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);
-        cursor: pointer;
-        border-radius: $cycle-bora;
         font-size: 20px;
+        &:hover {
+          background-color: $primary-600;
+        } 
       }
       .list-board-header {
         @include flex-row-center-center;
@@ -301,6 +309,7 @@ export default {
       width: $list-board-w;
       height: calc(100% - #{$nav-bar-h} - #{$footer-h} - (#{$top-margin} * 2));
       border-radius: $normal-bora;
+      background-color: $grey-100;
       position: absolute;
       left: 32px;
       top: $nav-bar-h + $top-margin;
@@ -309,17 +318,18 @@ export default {
       box-shadow: 3px 3px 8px rgba(154, 154, 154, 0.25);
       .locate-icon {
         @include flex-row-center-center;
+        @include btn-filled($primary-500);
+        @include btn($cycle-bora);
         position: absolute;
         top: 0;
         right: -80px;
         width: 60px;
         height: 60px;
-        background-color: $primary-400;
-        color: $grey-100;
         box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);
-        cursor: pointer;
-        border-radius: $cycle-bora;
         font-size: 30px;
+        &:hover {
+          background-color: $primary-600;
+        } 
       }
       .list-board-header {
         @include flex-row-center-center;

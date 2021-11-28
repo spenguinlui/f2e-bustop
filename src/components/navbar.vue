@@ -13,9 +13,9 @@
     <div class="nav-popup" :class="{ show: navBarPopUp }">
       <div class="nav-popup-close" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-times"></i></div>
       <div class="nav-popup-list">
-        <div class="nav-popup-item" @click="toggleCityBus"><i class="fas fa-bus-alt"></i>找公車</div>
-        <div class="nav-popup-item" @click="toggleInterCityBus"><i class="fas fa-road"></i>找客運</div>
-        <div class="nav-popup-item" @click="toggleBike"><i class="fas fa-bicycle"></i>找單車</div>
+        <div class="nav-popup-item" :class="{ active: targetMode.cityBus.currentMode }" @click="toggleCityBus"><i class="fas fa-bus-alt"></i>找公車</div>
+        <div class="nav-popup-item" :class="{ active: targetMode.interCityBus.currentMode }" @click="toggleInterCityBus"><i class="fas fa-road"></i>找客運</div>
+        <div class="nav-popup-item" :class="{ active: targetMode.bike.currentMode }" @click="toggleBike"><i class="fas fa-bicycle"></i>找單車</div>
         <div class="nav-popup-item disabled"><i class="fas fa-subway"></i>轉乘資訊</div>
       </div>
     </div>
@@ -36,20 +36,24 @@ export default {
   },
   methods: {
     checkLandingPage() {
+      this.$store.dispatch("map/removeOtherLayers");
       this.$store.commit("TOGGLE_LANDING_APGE", true);
       this.$store.commit("INIT_TARGET_MODE");
     },
     toggleCityBus() {
+      this.$store.dispatch("map/removeOtherLayers");
       this.$store.commit("TOGGLE_LANDING_APGE", false);
       this.navBarPopUp = false;
       this.$store.dispatch("updateTargetData", "cityBus");
     },
     toggleInterCityBus() {
+      this.$store.dispatch("map/removeOtherLayers");
       this.$store.commit("TOGGLE_LANDING_APGE", false);
       this.navBarPopUp = false;
       this.$store.dispatch("updateTargetData", "interCityBus");
     },
     toggleBike() {
+      this.$store.dispatch("map/removeOtherLayers");
       this.$store.commit("TOGGLE_LANDING_APGE", false);
       this.navBarPopUp = false;
       this.$store.dispatch("updateTargetData", "bike");
@@ -124,6 +128,9 @@ export default {
         }
         &.disabled {
           color: $primary-300;
+        }
+        &.active {
+          color: $grey-100;
         }
       }
     }

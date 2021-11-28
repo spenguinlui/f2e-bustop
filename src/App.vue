@@ -4,13 +4,13 @@
     <LandingPage />
     <ListBoard />
     <ListBoardMobile />
-    <Map />
     <footer>
       <div class="footer-container">
         <div class="footer-left">Released 2021 ©</div>
         <div class="footer-right">問題回報</div>
       </div>
     </footer>
+    <Map />
   </div>
 </template>
 
@@ -34,9 +34,6 @@ export default {
   },
   computed: {
     ...mapGetters(['dataList'])
-  },
-  created() {
-    this.$store.dispatch("getBikeDataList");
   }
 }
 </script>
