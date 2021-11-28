@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <NavBar />
+    <LandingPage />
+    <ListBoard />
+    <ListBoardMobile />
     <Map />
     <footer>
       <div class="footer-container">
@@ -12,25 +15,34 @@
 </template>
 
 <script>
-import Map from './pages/map.vue';
-import NavBar from './components/navbar.vue';
+import { mapGetters } from 'vuex';
+
+import Map from "./pages/map.vue";
+import NavBar from "./components/navbar.vue";
+import LandingPage from "./pages/landing-page-m.vue";
+import ListBoard from "./components/list-board.vue";
+import ListBoardMobile from "./components/list-board-m.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Map,
-    NavBar
+    NavBar,
+    LandingPage,
+    ListBoard,
+    ListBoardMobile
+  },
+  computed: {
+    ...mapGetters(['dataList'])
+  },
+  created() {
+    this.$store.dispatch("getBikeDataList");
   }
 }
 </script>
 
 <style lang="scss" scoped>
   @import "@/assets/scss/main.scss";
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
 
   footer {
     width: 100vw;

@@ -2,7 +2,7 @@ import jsSHA from "jssha";
 
 const API_DOMAIN = "https://ptx.transportdata.tw/MOTC/v2/";
 
-const authorizationHeader = () => {
+export const authorizationHeader = () => {
   const APP_ID = process.env.VUE_APP_APP_ID;
   const APP_KEY = process.env.VUE_APP_APP_KEY;
 
@@ -19,7 +19,7 @@ const authorizationHeader = () => {
 const createNearByStr = ({ latitude, longitude }, limit = 1000) => (latitude && longitude) ? `&$spatialFilter=nearby(${latitude},${longitude}, ${limit})` : "";
 const createSelectByStr = (select) => select.reduce((acc, cur, index) => acc + (index === 0 ? `${cur}` : `, ${cur}`), "&$select=");
 
-const urlQueryStr = (dataType, query = null) => {
+export const urlQueryStr = (dataType, query = null) => {
   let queryStr = "";
   if (query.top) queryStr += `&$top=${query.top}`;
   if (query.position) queryStr += createNearByStr(query.position);
@@ -30,4 +30,7 @@ const urlQueryStr = (dataType, query = null) => {
   return url
 }
 
-export default { authorizationHeader, urlQueryStr };
+export const urlPath = {
+  bikeSt: "Bike/Station/NearBy",
+  bikeAv: "Bike/Availability/NearBy",
+}

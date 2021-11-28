@@ -65,9 +65,11 @@ $nav-bar-h: 78px;
 $nav-bar-m-h: 49px;
 $footer-h: 60px;
 $footer-m-h: 40px;
+$list-board-w: 425px;
+$list-board-header-h: 84px;
 
 // 內距 (padding)
-$btn-tag-p: 2px 6px;
+$btn-tag-p: 4px 6px;
 $btn-option-p: 2px 8px;
 $btn-input-p: 6px 19px;
 $btn-msg-p: 8px 11px;
@@ -86,4 +88,6 @@ $cycle-bora: 50%;
 
 // z-index 順序
 $nav-popup: 100;
-$footer: 50;
+$footer: 80;
+$list-board: 50;
+$landing-page: 40;

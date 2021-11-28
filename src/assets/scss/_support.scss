@@ -248,6 +248,11 @@
   cursor: pointer;
 }
 
+@mixin btn-filled($color) {
+  color: $grey-100;
+  background-color: $color;
+}
+
 // 客製按鈕
 @mixin btn-outline-color($color, $bg, $bo) {
   color: $color;
@@ -257,8 +262,8 @@
     background-color: $color;
     color:$bg;
   }
-  &:focus, &.focus, &:active, &.active {
-    border: 3px solid $bo;
+  &:focus, &.focus, &.active {
+    border-inline: 3px solid $bo;
   }
 
   &:disabled, &.disabled {
@@ -282,5 +287,36 @@
   @if $color == disabled {
     @include btn-outline-color($grey-400, $grey-100, $grey-300);
   }
+}
+
+// icon
+@mixin icon-m($ma, $d: r) {
+  @if $d == r {
+    > svg {
+      margin-right: $ma;
+    }
+  }
+  @if $d == l {
+    > svg {
+      margin-left: $ma;
+    }
+  }
+}
+
+// 隱藏過多文字
+@mixin ellipsis-text($n: 1) {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $n;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+// 過場效果設定
+@mixin transi($du: .5s) {
+  transition-property: all;
+  transition-duration: $du;
+  transition-timing-function: ease-in-out;
 }
 
