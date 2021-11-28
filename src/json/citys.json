@@ -2,48 +2,48 @@
   {
     "area": "北部",
     "citys": [
-      { "cityName": "臺北市" },
-      { "cityName": "基隆市" },
-      { "cityName": "新北市" },
-      { "cityName": "桃園市" },
-      { "cityName": "新竹市" },
-      { "cityName": "新竹縣" }
+      { "cityName": "臺北市", "enName": "Taipei" },
+      { "cityName": "基隆市", "enName": "Keelung" },
+      { "cityName": "新北市", "enName": "NewTaipei" },
+      { "cityName": "桃園市", "enName": "Taoyuan" },
+      { "cityName": "新竹市", "enName": "Hsinchu" },
+      { "cityName": "新竹縣", "enName": "HsinchuCounty" }
     ]
   },
   {
     "area": "中部",
     "citys": [
-      { "cityName": "苗栗縣" },
-      { "cityName": "臺中市" },
-      { "cityName": "彰化縣" },
-      { "cityName": "南投縣" },
-      { "cityName": "雲林縣" }
+      { "cityName": "苗栗縣", "enName": "MiaoliCounty" },
+      { "cityName": "臺中市", "enName": "Taichung" },
+      { "cityName": "彰化縣", "enName": "ChanghuaCounty" },
+      { "cityName": "南投縣", "enName": "NantouCounty" },
+      { "cityName": "雲林縣", "enName": "YunlinCounty" }
     ]
   },
   {
     "area": "南部",
     "citys": [
-      { "cityName": "嘉義市" },
-      { "cityName": "嘉義縣" },
-      { "cityName": "臺南市" },
-      { "cityName": "高雄市" },
-      { "cityName": "屏東縣" }
+      { "cityName": "嘉義市", "enName": "Chiayi" },
+      { "cityName": "嘉義縣", "enName": "ChiayiCounty" },
+      { "cityName": "臺南市", "enName": "Tainan" },
+      { "cityName": "高雄市", "enName": "Kaohsiung" },
+      { "cityName": "屏東縣", "enName": "PingtungCounty" }
     ]
   },
   {
     "area": "東部",
     "citys": [
-      { "cityName": "宜蘭縣" },
-      { "cityName": "花蓮縣" },
-      { "cityName": "臺東縣" }
+      { "cityName": "宜蘭縣", "enName": "YilanCounty" },
+      { "cityName": "花蓮縣", "enName": "HualienCounty" },
+      { "cityName": "臺東縣", "enName": "TaitungCounty" }
     ]
   },
   {
     "area": "離島",
     "citys": [
-      { "cityName": "金門縣" },
-      { "cityName": "澎湖縣" },
-      { "cityName": "連江縣" }
+      { "cityName": "金門縣", "enName": "KinmenCounty" },
+      { "cityName": "澎湖縣", "enName": "PenghuCounty" },
+      { "cityName": "連江縣", "enName": "LienchiangCounty" }
     ]
   }
 ]

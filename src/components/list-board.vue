@@ -12,12 +12,7 @@
       </div>
 
       <!-- 公車&客運 手機版出現，單車雙版本皆有 -->
-      <div class="search-bar"
-        v-show="isBike ? true : isCityBus ? !isCityBusDetail : !isInterCityBusDetail"
-        :class="{ bus: !isBike }">
-        <input v-model="keyword" @keyup.enter="goSearch" type="text" :placeholder="isBike ? '搜尋站點或鄰近地點' : '搜尋公車路線及站牌'">
-        <div class="search-icon" @click="goSearch"><i class="fas fa-search"></i></div>
-      </div>
+      <SearchBar v-show="isBike ? true : isCityBus ? !isCityBusDetail : !isInterCityBusDetail" :class="{ bus: !isBike }" />
 
       <!-- 單車雙版本皆有 -->
       <div class="btn-filter"
@@ -58,7 +53,7 @@
 
     <!-- 公車&客運 桌面版一開始出現 -->
     <div class="searching-img-container"
-      v-show="!isBike && dataList.length === 0" >
+      v-show="!isBike && (isCityBus ? cityBusDataList.length === 0 : interCityBusDataList.length === 0)" >
       <img src="../assets/images/searching.png" alt="搜尋無結果圖片">
     </div>
 
@@ -66,8 +61,15 @@
     <div class="cards-container">
       <!-- 路線列表 -->
       <div v-show="isBike ? false : isCityBus ? !isCityBusDetail : !isInterCityBusDetail">
-        <template v-for="data in dataList">
-          <CardRotue :data="data" :key="data.a"/>
+        <template v-if="isCityBus && cityBusDataList.length > 0">
+          <template v-for="data in cityBusDataList">
+            <CardRotue :data="data" :key="data.a"/>
+          </template>
+        </template>
+        <template v-if="isCityBus && interCityBusDataList.length > 0">
+          <template v-for="data in interCityBusDataList">
+            <CardRotue :data="data" :key="data.a"/>
+          </template>
         </template>
       </div>
 
@@ -94,6 +96,7 @@ import SelectCityBlock from "./select-city-block.vue";
 import CardRotue from "./card-route.vue";
 import CardRealTime from "./card-real-time.vue";
 import CardBike from "./card-bike.vue";
+import SearchBar from "./search-bar.vue";
 
 export default {
   data() {
@@ -107,7 +110,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['targetMode', 'dataList', 'cityBusRealTimeData', 'bikeDataList', 'isCityBus', 'isCityBusDetail', 'isInterCityBus', 'isInterCityBusDetail', 'isBike'])
+    ...mapGetters([
+      'targetMode', 'targetCity', 'searchKeyword', 'cityBusRealTimeData', 'cityBusDataList', 'interCityBusDataList', 'bikeDataList',
+      'isCityBus', 'isCityBusDetail', 'isInterCityBus', 'isInterCityBusDetail', 'isBike'])
   },
   methods: {
     locateCurrentPosition() {
@@ -123,7 +128,11 @@ export default {
       }
     },
     goSearch() {
-      console.log("搜尋")
+      if (this.targetMode.cityBus) {
+        this.$store.dispatch("getCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      } else {
+        this.$store.dispatch("getInterCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      }
     },
     sortBikeByDistace() {
       this.$store.commit("SORT_BY_DISTANCE");
@@ -146,7 +155,8 @@ export default {
     SelectCityBlock,
     CardRotue,
     CardRealTime,
-    CardBike
+    CardBike,
+    SearchBar
   }
 }
 </script>
@@ -202,32 +212,6 @@ export default {
           color: $grey-100;
           margin-right: 14px;
           cursor: pointer;
-        }
-        .search-bar {
-          @include flex-col(8);
-          @include flex-row-space-between-center;
-          @include font-caption(500);
-          border-radius: $normal-bora;
-          background-color: $primary-100;
-          color: $primary-500;
-          padding: 6px 16px;
-          margin-right: 12px;
-          position: relative;
-          > input {
-            color: $primary-500;
-            background-color: inherit;
-            &::placeholder {
-              color: $primary-500;
-            }
-          }
-          .search-icon {
-            font-size: 14px;
-            font-weight: bold; 
-          }
-          // mobile-pad only
-          // &.bus {
-          //   display: none;
-          // }
         }
         .btn-filter {
           @include btn;

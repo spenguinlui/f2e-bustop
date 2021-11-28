@@ -3,7 +3,12 @@
     :class="{ inter: isInterCityBus, detail: isCityBus ? isCityBusDetail : isInterCityBusDetail }"
     v-if="!isBike">
     <div class="select-city-container">
-      <div class="city-tag" :class="{ active: targetCity === city.cityName }" v-for="city in cityTagList" :key="city.cityName" @click="checkCity(city.cityName)">{{ city.cityName }}</div>
+      <div class="city-tag"
+        :class="{ active: targetCity === city.enName }"
+        v-for="city in cityTagList" :key="city.enName"
+        @click="checkCity(city.enName)">
+        {{ city.cityName }}
+      </div>
     </div>
     <div class="key-board-panel">
       <div class="city-panel" v-if="isCityBus">
@@ -63,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['targetMode', 'targetCity', 'isCityBus', 'isCityBusDetail','isInterCityBus', 'isInterCityBusDetail', 'isBike']),
+    ...mapGetters(['targetMode', 'targetCity', 'searchKeyword', 'isCityBus', 'isCityBusDetail','isInterCityBus', 'isInterCityBusDetail', 'isBike']),
     cityTagList() {
       let cityList = [];
       this.citysData.forEach((data) => data.citys.forEach((city) => cityList.push(city)))
@@ -73,12 +78,14 @@ export default {
   methods: {
     enterBtn(msg) {
       this.$store.commit("ENTER_MSG_TO_KEYWORD", msg);
+      this.$store.dispatch("getCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
     },
     backSpaceBtn() {
       this.$store.commit("SLICE_ONE_CHAR_FROM_KEYWORD");
     },
     checkCity(city) {
       this.$store.dispatch("filterByCity", city);
+      this.$store.dispatch("getCityBusDataListWithKeyWord", { city: city, keyword: this.searchKeyword });
     }
   },
 }

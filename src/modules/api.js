@@ -19,11 +19,16 @@ export const authorizationHeader = () => {
 const createNearByStr = ({ latitude, longitude }, limit = 1000) => (latitude && longitude) ? `&$spatialFilter=nearby(${latitude},${longitude}, ${limit})` : "";
 const createSelectByStr = (select) => select.reduce((acc, cur, index) => acc + (index === 0 ? `${cur}` : `, ${cur}`), "&$select=");
 
-export const urlQueryStr = (dataType, query = null) => {
+export const urlQueryStr = (dataType, query = { top: null, position: null, select: null }) => {
   let queryStr = "";
-  if (query.top) queryStr += `&$top=${query.top}`;
+  if (query.top) {
+    queryStr += `&$top=${query.top}`;
+  } else {
+    queryStr += `&$top=30`;  // 安全機制
+  }
   if (query.position) queryStr += createNearByStr(query.position);
   if (query.select) queryStr += createSelectByStr(query.select);
+  if (query.keyword)  queryStr += `&$filter=contains(RouteName/Zh_tw, '${query.keyword}')`
 
   // ..其他的參數在這處理
   const url = encodeURI(`${API_DOMAIN}${dataType}?$format=JSON${queryStr}`);
@@ -33,4 +38,5 @@ export const urlQueryStr = (dataType, query = null) => {
 export const urlPath = {
   bikeSt: "Bike/Station/NearBy",
   bikeAv: "Bike/Availability/NearBy",
+  cityBusR: "Bus/Route/City/"
 }

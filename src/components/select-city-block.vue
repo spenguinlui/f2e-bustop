@@ -9,9 +9,9 @@
           </div>
           <div class="area-list" v-show="currentArea === data.area">
             <div class="area-item"
-              v-for="city in data.citys" :key="city.cityName"
-              @click="checkCity(city.cityName)"
-              :class="{ active: targetCity === city.cityName }">
+              v-for="city in data.citys" :key="city.enName"
+              @click="checkCity(city.enName)"
+              :class="{ active: targetCity === city.enName }">
               {{ city.cityName }}
             </div>
           </div>

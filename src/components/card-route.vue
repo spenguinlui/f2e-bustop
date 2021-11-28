@@ -2,16 +2,16 @@
   <div class="card-route-container">
     <div class="card-route-msg">
       <div class="left-block">
-        <div class="bus-number">307</div>
-        <div class="city-tag">台北市</div>
-        <div class="near-stop"><i class="fas fa-map-marker-alt"></i>台北車站(忠孝)</div>
+        <div class="bus-number">{{ data.RouteName.Zh_tw }}</div>
+        <div class="city-tag" v-if="isCityBus">{{ data.City }}</div>
+        <div class="near-stop" v-if="isCityBus"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div>
       </div>
       <div class="right-block" @click="goRuteDetail('0')"><i class="fas fa-angle-right"></i></div>
     </div>
     <div class="card-route-content">
-      <div class="star-stop">撫遠街</div>
+      <div class="star-stop">{{ data.DepartureStopNameZh }}</div>
       <div class="line"></div>
-      <div class="end-stop">板橋</div>
+      <div class="end-stop">{{ data.DestinationStopNameZh }}</div>
     </div>
   </div>
 </template>
