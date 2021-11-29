@@ -23,19 +23,19 @@
       </div>
     </div>
     <div class="landing-page-boxs">
-      <div class="landing-page-box-container" @click="toggleCityBus">
+      <div class="landing-page-box-container" @click="toggleDataType('CB')">
         <div class="landing-page-box">
           <div class="box-icon"><i class="fas fa-bus-alt"></i></div>
           <div class="box-text">找公車</div>
         </div>
       </div>
-      <div class="landing-page-box-container" @click="toggleInterCityBus">
+      <div class="landing-page-box-container" @click="toggleDataType('ICB')">
         <div class="landing-page-box">
           <div class="box-icon"><i class="fas fa-road"></i></div>
         <div class="box-text">找客運</div>
         </div>
       </div>
-      <div class="landing-page-box-container" @click="toggleBike">
+      <div class="landing-page-box-container" @click="toggleDataType('bike')">
         <div class="landing-page-box">
           <div class="box-icon"><i class="fas fa-bicycle"></i></div>
         <div class="box-text">找單車</div>
@@ -64,19 +64,11 @@ export default {
     ...mapGetters(['landingPageShow'])
   },
   methods: {
-    toggleCityBus() {
+    toggleDataType(type) {
       this.$store.commit("TOGGLE_LANDING_APGE", false);
-      this.$store.dispatch("updateTargetData", "cityBus");
-    },
-    toggleInterCityBus() {
-      this.$store.commit("TOGGLE_LANDING_APGE", false);
-      this.$store.dispatch("updateTargetData", "interCityBus");
-    },
-    toggleBike() {
-      this.$store.commit("TOGGLE_LANDING_APGE", false);
-      this.$store.dispatch("updateTargetData", "bike");
+      this.$store.dispatch("updateTargetData", type);
     }
-  },
+  }
 }
 </script>
 

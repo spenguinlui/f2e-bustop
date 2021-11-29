@@ -1,6 +1,9 @@
 <template>
   <div class="search-bar">
-    <input v-model="localKeyword" @keyup.enter="goSearch" type="text" :placeholder="isBike ? '搜尋站點與鄰近地點' : '搜尋公車路線及站牌'">
+    <input v-model="localKeyword"
+      @keyup.enter="goSearch" type="text" 
+      :placeholder="isBike ? '搜尋站點與鄰近地點' : '搜尋公車路線及站牌'"
+    >
     <div class="search-icon" @click="goSearch"><i class="fas fa-search"></i></div>
   </div>
 </template>
@@ -19,15 +22,14 @@ export default {
         this.goSearch();
       }
     },
-    ...mapGetters(['targetMode', 'targetCity', 'searchKeyword', 'isCityBus', 'isBike'])
+    ...mapGetters(['targetCity', 'searchKeyword', 'isCB', 'isBike'])
   },
   methods: {
     goSearch() {
-      if (this.isCityBus) {
-        this.$store.dispatch("getCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      } else {
-        this.$store.dispatch("getInterCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      }
+      if (this.isCB)
+        this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      else
+        this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
     }
   }
 }

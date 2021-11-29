@@ -1,6 +1,6 @@
 <template>
   <div class="key-board-container"
-    :class="{ inter: isInterCityBus, detail: isCityBus ? isCityBusDetail : isInterCityBusDetail }"
+    :class="{ inter: isICB, detail: isCB ? isCBdetail : isICBdetail }"
     v-if="!isBike">
     <div class="select-city-container">
       <div class="city-tag"
@@ -11,14 +11,14 @@
       </div>
     </div>
     <div class="key-board-panel">
-      <div class="city-panel" v-if="isCityBus">
+      <div class="city-panel" v-if="isCB">
         <div class="panel-container" @click="enterBtn('紅')"><div class="red-line panel-btn">紅</div></div>
         <div class="panel-container" @click="enterBtn('綠')"><div class="green-line panel-btn">綠</div></div>
         <div class="panel-container" @click="enterBtn('橘')"><div class="orange-line panel-btn">橘</div></div>
         <div class="panel-container" @click="enterBtn('藍')"><div class="blue-line panel-btn">藍</div></div>
         <div class="panel-container" @click="enterBtn('棕')"><div class="brown-line panel-btn">棕</div></div>
       </div>
-      <div class="route-panel" v-if="isCityBus">
+      <div class="route-panel" v-if="isCB">
         <div class="panel-container" @click="enterBtn('幹線')"><div class="panel-btn">幹線</div></div>
         <div class="panel-container" @click="enterBtn('1')"><div class="panel-btn">1</div></div>
         <div class="panel-container" @click="enterBtn('2')"><div class="panel-btn">2</div></div>
@@ -35,7 +35,7 @@
         <div class="panel-container" @click="enterBtn('0')"><div class="panel-btn">0</div></div>
         <div class="panel-container back-btn" @click="backSpaceBtn"><div class="panel-btn"><i class="fas fa-backspace"></i></div></div>
       </div>
-      <div class="inner-city-panel" v-if="isInterCityBus">
+      <div class="inner-city-panel" v-if="isICB">
         <div class="panel-container" @click="enterBtn('北部')"><div class="panel-btn">北部</div></div>
         <div class="panel-container" @click="enterBtn('1')"><div class="panel-btn">1</div></div>
         <div class="panel-container" @click="enterBtn('2')"><div class="panel-btn">2</div></div>
@@ -68,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['targetMode', 'targetCity', 'searchKeyword', 'isCityBus', 'isCityBusDetail','isInterCityBus', 'isInterCityBusDetail', 'isBike']),
+    ...mapGetters(['targetCity', 'searchKeyword', 'isCB', 'isCBdetail','isICB', 'isICBdetail', 'isBike']),
     cityTagList() {
       let cityList = [];
       this.citysData.forEach((data) => data.citys.forEach((city) => cityList.push(city)))
@@ -78,18 +78,16 @@ export default {
   methods: {
     enterBtn(msg) {
       this.$store.commit("ENTER_MSG_TO_KEYWORD", msg);
-      if (this.isCityBus) {
-        this.$store.dispatch("getCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      } else {
-        this.$store.dispatch("getInterCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      }
+      if (this.isCB)
+        this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      else
+        this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
     },
     backSpaceBtn() {
       this.$store.commit("SLICE_ONE_CHAR_FROM_KEYWORD");
     },
     checkCity(city) {
-      this.$store.dispatch("filterByCity", city);
-      this.$store.dispatch("getCityBusDataListWithKeyWord", { city: city, keyword: this.searchKeyword });
+      this.$store.dispatch("getCBdataListWithKeyWord", { city: city, keyword: this.searchKeyword });
     }
   },
 }

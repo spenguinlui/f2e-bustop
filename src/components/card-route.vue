@@ -3,8 +3,8 @@
     <div class="card-route-msg">
       <div class="left-block">
         <div class="bus-number">{{ data.RouteName.Zh_tw }}</div>
-        <div class="city-tag" v-if="isCityBus">{{ data.City }}</div>
-        <div class="near-stop" v-if="isCityBus"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div>
+        <div class="city-tag" v-if="isCB">{{ data.City }}</div>
+        <div class="near-stop" v-if="isCB"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div>
       </div>
       <div class="right-block" @click="goRuteDetail(data.RouteName.Zh_tw)"><i class="fas fa-angle-right"></i></div>
     </div>
@@ -22,17 +22,14 @@ import { mapGetters } from 'vuex';
 export default {
   props: ['data'],
   computed: {
-    ...mapGetters(['isCityBus', 'isInterCityBus'])
+    ...mapGetters(['isCB', 'isICB'])
   },
   methods: {
     goRuteDetail(routeName) {
-      if (this.isCityBus) {
-        this.$store.commit("CHECK_OUTE_ROUTE_DETAIL", "cityBus");
-        this.$store.dispatch("getRouteDetail", { busType: 'cityBus', routeName });
-      } else {
-        this.$store.commit("CHECK_OUTE_ROUTE_DETAIL", "interCityBus");
-        this.$store.dispatch("getRouteDetail", { busType: 'interCityBus', routeName });
-      }
+      const dataType = this.isCB ? "CB" : "ICB";
+      this.$store.dispatch("getRouteShape", routeName);
+      this.$store.dispatch("getRouteDetail", { busType: dataType, routeName });
+      this.$store.commit("CHECK_OUTE_ROUTE_DETAIL", dataType);
       this.$store.commit("UPDATE_TARGET_ROUTE_NAME", routeName);
     }
   },

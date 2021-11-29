@@ -2,6 +2,7 @@ import jsSHA from "jssha";
 
 const API_DOMAIN = "https://ptx.transportdata.tw/MOTC/v2/";
 
+// APP 授權認證 header
 export const authorizationHeader = () => {
   const APP_ID = process.env.VUE_APP_APP_ID;
   const APP_KEY = process.env.VUE_APP_APP_KEY;
@@ -16,9 +17,11 @@ export const authorizationHeader = () => {
   return { 'Authorization': Authorization, 'X-Date': GMTString };
 }
 
+// 參數字串
 const createNearByStr = ({ latitude, longitude }, limit = 1000) => (latitude && longitude) ? `&$spatialFilter=nearby(${latitude},${longitude}, ${limit})` : "";
 const createSelectByStr = (select) => select.reduce((acc, cur, index) => acc + (index === 0 ? `${cur}` : `, ${cur}`), "&$select=");
 
+// 呼叫 API 的最終 URL
 export const urlQueryStr = (dataType, query = { top: null, position: null, select: null }) => {
   let queryStr = "";
   if (query.top) {
@@ -38,7 +41,8 @@ export const urlQueryStr = (dataType, query = { top: null, position: null, selec
 }
 
 export const urlPath = {
-  bikeSt: "Bike/Station/NearBy",
-  bikeAv: "Bike/Availability/NearBy",
-  cityBusR: "Bus/Route/City/"
+  BikeSt: "Bike/Station/NearBy",
+  BikeAv: "Bike/Availability/NearBy",
+  cityBusR_n: "Bus/Route/City/",
+  cityBusRS_n: "Bus/Shape/City/Taipei/"
 }
