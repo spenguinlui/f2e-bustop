@@ -39,26 +39,27 @@ export default {
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.commit("TOGGLE_LANDING_APGE", true);
       this.$store.commit("INIT_TARGET_MODE");
+      this.$store.commit("CLEAR_OUT_SEARCH_KEY_WORD");
     },
     toggleCityBus() {
-      this.$store.dispatch("map/removeOtherLayers");
-      this.$store.commit("TOGGLE_LANDING_APGE", false);
-      this.navBarPopUp = false;
+      this.toggleMethod();
       this.$store.dispatch("updateTargetData", "cityBus");
       this.$store.commit("CHECK_OUTE_ROUTE_LIST", "cityBus");
     },
     toggleInterCityBus() {
-      this.$store.dispatch("map/removeOtherLayers");
-      this.$store.commit("TOGGLE_LANDING_APGE", false);
-      this.navBarPopUp = false;
+      this.toggleMethod();
       this.$store.dispatch("updateTargetData", "interCityBus");
       this.$store.commit("CHECK_OUTE_ROUTE_LIST", "interCityBus");
     },
     toggleBike() {
+      this.toggleMethod();
+      this.$store.dispatch("updateTargetData", "bike");
+    },
+    toggleMethod() {
+      this.navBarPopUp = false;
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.commit("TOGGLE_LANDING_APGE", false);
-      this.navBarPopUp = false;
-      this.$store.dispatch("updateTargetData", "bike");
+      this.$store.commit("CLEAR_OUT_SEARCH_KEY_WORD");
     }
   }
 }

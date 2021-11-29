@@ -12,7 +12,7 @@
       </div>
 
       <!-- 公車&客運 手機版出現，單車雙版本皆有 -->
-      <SearchBar v-show="isBike ? true : isCityBus ? !isCityBusDetail : !isInterCityBusDetail" :class="{ bus: !isBike }" />
+      <SearchBar v-show="isBike ? true : isCityBus ? !isCityBusDetail : !isInterCityBusDetail" :class="{ bike: isBike }" />
 
       <!-- 單車雙版本皆有 -->
       <div class="btn-filter"
@@ -47,8 +47,8 @@
     <!-- 公車&客運 進入第二層細節才出現 -->
     <div class="route-path-block"
       v-show="isBike ? false : isCityBus ? isCityBusDetail : isInterCityBusDetail">
-      <div class="left-block" @click="checkGoAndBackRoute(true)">去程</div>
-      <div class="right-block" @click="checkGoAndBackRoute(false)">回程</div>
+      <div class="left-block" :class="{ active: isCityBus ? isCityBusGo : isInterCityBusGo }" @click="checkGoAndBackRoute(true)">去程</div>
+      <div class="right-block" :class="{ active: isCityBus ? !isCityBusGo : !isInterCityBusGo }" @click="checkGoAndBackRoute(false)">回程</div>
     </div>
 
     <!-- 公車&客運 桌面版一開始出現 -->
@@ -80,7 +80,7 @@
         </template>
       </div>
       <div v-show="isBike ? false : isInterCityBus && isInterCityBusDetail">
-        <template v-for="(data, index) in goInterCityBusRouteDetailList">
+        <template v-for="(data, index) in (isInterCityBusGo ? goInterCityBusRouteDetailList : backInterCityBusRouteDetailList)">
           <CardRealTime :data="data" :key="index"/>
         </template>
       </div>
@@ -135,7 +135,7 @@ export default {
       }
     },
     goSearch() {
-      if (this.targetMode.cityBus) {
+      if (this.isCityBus) {
         this.$store.dispatch("getCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
       } else {
         this.$store.dispatch("getInterCityBusDataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
@@ -154,11 +154,12 @@ export default {
       this.sortBlockShow = false;
     },
     goBackRouteList() {
-      if (this.targetMode.cityBus.currentMode) { this.targetMode.cityBus.routeDetail = false }
-      if (this.targetMode.interCityBus.currentMode) { this.targetMode.interCityBus.routeDetail = false }
+      if (this.isCityBus) { this.targetMode.cityBus.routeDetail = false }
+      if (this.isInterCityBus) { this.targetMode.interCityBus.routeDetail = false }
     },
     checkGoAndBackRoute(toggle) {
-      this.$store.commit("CHECK_GO_ROUTE", toggle);
+      if (this.isCityBus) { this.$store.commit("CHECK_CB_GO_ROUTE", toggle) }
+      if (this.isInterCityBus) { this.$store.commit("CHECK_ICB_GO_ROUTE", toggle) }
     }
   },
   components: {
@@ -275,12 +276,12 @@ export default {
           @include flex-row-center-center;
           @include flex-col(6);
           cursor: pointer;
-        }
-        .left-block {
-          color: $primary-500;
+          color: $grey-100;
+          &.active {
+            color: $primary-500;
+          }
         }
         .right-block {
-          color: $grey-100;
           border-left: 1px solid $grey-100;
         }
       }
@@ -308,7 +309,7 @@ export default {
       position: absolute;
       left: 32px;
       top: $nav-bar-h + $top-margin;
-      overflow: visible;
+      overflow: hidden;
       z-index: $list-board;
       box-shadow: 3px 3px 8px rgba(154, 154, 154, 0.25);
       .locate-icon {
@@ -413,16 +414,16 @@ export default {
         @include font-content(bold);
         background-color: $primary-200;
         padding: 10px 0;
-        .left-block, .right-block {
+        .left-block , .right-block {
           @include flex-row-center-center;
           @include flex-col(6);
           cursor: pointer;
-        }
-        .left-block {
-          color: $primary-500;
+          color: $grey-100;
+          &.active {
+            color: $primary-500;
+          }
         }
         .right-block {
-          color: $grey-100;
           border-left: 1px solid $grey-100;
         }
       }

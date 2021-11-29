@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-    <input v-model="localKeyword" @keyup.enter="goSearch" type="text" placeholder="搜尋公車路線及站牌">
+    <input v-model="localKeyword" @keyup.enter="goSearch" type="text" :placeholder="isBike ? '搜尋站點與鄰近地點' : '搜尋公車路線及站牌'">
     <div class="search-icon" @click="goSearch"><i class="fas fa-search"></i></div>
   </div>
 </template>
@@ -81,6 +81,12 @@ export default {
       .search-icon {
         font-size: 16px;
         font-weight: bold; 
+      }
+      &.bike {
+        @include flex-col(6);
+        margin-right: 12px;
+        background-color: $primary-100;
+        color: $primary-500;
       }
     }
   }

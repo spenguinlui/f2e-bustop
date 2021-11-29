@@ -27,13 +27,16 @@ export const storeObject = {
     searchKeyword: "",
     targetCity: "Taipei",
 
+    // data
     bikeDataList: [],
     cityBusDataList: [],
     cityBusRouteDetailList: [],
     interCityBusDataList: [],
     interCityBusRouteDetailList: [],
 
+    // 詳細內容判斷
     targetRouteDetailName: "",
+    // 是否去程
     isCityBusGo: true,
     isInterCityBusGo: true
   },
@@ -57,7 +60,7 @@ export const storeObject = {
       return state.interCityBusRouteDetailList.length !== 0 ? state.interCityBusRouteDetailList[0].Stops : []
     }, 
     backInterCityBusRouteDetailList(state) {
-      return state.interCityBusRouteDetailList.length !== 0 ? state.interCityBusRouteDetailList[0].Stops : []
+      return state.interCityBusRouteDetailList.length !== 0 ? state.interCityBusRouteDetailList[1].Stops : []
     }, 
 
     // in charge
@@ -67,14 +70,13 @@ export const storeObject = {
     isInterCityBusDetail: state => state.targetMode.interCityBus.currentMode ? state.targetMode.interCityBus.routeDetail : false,
     isBike: state => state.targetMode.bike.currentMode,
 
+    // in charge - detail
     isCityBusGo: state => state.isCityBusGo,
     isInterCityBusGo: state => state.isInterCityBusGo,
     targetRouteDetailName: state => state.targetRouteDetailName
   },
   mutations: {
-    TOGGLE_LANDING_APGE(state, toggle) {
-      state.landingPageShow = toggle;
-    },
+    TOGGLE_LANDING_APGE: (state, toggle) => state.landingPageShow = toggle,
     // 初始化資料類型(按首頁圖用的)
     INIT_TARGET_MODE(state) {
       state.targetMode = {
@@ -114,14 +116,13 @@ export const storeObject = {
       }
     },
     // 切換城市
-    CHECK_OUT_CITY(state, city) {
-      state.targetCity = city;
-    },
+    CHECK_OUT_CITY: (state, city) => state.targetCity = city,
 
     // 公車搜尋 輸入/輸出
     UPDATE_KEYWORD: (state, word) => state.searchKeyword = word,
     ENTER_MSG_TO_KEYWORD: (state, msg) => state.searchKeyword += msg,
     SLICE_ONE_CHAR_FROM_KEYWORD: state => state.searchKeyword = state.searchKeyword.substr(0, state.searchKeyword.length - 1),
+    CLEAR_OUT_SEARCH_KEY_WORD: state => state.searchKeyword = "",
     
     // 切換至路線動態
     CHECK_OUTE_ROUTE_DETAIL(state, busType) {
@@ -143,13 +144,11 @@ export const storeObject = {
         console.log(`CHECK_OUTE_ROUTE_DETAIL 錯誤: ${busType}`)
       }
     },
-    // 決定顯示去程&回程
-    CHECK_GO_ROUTE(state, toggle) {
-      state.isCityBusGo = toggle;
-    },
-    UPDATE_TARGET_ROUTE_NAME(state, routeName) {
-      state.targetRouteDetailName = routeName
-    },
+    
+    // 路線細節判斷
+    CHECK_CB_GO_ROUTE: (state, toggle) =>  state.isCityBusGo = toggle,
+    CHECK_ICB_GO_ROUTE: (state, toggle) => state.isInterCityBusGo = toggle,
+    UPDATE_TARGET_ROUTE_NAME: (state, routeName) => state.targetRouteDetailName = routeName,
 
     // 市區公車
     UPDATE_CITY_BUS_DATA: (state, dataList) => state.cityBusDataList = dataList,
@@ -170,6 +169,7 @@ export const storeObject = {
   },
 
   actions: {
+    // 剛進入畫面要附近站點
     updateTargetData({ commit }, targetType) {
       if (targetType === "cityBus") {
         // ... 要附近站點
@@ -182,49 +182,52 @@ export const storeObject = {
       }
       commit("CHECK_OUT_TARGET_MODE", targetType);
     },
+    // 先保留
     filterByCity({ commit }, city) {
       commit("CHECK_OUT_CITY", city);
       // ... 要資料
     },
+    // 取得路線細節
     getRouteDetail({ commit }, { busType, routeName }) {
-      const urlOfStop = (busType === "cityBus") ? `Bus/DisplayStopOfRoute/City/${this.state.targetCity}/${routeName}` : `Bus/StopOfRoute/InterCity/${this.state.targetCity}/${routeName}`;
-      const urlOfTime = (busType === "cityBus") ? `Bus/EstimatedTimeOfArrival/City/${this.state.targetCity}/${routeName}` : `Bus/EstimatedTimeOfArrival/InterCity/${this.state.targetCity}/${routeName}`;
+      const urlOfStop = (busType === "cityBus") ? `Bus/DisplayStopOfRoute/City/${this.state.targetCity}/${routeName}` : `Bus/StopOfRoute/InterCity/${routeName}`;
+      const urlOfTime = (busType === "cityBus") ? `Bus/EstimatedTimeOfArrival/City/${this.state.targetCity}/${routeName}` : `Bus/EstimatedTimeOfArrival/InterCity/${routeName}`;
       const header = authorizationHeader();
       
-      // 公車要兩次
-      if (busType === "cityBus") {
-        let stopList = [];
+      // 公車要兩次 - 站序 & 預估時間
+      let stopList = [];
+      axios({
+        method: 'get',
+        url: urlQueryStr(urlOfStop, { select: ['Direction', 'Stops']}),
+        headers: header
+      }).then((res) => {
+        stopList = res.data;
         axios({
           method: 'get',
-          url: urlQueryStr(urlOfStop, { select: ['Direction', 'Stops']}),
+          url: urlQueryStr(urlOfTime),
           headers: header
         }).then((res) => {
-          stopList = res.data;
-          axios({
-            method: 'get',
-            url: urlQueryStr(urlOfTime),
-            headers: header
-          }).then((res) => {
-            const timeList = res.data;
-            // 去程加入預估時間
-            stopList[0].Stops = stopList[0].Stops.map((stopData) => {
-              let findData = timeList.find(timeData => timeData.Direction === 0 && stopData.StopUID === timeData.StopUID);
-              if (findData) stopData = {...stopData, ...findData}
-              return stopData
-            })
-            // 回程加入預估時間
-            stopList[1].Stops = stopList[1].Stops.map((stopData) => {
-              let findData = timeList.find(timeData => timeData.Direction === 1 && stopData.StopUID === timeData.StopUID);
-              if (findData) stopData = {...stopData, ...findData}
-              return stopData
-            })
-            commit("UPDATE_CITY_BUS_ROUTE_DETAIL", stopList);
+          const timeList = res.data;
+          // 去程加入預估時間
+          stopList[0].Stops = stopList[0].Stops.map((stopData) => {
+            let findData = timeList.find(timeData => timeData.Direction === 0 && stopData.StopUID === timeData.StopUID);
+            if (findData) stopData = {...stopData, ...findData}
+            return stopData
           })
+          // 回程加入預估時間
+          stopList[1].Stops = stopList[1].Stops.map((stopData) => {
+            let findData = timeList.find(timeData => timeData.Direction === 1 && stopData.StopUID === timeData.StopUID);
+            if (findData) stopData = {...stopData, ...findData}
+            return stopData
+          })
+          if (busType === "cityBus") {
+            commit("UPDATE_CITY_BUS_ROUTE_DETAIL", stopList);
+          } else {
+            commit("UPDATE_INTER_CITY_BUS_ROUTE_DETAIL", stopList);
+          }
         })
-      } else {
-        console.log("客運資料待解析");
-      }
+      })
     },
+    // 關鍵字搜尋市區公車
     getCityBusDataListWithKeyWord({ commit }, { city, keyword }) {
       const header = authorizationHeader();
       const routeQuery = { keyword: keyword, select: ['RouteUID', 'RouteName','DepartureStopNameZh', 'DestinationStopNameZh', 'City'] };
@@ -236,6 +239,7 @@ export const storeObject = {
         commit("UPDATE_CITY_BUS_DATA", res.data);
       })
     },
+    // 關鍵字搜尋客運
     getInterCityBusDataListWithKeyWord({ commit }, { city, keyword }) {
       const header = authorizationHeader();
       const routeQuery = { keyword: keyword, city: city, select: ['RouteUID', 'RouteName','DepartureStopNameZh', 'DestinationStopNameZh', 'City'] };
