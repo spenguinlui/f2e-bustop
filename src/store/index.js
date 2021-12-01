@@ -40,7 +40,11 @@ export const storeObject = {
     ICBrouteDetailList: [],
 
     // 詳細內容判斷
-    targetRouteDetailName: "",
+    targetRoute: {
+      routeName: "",
+      departureStop: "",
+      destinationStop: ""
+    },
 
     // 是否去程
     isCBgo: true,
@@ -55,19 +59,11 @@ export const storeObject = {
     // dataList
     BikeDataList: state => state.BikeDataList,
     CBdataList: state => state.CBdataList,
-    goCBrouteDetailList(state) {
-      return state.CBrouteDetailList.length !== 0 ? state.CBrouteDetailList[0].Stops : []
-    },
-    backCBrouteDetailList(state) {
-      return state.CBrouteDetailList.length !== 0 ? state.CBrouteDetailList[1].Stops : []
-    },
+    goCBrouteDetailList: (state) => state.CBrouteDetailList.length !== 0 ? state.CBrouteDetailList[0].Stops : [],
+    backCBrouteDetailList: (state) => state.CBrouteDetailList.length !== 0 ? state.CBrouteDetailList[1].Stops : [],
     ICBdataList: state => state.ICBdataList,
-    goICBrouteDetailList(state) {
-      return state.ICBrouteDetailList.length !== 0 ? state.ICBrouteDetailList[0].Stops : []
-    }, 
-    backICBrouteDetailList(state) {
-      return state.ICBrouteDetailList.length !== 0 ? state.ICBrouteDetailList[1].Stops : []
-    }, 
+    goICBrouteDetailList: (state) => state.ICBrouteDetailList.length !== 0 ? state.ICBrouteDetailList[0].Stops : [], 
+    backICBrouteDetailList: (state) => state.ICBrouteDetailList.length !== 0 ? state.ICBrouteDetailList[1].Stops : [], 
 
     // in charge
     isCB: state => state.targetMode.CB.currentMode,
@@ -79,7 +75,7 @@ export const storeObject = {
     // in charge - detail
     isCBgo: state => state.isCBgo,
     isICBgo: state => state.isICBgo,
-    targetRouteDetailName: state => state.targetRouteDetailName
+    targetRoute: state => state.targetRoute
   },
   mutations: {
     // 切換手機版首頁
@@ -159,7 +155,7 @@ export const storeObject = {
     // 路線細節判斷
     CHECK_CB_GO_ROUTE: (state, toggle) =>  state.isCBgo = toggle,
     CHECK_ICB_GO_ROUTE: (state, toggle) => state.isICBgo = toggle,
-    UPDATE_TARGET_ROUTE_NAME: (state, routeName) => state.targetRouteDetailName = routeName,
+    UPDATE_TARGET_ROUTE: (state, targetRoute) => state.targetRoute = targetRoute,
 
     // 市區公車
     UPDATE_CITY_BUS_DATA: (state, dataList) => state.CBdataList = dataList,
@@ -232,6 +228,7 @@ export const storeObject = {
           } else {
             commit("UPDATE_INTER_CITY_BUS_ROUTE_DETAIL", stopList);
           }
+          this.dispatch("map/setCBstopDataOnMap");
         })
       })
     },
@@ -239,6 +236,7 @@ export const storeObject = {
     getRouteShape({ commit }, routeName) {
       const header = authorizationHeader();
       const city = this.state.targetCity;
+      console.log(`Bus/Shape/City/${city}/${routeName}`)
 
       axios({
         method: 'get',
@@ -250,6 +248,7 @@ export const storeObject = {
         } else {
           // ...錯誤處理
         }
+        this.dispatch("map/setCBrouteDataOnMap");
       })
     },
     // 關鍵字搜尋市區公車

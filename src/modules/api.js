@@ -35,9 +35,7 @@ export const urlQueryStr = (dataType, query = { top: null, position: null, selec
   // 特殊請求
   if (query.keyword)  queryStr += `&$filter=contains(RouteName/Zh_tw, '${query.keyword}')`;
 
-  // ..其他的參數在這處理
-  const url = encodeURI(`${API_DOMAIN}${dataType}?$format=JSON${queryStr}`);
-  return url
+  return encodeURI(`${API_DOMAIN}${dataType}?$format=JSON${queryStr}`);
 }
 
 export const urlPath = {

@@ -46,7 +46,7 @@
         <div class="expand-btn" @click="mobileExpanding = !mobileExpanding"><i class="fas fa-angle-up"></i></div>
         <!-- 回前一頁 -->
         <div class="back-btn" @click="goBackRouteList"><i class="fas fa-angle-left"></i></div>
-        <div class="route-name">{{ targetRouteDetailName }}</div>
+        <div class="route-name">{{ targetRoute.routeName }}</div>
         <div class="info"><i class="fas fa-info-circle"></i></div>
       </div>
     </div>
@@ -56,10 +56,10 @@
       v-show="isBike ? false : isCB ? isCBdetail : isICBdetail">
       <div class="left-block"
         :class="{ active: isCB ? isCBgo : isICBgo }"
-        @click="checkGoAndBackRoute(true)">去程</div>
+        @click="checkGoAndBackRoute(true)">往{{ targetRoute.destinationStop }}</div>
       <div class="right-block"
         :class="{ active: isCB ? !isCBgo : !isICBgo }"
-        @click="checkGoAndBackRoute(false)">回程</div>
+        @click="checkGoAndBackRoute(false)">往{{ targetRoute.departureStop }}</div>
     </div>
 
     <!-- 公車&客運 桌面版一開始出現 -->
@@ -130,7 +130,7 @@ export default {
       'targetCity', 'searchKeyword',
       'BikeDataList', 'CBdataList', 'ICBdataList',
       'goCBrouteDetailList', 'backCBrouteDetailList', 'goICBrouteDetailList', 'backICBrouteDetailList',
-      'isCB', 'isCBdetail', 'isICB', 'isICBdetail', 'isBike', 'isCBgo', 'isICBgo', 'targetRouteDetailName'])
+      'isCB', 'isCBdetail', 'isICB', 'isICBdetail', 'isBike', 'isCBgo', 'isICBgo', 'targetRoute'])
   },
   methods: {
     locateCurrentPosition() {
@@ -171,6 +171,8 @@ export default {
     checkGoAndBackRoute(toggle) {
       if (this.isCB) { this.$store.commit("CHECK_CB_GO_ROUTE", toggle) }
       if (this.isICB) { this.$store.commit("CHECK_ICB_GO_ROUTE", toggle) }
+      this.$store.dispatch("map/removeOtherLayers");
+      this.$store.dispatch("map/setCBstopDataOnMap");
     }
   },
   components: {

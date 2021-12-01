@@ -6,7 +6,7 @@
         <div class="city-tag" v-if="isCB">{{ data.City }}</div>
         <div class="near-stop" v-if="isCB"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div>
       </div>
-      <div class="right-block" @click="goRuteDetail(data.RouteName.Zh_tw)"><i class="fas fa-angle-right"></i></div>
+      <div class="right-block" @click="goRuteDetail"><i class="fas fa-angle-right"></i></div>
     </div>
     <div class="card-route-content">
       <div class="star-stop">{{ data.DepartureStopNameZh }}</div>
@@ -25,12 +25,18 @@ export default {
     ...mapGetters(['isCB', 'isICB'])
   },
   methods: {
-    goRuteDetail(routeName) {
+    goRuteDetail() {
       const dataType = this.isCB ? "CB" : "ICB";
-      this.$store.dispatch("getRouteShape", routeName);
-      this.$store.dispatch("getRouteDetail", { busType: dataType, routeName });
+      const { RouteName, DepartureStopNameZh, DestinationStopNameZh } = this.data;
+      this.$store.dispatch("map/removeOtherLayers");
+      this.$store.dispatch("getRouteShape", RouteName.Zh_tw);
+      this.$store.dispatch("getRouteDetail", { busType: dataType, routeName: RouteName.Zh_tw });
       this.$store.commit("CHECK_OUTE_ROUTE_DETAIL", dataType);
-      this.$store.commit("UPDATE_TARGET_ROUTE_NAME", routeName);
+      this.$store.commit("UPDATE_TARGET_ROUTE", {
+        routeName: RouteName.Zh_tw,
+        departureStop: DepartureStopNameZh,
+        destinationStop: DestinationStopNameZh
+      });
     }
   },
 }

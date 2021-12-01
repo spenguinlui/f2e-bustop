@@ -87,6 +87,7 @@ export default {
       this.$store.commit("SLICE_ONE_CHAR_FROM_KEYWORD");
     },
     checkCity(city) {
+      this.$store.commit("CHECK_OUT_CITY", city);
       this.$store.dispatch("getCBdataListWithKeyWord", { city: city, keyword: this.searchKeyword });
     }
   },

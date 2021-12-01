@@ -59,8 +59,52 @@ export default {
     left: 0;
     top: 0;
     z-index: -1;
-    @mixin screen-up {
+    @include screen-up {
       margin-top: $nav-bar-h;
+    }
+  }
+
+  .center-marker-icon {
+    background-image: url("../assets/images/center-m.svg");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    @include screen-up {
+      background-image: url("../assets/images/center-pc.svg");
+    }
+  }
+
+  .bus-stop-marker-icon {
+    background-image: url("../assets/images/bus-stop-marker-m.svg");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    @include screen-up {
+      background-image: url("../assets/images/bus-stop-marker.svg");
+    }
+  }
+
+  .bus-popup {
+    .leaflet-popup-content-wrapper {
+      box-shadow: none;
+    }
+    .leaflet-popup-tip-container {
+      display: none;
+    }
+    .leaflet-popup-content {
+      margin: 0;
+    }
+    background-color: $grey-100;
+    box-shadow: 4px 4px 12px rgba(118, 118, 118, 0.3);
+    border-radius: 4px;
+    padding: 8px 12px;
+    .popup-title {
+      @include font-button(bold);
+      color: $primary-600;
+      margin-right: 12px;
+    }
+    .popup-direction {
+      @include font-overline(500);
+      color: $grey-600;
+      margin-top: 2px;
     }
   }
 
@@ -90,6 +134,7 @@ export default {
       color: inherit;
     }
   }
+
   .bike-tooltips {
     width: 344px;
     // height: 96px;
