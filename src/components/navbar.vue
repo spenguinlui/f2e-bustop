@@ -60,6 +60,7 @@ export default {
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.commit("TOGGLE_LANDING_APGE", false);
       this.$store.commit("CLEAR_OUT_SEARCH_KEY_WORD");
+      this.$store.dispatch("map/focusCurrentPosition");
     }
   }
 }

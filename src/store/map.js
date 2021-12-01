@@ -77,6 +77,11 @@ export default {
     }
   },
   actions: {
+    // 將地圖中心鎖定現在位置
+    focusCurrentPosition() {
+      this.state.map.storeMap.flyTo([this.state.map.currentPosition.latitude, this.state.map.currentPosition.longitude], 14);
+    },
+
     // 取得目前位置
     setCurrentPosition({ commit }, currentPosition) {
       commit("SET_POSITION", currentPosition);
@@ -85,7 +90,7 @@ export default {
       const lat = currentPosition.latitude;
       const lon = currentPosition.longitude;
       L.marker([lat, lon], { icon: centerIcon, layerName: 'center' }).addTo(this.state.map.storeMap);
-      this.state.map.storeMap.flyTo([lat, lon], 16);
+      this.dispatch("map/focusCurrentPosition");
     },
 
     // 清除底圖與中心點以外圖層
@@ -104,8 +109,8 @@ export default {
       bikeDataList.map((data) => {
         const divIcon = createBikeMarker(data.AvailableRentBikes);
         L.marker([data.StationPosition.PositionLat, data.StationPosition.PositionLon], { icon: divIcon })
-        .bindPopup(createBikePopupObj(data), { minWidth: 270, offset: [0, 0], className: "bike-tooltips" })
-          .openPopup()
+          .bindPopup(createBikePopupObj(data), { minWidth: 270, offset: [0, 0], className: "bike-tooltips" })
+          // .openPopup()
           .addTo(bikeLayer);
       })
       commit("SET_BIKE_RENT_LAYER", bikeLayer);
@@ -130,10 +135,11 @@ export default {
       let busLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
       targetStops.map((data) => {
         L.marker([data.StopPosition.PositionLat, data.StopPosition.PositionLon], { icon: busStopIcon })
-        .bindPopup(createBusPopupObj(data, this.state.targetRoute), { minWidth: 100, offset: [0, 0], className: "bus-popup" })
-          .openPopup()
+          .bindPopup(createBusPopupObj(data, this.state.targetRoute), { minWidth: 100, offset: [0, 0], className: "bus-popup" })
+          // .openPopup()
           .addTo(busLayer);
       })
+      this.state.map.storeMap.flyTo([targetStops[0].StopPosition.PositionLat, targetStops[0].StopPosition.PositionLon], 14);
       commit("SET_BUS_STOP_LAYER", busLayer);
     },
 

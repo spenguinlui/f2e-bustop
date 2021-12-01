@@ -165,8 +165,9 @@ export default {
       this.sortBlockShow = false;
     },
     goBackRouteList() {
-      if (this.isCB) { this.$$store.dispatch("CHECK_OUTE_ROUTE_LIST", "CB") }
-      if (this.isICB) { this.$$store.dispatch("CHECK_OUTE_ROUTE_LIST", "ICB") }
+      if (this.isCB) { this.$store.commit("CHECK_OUTE_ROUTE_LIST", "CB") }
+      if (this.isICB) { this.$store.commit("CHECK_OUTE_ROUTE_LIST", "ICB") }
+      this.$store.dispatch("map/focusCurrentPosition");
     },
     checkGoAndBackRoute(toggle) {
       if (this.isCB) { this.$store.commit("CHECK_CB_GO_ROUTE", toggle) }

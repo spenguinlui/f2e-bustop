@@ -234,12 +234,13 @@ export const storeObject = {
     },
 
     getRouteShape({ commit }, routeName) {
-      const header = authorizationHeader();
       const city = this.state.targetCity;
+      const urlOfRoute = (this.getters.isCB) ? `Bus/Shape/City/${city}/${routeName}` : `Bus/Shape/InterCity/${routeName}`;
+      const header = authorizationHeader();
 
       axios({
         method: 'get',
-        url: urlQueryStr(`Bus/Shape/City/${city}/${routeName}`, { select: ['Geometry']}),
+        url: urlQueryStr(urlOfRoute, { select: ['Geometry']}),
         headers: header
       }).then((res) => {
         if (res.data) {
