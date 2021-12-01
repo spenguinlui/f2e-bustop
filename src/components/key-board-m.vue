@@ -1,7 +1,7 @@
 <template>
   <div class="key-board-container"
     :class="{ inter: isICB, detail: isCB ? isCBdetail : isICBdetail }"
-    v-if="!isBike">
+    v-if="!isBike && !landingPageShow">
     <div class="select-city-container">
       <div class="city-tag"
         :class="{ active: targetCity === city.enName }"
@@ -68,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['targetCity', 'searchKeyword', 'isCB', 'isCBdetail','isICB', 'isICBdetail', 'isBike']),
+    ...mapGetters(['landingPageShow', 'targetCity', 'searchKeyword', 'isCB', 'isCBdetail','isICB', 'isICBdetail', 'isBike']),
     cityTagList() {
       let cityList = [];
       this.citysData.forEach((data) => data.citys.forEach((city) => cityList.push(city)))
@@ -102,24 +102,22 @@ export default {
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 350px;
     background-color: $grey-100;
+    z-index: $key-board;
     @include transi;
     &.detail {
-      bottom: -350px;
+      bottom: -400px;
     }
-    &.inter {
-      height: 300px;
-    }
+    // &.inter {
+    //   height: 300px;
+    // }
     .select-city-container {
       @include flex-row-flex-start-center;
       width: 100%;
-      height: 46px;
       background-color: $primary-200;
-      padding: 14px 0;
+      padding: 12px 0;
       flex-wrap: nowrap;
       overflow: auto;
-      gap: 12px;
       .city-tag {
         @include flex-col(2);
         @include btn;
@@ -127,16 +125,17 @@ export default {
         @include font-caption(bold);
         padding: 4px 8px;
         min-width: 55px;
+        margin-right: 12px;
         &:nth-child(1) {
           margin-left: 20px;
         }
+
         &.active {
           background-color: $primary-600;
         }
       }
     }
     .key-board-panel {
-      height: 276px;
       padding: 12px 20px;
       .city-panel {
         @include flex-row-center-center;

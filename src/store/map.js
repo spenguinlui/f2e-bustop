@@ -139,7 +139,6 @@ export default {
 
     // 將公車路線打上地圖
     setCBrouteDataOnMap() {
-      console.log(this.state.CBrouteShape)
       const busRouteLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
       const geoJsonData = geometryStrToGeoJson(this.state.CBrouteShape.Geometry)
       const lineStyle = { color: "#4EA476", weight: 4 };

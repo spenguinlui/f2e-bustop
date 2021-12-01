@@ -35,7 +35,7 @@
         <div class="box-text">找客運</div>
         </div>
       </div>
-      <div class="landing-page-box-container" @click="toggleDataType('bike')">
+      <div class="landing-page-box-container" @click="toggleDataType('Bike')">
         <div class="landing-page-box">
           <div class="box-icon"><i class="fas fa-bicycle"></i></div>
         <div class="box-text">找單車</div>
@@ -149,17 +149,18 @@ export default {
         @include flex-col(6);
         padding: 10px;
         .landing-page-box {
+          @include flex-column-center-center;
           min-height: 166px;
           width: 100%;
           background-color: $grey-100;
           border-radius: 12px;
-          @include flex-column-center-center;
           .box-icon {
             color: $primary-400;
             font-size: 60px;
           }
           .box-text {
             @include font-button(bold);
+            margin-top: 8px;
             color: $grey-500;
           }
         }

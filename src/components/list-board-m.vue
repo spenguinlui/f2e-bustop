@@ -21,13 +21,11 @@
         </template>
       </template>
     </div>
-    <KeyboardMobile />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import KeyboardMobile from "./key-board-m.vue";
 import CardRotue from "./card-route.vue";
 import SearchBar from "./search-bar.vue";
 
@@ -39,7 +37,6 @@ export default {
       ])
   },
   components: {
-    KeyboardMobile,
     CardRotue,
     SearchBar
   }

@@ -173,6 +173,7 @@ export default {
       if (this.isICB) { this.$store.commit("CHECK_ICB_GO_ROUTE", toggle) }
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.dispatch("map/setCBstopDataOnMap");
+      this.$store.dispatch("map/setCBrouteDataOnMap");
     }
   },
   components: {
@@ -191,12 +192,12 @@ export default {
   @include pad-m {
     .list-board-container {
       width: 100%;
-      height: 170px;
+      height: 180px;
       border-radius: $normal-bora;
       background-color: $grey-100;
       position: absolute;
       left: 0;
-      bottom: 0;
+      bottom: -10px;
       overflow: visible;
       z-index: $list-board;
       // mobile-pad only
@@ -304,7 +305,7 @@ export default {
       .cards-container {
         $pading-top: 8px;
         width: 100%;
-        height: calc(100% - #{$list-board-header-h} - (#{$pading-top} * 2));
+        height: calc(100% - #{$list-board-header-h});
         padding: $pading-top 16px;
         overflow: auto;
         padding-bottom: 20px;

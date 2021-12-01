@@ -207,7 +207,7 @@ export const storeObject = {
         stopList = res.data;
         axios({
           method: 'get',
-          url: urlQueryStr(urlOfTime),
+          url: urlQueryStr(urlOfTime, { select: ['Direction', 'StopUID', 'EstimateTime', 'StopStatus']}),
           headers: header
         }).then((res) => {
           const timeList = res.data;
@@ -236,11 +236,10 @@ export const storeObject = {
     getRouteShape({ commit }, routeName) {
       const header = authorizationHeader();
       const city = this.state.targetCity;
-      console.log(`Bus/Shape/City/${city}/${routeName}`)
 
       axios({
         method: 'get',
-        url: urlQueryStr(`Bus/Shape/City/${city}/${routeName}`),
+        url: urlQueryStr(`Bus/Shape/City/${city}/${routeName}`, { select: ['Geometry']}),
         headers: header
       }).then((res) => {
         if (res.data) {

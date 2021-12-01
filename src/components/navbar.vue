@@ -77,6 +77,7 @@ export default {
     height: $nav-bar-m-h;
     background: $grey-100;
     padding: 14px 36px;
+    z-index: $nav-bar;
     .nav-list-block-m {
       font-size: $font-size-h5;
       position: absolute;

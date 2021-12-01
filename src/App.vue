@@ -4,6 +4,7 @@
     <LandingPage />
     <ListBoard />
     <ListBoardMobile />
+    <KeyboardMobile />
     <footer>
       <div class="footer-container">
         <div class="footer-left">Released 2021 ©</div>
@@ -15,13 +16,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import Map from "./pages/map.vue";
 import NavBar from "./components/navbar.vue";
 import LandingPage from "./pages/landing-page-m.vue";
 import ListBoard from "./components/list-board.vue";
 import ListBoardMobile from "./components/list-board-m.vue";
+import KeyboardMobile from "./components/key-board-m.vue";
 
 export default {
   name: "App",
@@ -30,10 +30,8 @@ export default {
     NavBar,
     LandingPage,
     ListBoard,
-    ListBoardMobile
-  },
-  computed: {
-    ...mapGetters(['dataList'])
+    ListBoardMobile,
+    KeyboardMobile
   }
 }
 </script>
