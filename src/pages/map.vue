@@ -4,11 +4,17 @@
 
 <script>
 import L from 'leaflet';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
+  data() {
+    return {
+      refreshInterval: {}
+    }
+  },
   computed: {
-    ...mapState("map", ['currentPosition'])
+    ...mapState("map", ['currentPosition']),
+    ...mapGetters(['targetRoute', 'isCB', 'isICB', 'isCBdetail', 'isICBdetail'])
   },
   methods: {
     initMap() {
@@ -44,6 +50,16 @@ export default {
   },
   mounted() {
     this.initMap();
+    this.refreshInterval = setInterval(() => {
+      if (this.isCB ? this.isCBdetail : this.isICBdetail) {
+        this.$store.dispatch("refreshRouteDetail");
+      } else {
+        return;
+      }
+    }, 15000);
+  },
+  beforeDestroy() {
+    clearInterval(this.refreshInterval);
   }
 }
 </script>
@@ -67,7 +83,7 @@ export default {
   .center-marker-icon {
     background-image: url("../assets/images/center-m.svg");
     background-repeat: no-repeat;
-    background-position: bottom;
+    background-position: center;
     @include screen-up {
       background-image: url("../assets/images/center-pc.svg");
     }
@@ -105,6 +121,15 @@ export default {
       @include font-overline(500);
       color: $grey-600;
       margin-top: 2px;
+    }
+  }
+
+  .bus-point-marker-icon {
+    background-image: url("../assets/images/bus-point-m.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    @include screen-up {
+      background-image: url("../assets/images/bus-point.svg");
     }
   }
 

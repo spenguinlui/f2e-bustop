@@ -6,13 +6,17 @@ const centerIcon = new L.DivIcon({ className: 'center-marker-icon', iconSize: [8
 // 公車站點樣式 - 先設定桌面版基準點在下方， 手機版再對齊中心下方就可以了
 const busStopIcon = new L.DivIcon({ className: 'bus-stop-marker-icon', iconSize: [44, 65], iconAnchor: [22, 65] });
 
+// 公車動態點樣式
+const busPointIcon = new L.DivIcon({ className: 'bus-point-marker-icon', iconSize: [84, 84], iconAnchor: [42, 42] });
+
 // 公車站點 Marker 的 Popup
-const createBusPopupObj = (data, targetRoute) => {
+const createBusPopupObj = (data, destinationStop) => {
   return `
     <div class="popup-title">${data.StopName.Zh_tw}</div>
-    <div class="popup-direction">往 ${targetRoute.destinationStop}</div>
+    <div class="popup-direction">往 ${destinationStop}</div>
   `
 };
+
 
 // 判斷單車 Marker 樣式
 const countChangeClass = (dataCount) => dataCount === 0 ? 'disable' : dataCount < 5 ? 'limit' : 'default';
@@ -44,6 +48,55 @@ const createBikePopupObj = (data) => {
     </div>
   `
 };
+
+// 決定路線詳細資料去程返程，是要用哪一筆
+const getTargetDataList = (store) => {
+  let targetDataList;
+  if (store.getters.isCB) {
+    if (store.state.isCBgo) {
+      targetDataList = store.state.CBrouteDetailList[0];
+    } else {
+      targetDataList = store.state.CBrouteDetailList[1];
+    }
+  } else {
+    if (store.state.isICBgo) {
+      targetDataList = store.state.ICBrouteDetailList[0];
+    } else {
+      targetDataList = store.state.ICBrouteDetailList[1];
+    }
+  }
+  return targetDataList;
+}
+
+// 解析 geojson 純文字資料成 json
+const geometryStrToGeoJson = (geometryStr) => {
+  const isLineStr = geometryStr.substr(0, 10) === "LINESTRING";
+  const isMultiLine = geometryStr.substr(0, 15) === "MULTILINESTRING";
+  let corStr = "";
+  let corNewAry = [];
+
+
+  if (isLineStr) {
+    corStr = geometryStr.slice(12, -2);
+    if (geometryStr.slice(12, -2)[0] !== "1") {
+      corStr = geometryStr.slice(11, -2);
+    }
+  }
+  if (isMultiLine) {
+    corStr = geometryStr.slice(18, -2);
+    if (geometryStr.slice(18, -2)[0] !== "1") {
+      corStr = geometryStr.slice(117, -2);
+    }
+  }
+
+  corStr.split(',').map((cor) => {
+    let cs = cor.split(' ');
+    
+    cs = cs.filter((c) => c).map((c) => parseFloat(c));
+    corNewAry.push(cs);
+  });
+  return { type: "LineString", coordinates: corNewAry };
+}
 
 export default {
   namespaced: true,
@@ -79,7 +132,7 @@ export default {
   actions: {
     // 將地圖中心鎖定現在位置
     focusCurrentPosition() {
-      this.state.map.storeMap.flyTo([this.state.map.currentPosition.latitude, this.state.map.currentPosition.longitude], 14);
+      this.state.map.storeMap.flyTo([this.state.map.currentPosition.latitude, this.state.map.currentPosition.longitude], 16);
     },
 
     // 取得目前位置
@@ -98,9 +151,16 @@ export default {
       const storeMap = this.state.map.storeMap;
       storeMap.eachLayer(function(layer){ 
         if (!(layer instanceof L.TileLayer)) {
-          if (layer.options.layerName !== 'center') { storeMap.removeLayer(layer) }
+          if (layer.options.layerName !== 'center') storeMap.removeLayer(layer);
         }
       });
+    },
+
+    removeBusPointLayers() {
+      const storeMap = this.state.map.storeMap;
+      storeMap.eachLayer(function(layer){
+        if (layer.options.layerName === 'buspoint') storeMap.removeLayer(layer);
+      })
     },
 
     // 將單車資料打上地圖
@@ -110,78 +170,46 @@ export default {
         const divIcon = createBikeMarker(data.AvailableRentBikes);
         L.marker([data.StationPosition.PositionLat, data.StationPosition.PositionLon], { icon: divIcon })
           .bindPopup(createBikePopupObj(data), { minWidth: 270, offset: [0, 0], className: "bike-tooltips" })
-          // .openPopup()
           .addTo(bikeLayer);
       })
       commit("SET_BIKE_RENT_LAYER", bikeLayer);
     },
 
     // 將公車站點打上地圖
-    setCBstopDataOnMap({ commit }) {
-      let targetStops;
-      if (this.getters.isCB) {
-        if (this.state.isCBgo) {
-          targetStops = this.state.CBrouteDetailList[0].Stops;
-        } else {
-          targetStops = this.state.CBrouteDetailList[1].Stops;
-        }
-      } else {
-        if (this.state.isICBgo) {
-          targetStops = this.state.ICBrouteDetailList[0].Stops;
-        } else {
-          targetStops = this.state.ICBrouteDetailList[1].Stops;
-        }
-      }
+    setBusStopDataOnMap({ commit }) {
+      const targetStops = getTargetDataList(this).Stops;
       let busLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
-      targetStops.map((data) => {
-        L.marker([data.StopPosition.PositionLat, data.StopPosition.PositionLon], { icon: busStopIcon })
-          .bindPopup(createBusPopupObj(data, this.state.targetRoute), { minWidth: 100, offset: [0, 0], className: "bus-popup" })
-          // .openPopup()
+      targetStops.map((data, index) => {
+        const marker = L.marker([data.StopPosition.PositionLat, data.StopPosition.PositionLon], { icon: busStopIcon })
+          .bindPopup(createBusPopupObj(data, this.state.targetRoute.destinationStop), { minWidth: 100, offset: [90, 20], className: "bus-popup" })
           .addTo(busLayer);
+        if (index === 0) marker.openPopup();
       })
-      this.state.map.storeMap.flyTo([targetStops[0].StopPosition.PositionLat, targetStops[0].StopPosition.PositionLon], 14);
+      this.state.map.storeMap.flyTo([targetStops[0].StopPosition.PositionLat, targetStops[0].StopPosition.PositionLon], 16);
       commit("SET_BUS_STOP_LAYER", busLayer);
     },
 
     // 將公車路線打上地圖
-    setCBrouteDataOnMap() {
+    setBusRouteDataOnMap() {
       const busRouteLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
-      const geoJsonData = geometryStrToGeoJson(this.state.CBrouteShape.Geometry)
+      const targetGeometry = getTargetDataList(this).Geometry;
+      const geoJsonData = geometryStrToGeoJson(targetGeometry);
       const lineStyle = { color: "#4EA476", weight: 4 };
       try {
         L.geoJSON(geoJsonData, lineStyle).addTo(busRouteLayer);
       } catch {
         console.log(`路線資料異常: ${geoJsonData}`);
       }
+    },
+
+    // 將公車動態打上地圖
+    setBusRealTimeOnMap() {
+      const busRealTimeLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
+      const targetRealTime = getTargetDataList(this).BusRealTime;
+      targetRealTime.map((data) => {
+        L.marker([data.BusPosition.PositionLat, data.BusPosition.PositionLon], { icon: busPointIcon, zIndexOffset: 1000, layerName: "buspoint" })
+          .addTo(busRealTimeLayer);
+      })
     }
   }
-}
-
-const geometryStrToGeoJson = (geometryStr) => {
-  const isLineStr = geometryStr.substr(0, 10) === "LINESTRING";
-  const isMultiLine = geometryStr.substr(0, 15) === "MULTILINESTRING";
-  let corStr = "";
-  let corNewAry = [];
-
-
-  if (isLineStr) {
-    corStr = geometryStr.slice(12, -2);
-    if (geometryStr.slice(12, -2)[0] !== "1") {
-      corStr = geometryStr.slice(11, -2);
-    }
-  }
-  if (isMultiLine) {
-    corStr = geometryStr.slice(18, -2);
-    if (geometryStr.slice(18, -2)[0] !== "1") {
-      corStr = geometryStr.slice(117, -2);
-    }
-  }
-
-  corStr.split(',').map((cor) => {
-    let cs = cor.split(' ');
-    
-    cs = cs.filter((c) => c).map((c) => parseFloat(c));
-    corNewAry.push(cs);
-  });
-  return { type: "LineString", coordinates: corNewAry };
 }

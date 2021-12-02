@@ -28,15 +28,16 @@ export default {
     goRuteDetail() {
       const dataType = this.isCB ? "CB" : "ICB";
       const { RouteName, DepartureStopNameZh, DestinationStopNameZh } = this.data;
-      this.$store.dispatch("map/removeOtherLayers");
-      this.$store.dispatch("getRouteShape", RouteName.Zh_tw);
-      this.$store.dispatch("getRouteDetail", { busType: dataType, routeName: RouteName.Zh_tw });
+      // 切換模式
       this.$store.commit("CHECK_OUTE_ROUTE_DETAIL", dataType);
       this.$store.commit("UPDATE_TARGET_ROUTE", {
         routeName: RouteName.Zh_tw,
         departureStop: DepartureStopNameZh,
         destinationStop: DestinationStopNameZh
       });
+      // 改動資料
+      this.$store.dispatch("map/removeOtherLayers");
+      this.$store.dispatch("getRouteDetail", RouteName.Zh_tw);
     }
   },
 }
@@ -91,21 +92,6 @@ export default {
         flex-grow: 1;
         border-top: 1px solid #767676;
         margin: 0 14px;
-        position: relative;
-        &::before {
-          content: ".";
-          position: absolute;
-          left: -3px;
-          font-size: 25px;
-          top: -15.516px;
-        }
-        &::after {
-          content: ".";
-          position: absolute;
-          right: -3px;
-          font-size: 25px;
-          top: -15.516px;
-        }
       }
     }
   }

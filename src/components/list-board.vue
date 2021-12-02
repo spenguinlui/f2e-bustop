@@ -71,7 +71,7 @@
     <!-- 公車&客運 桌面版出現 -->
     <div class="cards-container">
       <!-- 路線列表 -->
-      <div v-show="isBike ? false : isCB ? !isCBdetail : !isICBdetail">
+      <div class="cards" v-show="isBike ? false : isCB ? !isCBdetail : !isICBdetail">
         <template v-if="isCB && CBdataList.length > 0">
           <template v-for="data in CBdataList">
             <CardRotue :data="data" :key="data.a"/>
@@ -85,19 +85,19 @@
       </div>
 
       <!-- 即時路況 -->
-      <div v-show="isBike ? false : isCB && isCBdetail">
+      <div class="cards" v-show="isBike ? false : isCB && isCBdetail">
         <template v-for="(data, index) in (isCBgo ? goCBrouteDetailList : backCBrouteDetailList)">
           <CardRealTime :data="data" :key="index"/>
         </template>
       </div>
-      <div v-show="isBike ? false : isICB && isICBdetail">
+      <div class="cards" v-show="isBike ? false : isICB && isICBdetail">
         <template v-for="(data, index) in (isICBgo ? goICBrouteDetailList : backICBrouteDetailList)">
           <CardRealTime :data="data" :key="index"/>
         </template>
       </div>
 
       <!-- 單車站點 -->
-      <div v-show="isBike">
+      <div class="cards" v-show="isBike">
         <template v-for="data in BikeDataList">
           <CardBike :data="data" :key="data.StationUID"/>
         </template>
@@ -146,11 +146,8 @@ export default {
       }
     },
     goSearch() {
-      if (this.isCB) {
-        this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      } else {
-        this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      }
+      if (this.isCB) this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      if (this.isICB) this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
     },
     sortBikeByDistace() {
       this.$store.commit("SORT_BY_DISTANCE");
@@ -165,16 +162,17 @@ export default {
       this.sortBlockShow = false;
     },
     goBackRouteList() {
-      if (this.isCB) { this.$store.commit("CHECK_OUTE_ROUTE_LIST", "CB") }
-      if (this.isICB) { this.$store.commit("CHECK_OUTE_ROUTE_LIST", "ICB") }
+      this.$store.commit("CHECK_OUTE_ROUTE_LIST", this.isCB ? "CB" : "ICB")
       this.$store.dispatch("map/focusCurrentPosition");
     },
     checkGoAndBackRoute(toggle) {
       if (this.isCB) { this.$store.commit("CHECK_CB_GO_ROUTE", toggle) }
       if (this.isICB) { this.$store.commit("CHECK_ICB_GO_ROUTE", toggle) }
+      // 資料不變，但切換要顯示的資料
       this.$store.dispatch("map/removeOtherLayers");
-      this.$store.dispatch("map/setCBstopDataOnMap");
-      this.$store.dispatch("map/setCBrouteDataOnMap");
+      this.$store.dispatch("map/setBusStopDataOnMap");
+      this.$store.dispatch("map/setBusRouteDataOnMap");
+      this.$store.dispatch("map/setBusRealTimeOnMap");
     }
   },
   components: {
@@ -308,8 +306,12 @@ export default {
         width: 100%;
         height: calc(100% - #{$list-board-header-h});
         padding: $pading-top 16px;
-        overflow: auto;
         padding-bottom: 20px;
+        .cards {
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+        }
       }
     }
   }
@@ -456,7 +458,11 @@ export default {
       width: 100%;
       height: calc(100% - #{$list-board-header-h} - (#{$pading-top} * 2));
       padding: $pading-top 32px;
-      overflow: auto;
+      .cards {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+      }
     }
   }
 
