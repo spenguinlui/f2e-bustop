@@ -9,6 +9,10 @@
         <div class="nav-list-item" :class="{ active: isBike }" @click="toggleBike">找單車<i class="fas fa-bicycle"></i></div>
         <div class="nav-list-item disabled">轉乘資訊<i class="fas fa-subway"></i></div>
       </div>
+      <div class="bus-goback"
+        v-show="isCB && isCBdetail || isICB && isICBdetail && !isBike && !landingPageShow"
+        @click="goBackRouteList"
+      ><i class="fas fa-angle-left"></i></div>
     </nav>
     <div class="nav-popup" :class="{ show: navBarPopUp }">
       <div class="nav-popup-close" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-times"></i></div>
@@ -32,7 +36,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isCB', 'isICB', 'isBike'])
+    ...mapGetters(['landingPageShow', 'isCB', 'isCBdetail', 'isICB', 'isICBdetail', 'isBike'])
   },
   methods: {
     checkLandingPage() {
@@ -61,7 +65,11 @@ export default {
       this.$store.commit("CLEAR_OUT_SEARCH_KEY_WORD");
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.dispatch("map/focusCurrentPosition");
-    }
+    },
+    goBackRouteList() {
+      this.$store.commit("CHECK_OUTE_ROUTE_LIST", this.isCB ? "CB" : "ICB")
+      this.$store.dispatch("map/focusCurrentPosition");
+    },
   }
 }
 </script>
@@ -96,6 +104,19 @@ export default {
     }
     .nav-list-block {
       display: none;
+    }
+    .bus-goback {
+      @include flex-row-center-center;
+      @include btn($cycle-bora);
+      position: absolute;
+      top: calc(#{$nav-bar-m-h} + 14px);
+      left: 16px;
+      width: 36px;
+      height: 36px;
+      box-shadow: 3px 3px 8px rgba(154, 154, 154, 0.25);
+      font-size: 12px;
+      background-color: $grey-100;
+      color: $grey-500;
     }
   }
   .nav-popup {
@@ -164,6 +185,9 @@ export default {
             margin-right: $nav-ma;
           }
         }
+      }
+      .bus-goback {
+        display: none;
       }
     }
   }
