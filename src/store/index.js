@@ -232,10 +232,11 @@ export const storeObject = {
 
     // 取得路線細節
     getRouteDetail({ commit }, routeName) {
-      const urlOfStop = this.getters.isCB ? `Bus/StopOfRoute/City/${this.state.targetCity}/${routeName}` : `Bus/StopOfRoute/InterCity/${routeName}`;
-      const urlOfTime = this.getters.isCB ? `Bus/EstimatedTimeOfArrival/City/${this.state.targetCity}/${routeName}` : `Bus/EstimatedTimeOfArrival/InterCity/${routeName}`;
-      const urlOfRoute = this.getters.isCB ? `Bus/Shape/City/${this.state.targetCity}/${routeName}` : `Bus/Shape/InterCity/${routeName}`;
-      const urlOfRealTime = this.getters.isCB ? `Bus/RealTimeByFrequency/City/${this.state.targetCity}/${routeName}` : `Bus/RealTimeByFrequency/InterCity/${this.state.targetCity}/${routeName}`
+      const dataType = this.getters.isCB ? `City/${this.state.targetCity}/${routeName}` : `InterCity/${routeName}`;
+      const urlOfStop = `Bus/StopOfRoute/${dataType}`;
+      const urlOfTime = `Bus/EstimatedTimeOfArrival/${dataType}`;
+      const urlOfRoute = `Bus/Shape/${dataType}`;
+      const urlOfRealTime = `Bus/RealTimeByFrequency/${dataType}`;
 
       Promise.all([AJAX_getBusStopOfRoute(urlOfStop), AJAX_getBusTimeIfArrival(urlOfTime), AJAX_getBusShapOfRoute(urlOfRoute), AJAX_getBusRealTime(urlOfRealTime)])
         .then(res => {
@@ -262,8 +263,9 @@ export const storeObject = {
         })
     },
     refreshRouteDetail({ commit }) {
-      const urlOfTime = this.getters.isCB ? `Bus/EstimatedTimeOfArrival/City/${this.state.targetCity}/${this.state.targetRoute.routeName}` : `Bus/EstimatedTimeOfArrival/InterCity/${this.state.targetRoute.routeName}`;
-      const urlOfRealTime = this.getters.isCB ? `Bus/RealTimeByFrequency/City/${this.state.targetCity}/${this.state.targetRoute.routeName}` : `Bus/RealTimeByFrequency/InterCity/${this.state.targetCity}/${this.state.targetRoute.routeName}`
+      const dataType = this.getters.isCB ? `City/${this.state.targetCity}/${this.state.targetRoute.routeName}` : `InterCity/${this.state.targetRoute.routeName}`;
+      const urlOfTime = `Bus/EstimatedTimeOfArrival/${dataType}`;
+      const urlOfRealTime = `Bus/RealTimeByFrequency/${dataType}`;
 
       Promise.all([AJAX_getBusTimeIfArrival(urlOfTime), AJAX_getBusRealTime(urlOfRealTime)])
         .then(res => {

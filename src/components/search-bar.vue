@@ -1,7 +1,6 @@
 <template>
   <div class="search-bar">
-    <input v-model="localKeyword"
-      @keyup.enter="goSearch" type="text" 
+    <input v-model="localKeyword" type="text" 
       :placeholder="isBike ? '搜尋站點與鄰近地點' : '搜尋公車路線及站牌'"
     >
     <div class="search-icon" @click="goSearch"><i class="fas fa-search"></i></div>
@@ -22,7 +21,7 @@ export default {
         this.goSearch();
       }
     },
-    ...mapGetters(['targetCity', 'searchKeyword', 'isCB', 'isBike'])
+    ...mapGetters(['targetCity', 'searchKeyword', 'isCB', 'isICB', 'isBike'])
   },
   methods: {
     goSearch() {

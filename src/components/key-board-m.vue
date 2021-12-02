@@ -1,7 +1,7 @@
 <template>
   <div class="key-board-container"
     :class="{ inter: isICB, detail: isCB ? isCBdetail : isICBdetail }"
-    v-if="isCB && !isCBdetail || isICB && !isCBdetail">
+    v-if="!landingPageShow && isCB && !isCBdetail || isICB && !isICBdetail && !isBike">
     <div class="select-city-container">
       <div class="city-tag"
         :class="{ active: targetCity === city.enName }"

@@ -69,7 +69,7 @@ export const AJAX_getBusStopOfRoute = (urlOfStop) => {
 export const AJAX_getBusTimeIfArrival = (urlOfTime) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfTime, { select: ['Direction', 'StopUID', 'EstimateTime', 'StopStatus']}),
+    url: urlQueryStr(urlOfTime, { select: ['Direction', 'StopUID', 'IsLastBus','EstimateTime', 'StopStatus']}),
     headers: authorizationHeader()
   })
 }
