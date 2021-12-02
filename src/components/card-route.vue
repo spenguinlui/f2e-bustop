@@ -1,12 +1,12 @@
 <template>
-  <div class="card-route-container">
+  <div class="card-route-container" @click="goRuteDetail">
     <div class="card-route-msg">
       <div class="left-block">
         <div class="bus-number">{{ data.RouteName.Zh_tw }}</div>
-        <div class="city-tag" v-if="isCB">{{ data.City }}</div>
+        <div class="city-tag" v-if="isCB">{{ cityZh }}</div>
         <div class="near-stop" v-if="isCB"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div>
       </div>
-      <div class="right-block" @click="goRuteDetail"><i class="fas fa-angle-right"></i></div>
+      <div class="right-block"><i class="fas fa-angle-right"></i></div>
     </div>
     <div class="card-route-content">
       <div class="star-stop">{{ data.DepartureStopNameZh }}</div>
@@ -22,7 +22,34 @@ import { mapGetters } from 'vuex';
 export default {
   props: ['data'],
   computed: {
-    ...mapGetters(['isCB', 'isICB'])
+    ...mapGetters(['isCB', 'isICB']),
+    cityZh() {
+      switch (this.data.City) {
+        case "Taipei": return "臺北市"
+        case "Keelung": return "基隆市"
+        case "NewTaipei": return "新北市"
+        case "Taoyuan": return "桃園市"
+        case "Hsinchu": return "新竹市"
+        case "HsinchuCounty": return "新竹縣"
+        case "MiaoliCounty": return "苗栗縣"
+        case "Taichung": return "臺中市"
+        case "ChanghuaCounty": return "彰化縣"
+        case "NantouCounty": return "南投縣"
+        case "YunlinCounty": return "雲林縣"
+        case "Chiayi": return "嘉義市"
+        case "ChiayiCounty": return "嘉義縣"
+        case "Tainan": return "臺南市"
+        case "Kaohsiung": return "高雄市"
+        case "PingtungCounty": return "屏東縣"
+        case "YilanCounty": return "宜蘭縣"
+        case "HualienCounty": return "花蓮縣"
+        case "TaitungCounty": return "臺東縣"
+        case "KinmenCounty": return "金門縣"
+        case "PenghuCounty": return "澎湖縣"
+        case "LienchiangCounty": return "連江縣"
+        default: return this.data.City
+      }
+    }
   },
   methods: {
     goRuteDetail() {
@@ -60,6 +87,8 @@ export default {
         @include flex-row-center-center;
         .bus-number {
           @include font-h5(bold);
+          @include ellipsis-text;
+          max-width: 150px;
           color: $grey-600;
           margin-right: 8px;
         }
