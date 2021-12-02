@@ -324,7 +324,7 @@ export default {
       position: absolute;
       left: 32px;
       top: $nav-bar-h + $top-margin;
-      overflow: hidden;
+      overflow: visible;
       z-index: $list-board;
       box-shadow: 3px 3px 8px rgba(154, 154, 154, 0.25);
       .locate-icon {

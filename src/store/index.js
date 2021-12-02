@@ -193,7 +193,7 @@ export const storeObject = {
 
     // 取得路線細節
     getRouteDetail({ commit }, { busType, routeName }) {
-      const urlOfStop = (busType === "CB") ? `Bus/DisplayStopOfRoute/City/${this.state.targetCity}/${routeName}` : `Bus/StopOfRoute/InterCity/${routeName}`;
+      const urlOfStop = (busType === "CB") ? `Bus/StopOfRoute/City/${this.state.targetCity}/${routeName}` : `Bus/StopOfRoute/InterCity/${routeName}`;
       const urlOfTime = (busType === "CB") ? `Bus/EstimatedTimeOfArrival/City/${this.state.targetCity}/${routeName}` : `Bus/EstimatedTimeOfArrival/InterCity/${routeName}`;
       const header = authorizationHeader();
       
