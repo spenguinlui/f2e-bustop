@@ -94,6 +94,15 @@ export const AJAX_getBusRealTime = (urlOfRealTime, routeName) => {
   })
 }
 
+// 指定路線站位附近公車
+export const AJAX_getBustRealTimeStop = (urlOfRealTimeStop, routeName) => {
+  return axios({
+    method: 'get',
+    url: urlQueryStr(urlOfRealTimeStop, { select: ['PlateNumb', 'Direction', 'BusStatus', 'StopName', 'StopUID'], routeName: routeName }),
+    headers: authorizationHeader()
+  })
+}
+
 // 附近自行車站點
 export const AJAX_getBikeStation = (position) => {
   return axios({

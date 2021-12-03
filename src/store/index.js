@@ -5,6 +5,7 @@ import {
   AJAX_getBusTimeIfArrival,
   AJAX_getBusShapOfRoute,
   AJAX_getBusRealTime,
+  AJAX_getBustRealTimeStop,
   AJAX_getBikeStation,
   AJAX_getBikeAvailability
 } from "../modules/api";
@@ -35,14 +36,24 @@ const insertRouteShapeToDetailList = (detailList, routeList) => {
 
 // 路線細節塞入公車動態
 const insertRealTimeToDetailList = (detailList, realTimeList) => {
-  // 塞現在動態
   detailList[0].BusRealTime = [];
   realTimeList.forEach(rtData => rtData.Direction === 0 && detailList[0].BusRealTime.push(rtData));
   detailList[1].BusRealTime = [];
   realTimeList.forEach(rtData => rtData.Direction === 1 && detailList[1].BusRealTime.push(rtData));
+  return detailList;
+}
 
-  // 在站序中塞入靠站車牌號
-  console.log(realTimeList)
+const insertReailTimeStopToDeatailList = (detailList, realTimeStopList) => {
+  detailList[0].Stops = detailList[0].Stops.map((detailData) => {
+    let findData = realTimeStopList.find(timeData => timeData.Direction === 0 && detailData.StopUID === timeData.StopUID);
+    if (findData) detailData = { ...detailData, ...findData }
+    return detailData;
+  });
+  detailList[1].Stops = detailList[1].Stops.map((detailData) => {
+    let findData = realTimeStopList.find(timeData => timeData.Direction === 1 && detailData.StopUID === timeData.StopUID);
+    if (findData) detailData = { ...detailData, ...findData }
+    return detailData;
+  });
   return detailList;
 }
 
@@ -241,23 +252,27 @@ export const storeObject = {
       const urlOfTime = `Bus/EstimatedTimeOfArrival/${dataType}`;
       const urlOfRoute = `Bus/Shape/${dataType}`;
       const urlOfRealTime = `Bus/RealTimeByFrequency/${dataType}`;
+      const urlOfRealTimeStop = `Bus/RealTimeNearStop/${dataType}`;
 
       Promise.all([
         AJAX_getBusStopOfRoute(urlOfStop, routeName),
         AJAX_getBusTimeIfArrival(urlOfTime, routeName),
         AJAX_getBusShapOfRoute(urlOfRoute, routeName),
-        AJAX_getBusRealTime(urlOfRealTime, routeName)
+        AJAX_getBusRealTime(urlOfRealTime, routeName),
+        AJAX_getBustRealTimeStop(urlOfRealTimeStop, routeName)
       ])
         .then(res => {
           const stopList = res[0].data;
           const timeList = res[1].data;
           const routeList = res[2].data;
           const realTimeList = res[3].data;
-          
+          const realTimeStopList = res[4].data;
+
           let detailList = JSON.parse(JSON.stringify(stopList));
           detailList = insertTimeArrivalToDetailList(detailList, timeList);
           detailList = insertRouteShapeToDetailList(detailList, routeList);
           detailList = insertRealTimeToDetailList(detailList, realTimeList);
+          detailList = insertReailTimeStopToDeatailList(detailList, realTimeStopList);
 
           if (this.getters.isCB) commit("UPDATE_CITY_BUS_ROUTE_DETAIL", detailList);
           if (this.getters.isICB) commit("UPDATE_INTER_CITY_BUS_ROUTE_DETAIL", detailList);
@@ -277,17 +292,22 @@ export const storeObject = {
       const dataType = this.getters.isCB ? `City/${this.state.targetCity}/${routeName}` : `InterCity/${routeName}`;
       const urlOfTime = `Bus/EstimatedTimeOfArrival/${dataType}`;
       const urlOfRealTime = `Bus/RealTimeByFrequency/${dataType}`;
+      const urlOfRealTimeStop = `Bus/RealTimeNearStop/${dataType}`;
 
       Promise.all([
         AJAX_getBusTimeIfArrival(urlOfTime, routeName),
-        AJAX_getBusRealTime(urlOfRealTime, routeName)
+        AJAX_getBusRealTime(urlOfRealTime, routeName),
+        AJAX_getBustRealTimeStop(urlOfRealTimeStop, routeName)
       ])
         .then(res => {
           const timeList = res[0].data;
           const realTimeList = res[1].data;
+          const realTimeStopList = res[2].data;
+
           let detailList = this.getters.isCB ? this.getters.CBrouteDetailList : this.getters.ICBrouteDetailList;
           detailList = insertTimeArrivalToDetailList(detailList, timeList);
           detailList = insertRealTimeToDetailList(detailList, realTimeList);
+          detailList = insertReailTimeStopToDeatailList(detailList, realTimeStopList);
 
           if (this.getters.isCB) commit("UPDATE_CITY_BUS_ROUTE_DETAIL", detailList);
           if (this.getters.isICB) commit("UPDATE_INTER_CITY_BUS_ROUTE_DETAIL", detailList);
