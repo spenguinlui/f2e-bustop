@@ -35,10 +35,14 @@ const insertRouteShapeToDetailList = (detailList, routeList) => {
 
 // 路線細節塞入公車動態
 const insertRealTimeToDetailList = (detailList, realTimeList) => {
+  // 塞現在動態
   detailList[0].BusRealTime = [];
-  realTimeList.forEach(rtData => rtData.Direction === 0 && detailList[0].BusRealTime.push(rtData))
+  realTimeList.forEach(rtData => rtData.Direction === 0 && detailList[0].BusRealTime.push(rtData));
   detailList[1].BusRealTime = [];
-  realTimeList.forEach(rtData => rtData.Direction === 1 && detailList[1].BusRealTime.push(rtData))
+  realTimeList.forEach(rtData => rtData.Direction === 1 && detailList[1].BusRealTime.push(rtData));
+
+  // 在站序中塞入靠站車牌號
+  console.log(realTimeList)
   return detailList;
 }
 
@@ -238,14 +242,20 @@ export const storeObject = {
       const urlOfRoute = `Bus/Shape/${dataType}`;
       const urlOfRealTime = `Bus/RealTimeByFrequency/${dataType}`;
 
-      Promise.all([AJAX_getBusStopOfRoute(urlOfStop), AJAX_getBusTimeIfArrival(urlOfTime), AJAX_getBusShapOfRoute(urlOfRoute), AJAX_getBusRealTime(urlOfRealTime)])
+      Promise.all([
+        AJAX_getBusStopOfRoute(urlOfStop, routeName),
+        AJAX_getBusTimeIfArrival(urlOfTime, routeName),
+        AJAX_getBusShapOfRoute(urlOfRoute, routeName),
+        AJAX_getBusRealTime(urlOfRealTime, routeName)
+      ])
         .then(res => {
           const stopList = res[0].data;
           const timeList = res[1].data;
           const routeList = res[2].data;
           const realTimeList = res[3].data;
           
-          let detailList = insertTimeArrivalToDetailList(stopList, timeList);
+          let detailList = JSON.parse(JSON.stringify(stopList));
+          detailList = insertTimeArrivalToDetailList(detailList, timeList);
           detailList = insertRouteShapeToDetailList(detailList, routeList);
           detailList = insertRealTimeToDetailList(detailList, realTimeList);
 
@@ -263,11 +273,15 @@ export const storeObject = {
         })
     },
     refreshRouteDetail({ commit }) {
-      const dataType = this.getters.isCB ? `City/${this.state.targetCity}/${this.state.targetRoute.routeName}` : `InterCity/${this.state.targetRoute.routeName}`;
+      const routeName = this.state.targetRoute.routeName;
+      const dataType = this.getters.isCB ? `City/${this.state.targetCity}/${routeName}` : `InterCity/${routeName}`;
       const urlOfTime = `Bus/EstimatedTimeOfArrival/${dataType}`;
       const urlOfRealTime = `Bus/RealTimeByFrequency/${dataType}`;
 
-      Promise.all([AJAX_getBusTimeIfArrival(urlOfTime), AJAX_getBusRealTime(urlOfRealTime)])
+      Promise.all([
+        AJAX_getBusTimeIfArrival(urlOfTime, routeName),
+        AJAX_getBusRealTime(urlOfRealTime, routeName)
+      ])
         .then(res => {
           const timeList = res[0].data;
           const realTimeList = res[1].data;

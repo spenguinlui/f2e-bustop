@@ -4,7 +4,7 @@
       :class="{
         disable: data.StopStatus != 0 && !data.EstimateTime,
         colser: data.EstimateTime < 300 }">
-      {{ !data.EstimateTime ? data.IsLastBus ? '末班已過' : '尚未發車' : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
+      {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
     </div>
     <div class="stop-name">{{ data.StopName.Zh_tw }}</div>
     <div class="sinal"></div>

@@ -39,10 +39,6 @@ export default {
 <style lang="scss" scoped>
   @import "@/assets/scss/main.scss";
 
-  #app {
-    overflow: hidden;
-  }
-
   footer {
     width: 100vw;
     height: $footer-m-h;

@@ -23,18 +23,20 @@ const createNearByStr = ({ latitude, longitude }, limit = 1000) => (latitude && 
 const createSelectByStr = (select) => select.reduce((acc, cur, index) => acc + (index === 0 ? `${cur}` : `, ${cur}`), "&$select=");
 
 // 呼叫 API 的最終 URL
-export const urlQueryStr = (dataType, query = { top: null, position: null, select: null }) => {
+export const urlQueryStr = (dataType, query = { top: null, position: null, select: null, routeName: null }) => {
   let queryStr = "";
-  if (query.top) {
-    queryStr += `&$top=${query.top}`;
-  } else {
-    queryStr += `&$top=30`;  // 安全機制
-  }
+
+  if (query.top) queryStr += `&$top=${query.top}`;
+  if (!query.top) queryStr += `&$top=30`;  // 安全機制
+  
   if (query.position) queryStr += createNearByStr(query.position);
   if (query.select) queryStr += createSelectByStr(query.select);
 
-  // 特殊請求
-  if (query.keyword)  queryStr += `&$filter=contains(RouteName/Zh_tw, '${query.keyword}')`;
+  // 針對關鍵字過濾
+  if (query.keyword) queryStr += `&$filter=contains(RouteName/Zh_tw, '${query.keyword}')`;
+  
+  // 指定路線要全部符合
+  if (query.routeName) queryStr += `&$filter=RouteName/Zh_tw eq '${query.routeName}'`;
 
   return encodeURI(`${API_DOMAIN}${dataType}?$format=JSON${queryStr}`);
 }
@@ -57,37 +59,37 @@ export const AJAX_getBusRoute = (urlOfRoute, keyword = null) => {
 }
 
 // 指定路線站序
-export const AJAX_getBusStopOfRoute = (urlOfStop) => {
+export const AJAX_getBusStopOfRoute = (urlOfStop, routeName) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfStop, { select: ['Direction', 'Stops']}),
+    url: urlQueryStr(urlOfStop, { select: ['Direction', 'Stops'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
 
 // 指定路線預估時間
-export const AJAX_getBusTimeIfArrival = (urlOfTime) => {
+export const AJAX_getBusTimeIfArrival = (urlOfTime, routeName) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfTime, { select: ['Direction', 'StopUID', 'IsLastBus','EstimateTime', 'StopStatus']}),
+    url: urlQueryStr(urlOfTime, { select: ['Direction', 'StopUID', 'IsLastBus','EstimateTime', 'StopStatus'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
 
 // 指定路線路線圖
-export const AJAX_getBusShapOfRoute = (urlOfShap) => {
+export const AJAX_getBusShapOfRoute = (urlOfShap, routeName) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfShap, { select: ['Geometry']}),
+    url: urlQueryStr(urlOfShap, { select: ['Geometry'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
 
 // 指定路線公車動態
-export const AJAX_getBusRealTime = (urlOfRealTime) => {
+export const AJAX_getBusRealTime = (urlOfRealTime, routeName) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfRealTime, { select: ['PlateNumb', 'Direction', 'BusPosition', 'BusStatus']}),
+    url: urlQueryStr(urlOfRealTime, { select: ['PlateNumb', 'Direction', 'BusPosition', 'BusStatus'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
