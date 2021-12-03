@@ -18,37 +18,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import citysHash from "../json/cityshash.json";
 
 export default {
   props: ['data'],
   computed: {
     ...mapGetters(['isCB', 'isICB']),
     cityZh() {
-      switch (this.data.City) {
-        case "Taipei": return "臺北市"
-        case "Keelung": return "基隆市"
-        case "NewTaipei": return "新北市"
-        case "Taoyuan": return "桃園市"
-        case "Hsinchu": return "新竹市"
-        case "HsinchuCounty": return "新竹縣"
-        case "MiaoliCounty": return "苗栗縣"
-        case "Taichung": return "臺中市"
-        case "ChanghuaCounty": return "彰化縣"
-        case "NantouCounty": return "南投縣"
-        case "YunlinCounty": return "雲林縣"
-        case "Chiayi": return "嘉義市"
-        case "ChiayiCounty": return "嘉義縣"
-        case "Tainan": return "臺南市"
-        case "Kaohsiung": return "高雄市"
-        case "PingtungCounty": return "屏東縣"
-        case "YilanCounty": return "宜蘭縣"
-        case "HualienCounty": return "花蓮縣"
-        case "TaitungCounty": return "臺東縣"
-        case "KinmenCounty": return "金門縣"
-        case "PenghuCounty": return "澎湖縣"
-        case "LienchiangCounty": return "連江縣"
-        default: return this.data.City
-      }
+      return citysHash[this.data.City].cityName;
     }
   },
   methods: {

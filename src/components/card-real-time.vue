@@ -2,7 +2,7 @@
   <div class="real-time-block">
     <div class="time-btn"
       :class="{
-        disable: data.StopStatus != 0 || !data.EstimateTime,
+        disable: data.StopStatus != 0 && !data.EstimateTime,
         colser: data.EstimateTime < 300 }">
       {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
     </div>

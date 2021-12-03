@@ -254,6 +254,28 @@ export const storeObject = {
       const urlOfRealTime = `Bus/RealTimeByFrequency/${dataType}`;
       const urlOfRealTimeStop = `Bus/RealTimeNearStop/${dataType}`;
 
+      
+      // AJAX_getBusStopOfRoute(urlOfStop, routeName).then(res => {
+      //   const stopList = res.data;
+      //   const ajaxReqList = [];
+      //   stopList.forEach((dir) => {
+      //     dir.Stops.forEach((stop) => {
+      //       const urlOfTimeAri = `Bus/EstimatedTimeOfArrival/City/${citysHash[stop.LocationCityCode].enName}/PassThrough/Station/${stop.StationID}`
+      //       ajaxReqList.push(AJAX_getStopTimeOfArrival(urlOfTimeAri, routeName))
+      //     })
+      //   })
+      //   let detailList = JSON.parse(JSON.stringify(stopList));
+      //   Promise.all(ajaxReqList).then((res) => {
+      //     res.forEach((timeRes) => {
+      //       const timeList = timeRes.data;
+      //       console.log(timeList)
+      //       if (timeList.length !== 0) {
+      //         detailList = insertTimeArrivalToDetailList(detailList, timeList);
+      //       }
+      //     })
+      //     console.log(detailList)
+      //   })
+      // })
       Promise.all([
         AJAX_getBusStopOfRoute(urlOfStop, routeName),
         AJAX_getBusTimeIfArrival(urlOfTime, routeName),

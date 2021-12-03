@@ -71,7 +71,7 @@ export const AJAX_getBusStopOfRoute = (urlOfStop, routeName) => {
 export const AJAX_getBusTimeIfArrival = (urlOfTime, routeName) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfTime, { select: ['Direction', 'StopUID', 'IsLastBus','EstimateTime', 'StopStatus'], routeName: routeName }),
+    url: urlQueryStr(urlOfTime, { top: 1000, select: ['Direction', 'StopUID', 'IsLastBus','EstimateTime', 'StopStatus'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
@@ -89,7 +89,7 @@ export const AJAX_getBusShapOfRoute = (urlOfShap, routeName) => {
 export const AJAX_getBusRealTime = (urlOfRealTime, routeName) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfRealTime, { select: ['PlateNumb', 'Direction', 'BusPosition', 'BusStatus'], routeName: routeName }),
+    url: urlQueryStr(urlOfRealTime, { top: 1000, select: ['PlateNumb', 'Direction', 'BusPosition', 'BusStatus'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
