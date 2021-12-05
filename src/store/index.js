@@ -14,16 +14,14 @@ import mapModules from "./map";
 
 // 路線細節塞入預估時間
 const insertTimeArrivalToDetailList = (detailList, timeList) => {
-  detailList[0].Stops = detailList[0].Stops.map((detailData) => {
-    let findData = timeList.find(timeData => timeData.Direction === 0 && detailData.StopUID === timeData.StopUID);
-    if (findData) detailData = { ...detailData, ...findData }
-    return detailData;
-  });
-  detailList[1].Stops = detailList[1].Stops.map((detailData) => {
-    let findData = timeList.find(timeData => timeData.Direction === 1 && detailData.StopUID === timeData.StopUID);
-    if (findData) detailData = { ...detailData, ...findData }
-    return detailData;
-  });
+  detailList.map((detailListDir) => {
+    const direction = detailListDir.Direction;
+    detailListDir.Stops = detailListDir.Stops.map((detailData) => {
+      let findData = timeList.find(timeData => timeData.Direction === direction && detailData.StopUID === timeData.StopUID);
+      if (findData) detailData = { ...detailData, ...findData }
+      return detailData;
+    });
+  })
   return detailList;
 }
 
@@ -36,24 +34,24 @@ const insertRouteShapeToDetailList = (detailList, routeList) => {
 
 // 路線細節塞入公車動態
 const insertRealTimeToDetailList = (detailList, realTimeList) => {
-  detailList[0].BusRealTime = [];
-  realTimeList.forEach(rtData => rtData.Direction === 0 && detailList[0].BusRealTime.push(rtData));
-  detailList[1].BusRealTime = [];
-  realTimeList.forEach(rtData => rtData.Direction === 1 && detailList[1].BusRealTime.push(rtData));
+  detailList.map((detailListDir) => {
+    const direction = detailListDir.Direction;
+    detailListDir.BusRealTime = [];
+    realTimeList.forEach(rtData => rtData.Direction === direction && detailListDir.BusRealTime.push(rtData));
+  })
   return detailList;
 }
 
+// 路線細節塞入公車動態站名
 const insertReailTimeStopToDeatailList = (detailList, realTimeStopList) => {
-  detailList[0].Stops = detailList[0].Stops.map((detailData) => {
-    let findData = realTimeStopList.find(timeData => timeData.Direction === 0 && detailData.StopUID === timeData.StopUID);
-    if (findData) detailData = { ...detailData, ...findData }
-    return detailData;
-  });
-  detailList[1].Stops = detailList[1].Stops.map((detailData) => {
-    let findData = realTimeStopList.find(timeData => timeData.Direction === 1 && detailData.StopUID === timeData.StopUID);
-    if (findData) detailData = { ...detailData, ...findData }
-    return detailData;
-  });
+  detailList.map((detailListDir) => {
+    const direction = detailListDir.Direction;
+    detailListDir.Stops = detailListDir.Stops.map((detailData) => {
+      let findData = realTimeStopList.find(timeData => timeData.Direction === direction && detailData.StopUID === timeData.StopUID);
+      if (findData) detailData = { ...detailData, ...findData }
+      return detailData;
+    });
+  })
   return detailList;
 }
 
@@ -155,6 +153,12 @@ export const storeObject = {
           lisboardShow: true
         },
       }
+      state.BikeDataList = [];
+      state.CBdataList = [];
+      state.CBrouteDetailList = [];
+      state.ICBdataList = [];
+      state.ICBrouteDetailList = [];
+      state.searchKeyword = "";
     },
 
     // 切換資料類型
@@ -254,28 +258,6 @@ export const storeObject = {
       const urlOfRealTime = `Bus/RealTimeByFrequency/${dataType}`;
       const urlOfRealTimeStop = `Bus/RealTimeNearStop/${dataType}`;
 
-      
-      // AJAX_getBusStopOfRoute(urlOfStop, routeName).then(res => {
-      //   const stopList = res.data;
-      //   const ajaxReqList = [];
-      //   stopList.forEach((dir) => {
-      //     dir.Stops.forEach((stop) => {
-      //       const urlOfTimeAri = `Bus/EstimatedTimeOfArrival/City/${citysHash[stop.LocationCityCode].enName}/PassThrough/Station/${stop.StationID}`
-      //       ajaxReqList.push(AJAX_getStopTimeOfArrival(urlOfTimeAri, routeName))
-      //     })
-      //   })
-      //   let detailList = JSON.parse(JSON.stringify(stopList));
-      //   Promise.all(ajaxReqList).then((res) => {
-      //     res.forEach((timeRes) => {
-      //       const timeList = timeRes.data;
-      //       console.log(timeList)
-      //       if (timeList.length !== 0) {
-      //         detailList = insertTimeArrivalToDetailList(detailList, timeList);
-      //       }
-      //     })
-      //     console.log(detailList)
-      //   })
-      // })
       Promise.all([
         AJAX_getBusStopOfRoute(urlOfStop, routeName),
         AJAX_getBusTimeIfArrival(urlOfTime, routeName),
@@ -290,12 +272,13 @@ export const storeObject = {
           const realTimeList = res[3].data;
           const realTimeStopList = res[4].data;
 
+          
           let detailList = JSON.parse(JSON.stringify(stopList));
           detailList = insertTimeArrivalToDetailList(detailList, timeList);
           detailList = insertRouteShapeToDetailList(detailList, routeList);
           detailList = insertRealTimeToDetailList(detailList, realTimeList);
           detailList = insertReailTimeStopToDeatailList(detailList, realTimeStopList);
-
+          
           if (this.getters.isCB) commit("UPDATE_CITY_BUS_ROUTE_DETAIL", detailList);
           if (this.getters.isICB) commit("UPDATE_INTER_CITY_BUS_ROUTE_DETAIL", detailList);
           

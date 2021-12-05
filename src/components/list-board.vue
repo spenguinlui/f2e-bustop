@@ -41,11 +41,12 @@
 
       <!-- 公車&客運 進入第二層細節才出現  -->
       <div class="route-block"
+        @click="mobileExpanding = !mobileExpanding"
         v-show="isBike ? false : isCB ? isCBdetail : isICBdetail">
-        <!-- 展開 -->
-        <div class="expand-btn" @click="mobileExpanding = !mobileExpanding"><i class="fas fa-angle-up"></i></div>
+        <!-- 展開  切換函式先擺到母元素上比較好按 -->
+        <div class="expand-btn"><i class="fas fa-angle-up"></i></div>
         <!-- 回前一頁 -->
-        <div class="back-btn" @click="goBackRouteList"><i class="fas fa-angle-left"></i></div>
+        <div class="back-btn" @click.prevent.stop="goBackRouteList"><i class="fas fa-angle-left"></i></div>
         <div class="route-name">{{ targetRoute.routeName }}</div>
         <div class="info"><i class="fas fa-info-circle"></i></div>
       </div>
