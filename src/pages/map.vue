@@ -52,7 +52,7 @@ export default {
     this.initMap();
     this.refreshInterval = setInterval(() => {
       if (this.isCB ? this.isCBdetail : this.isICBdetail) {
-        this.$store.dispatch("refreshRouteDetail");
+        // this.$store.dispatch("refreshRouteDetail");
       } else {
         return;
       }

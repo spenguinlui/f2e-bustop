@@ -1,24 +1,61 @@
 <template>
-  <div class="real-time-block">
-    <div class="time-btn"
-      :class="{
-        disable: data.StopStatus != 0 && !data.EstimateTime,
+  <div>
+    <div class="buffer-block" v-if="routeBuffer.bufferStartStop === data.StopName.Zh_tw">緩衝區</div>
+    <div class="real-time-block">
+      <div class="time-btn"
+        :class="{
+          disable: data.StopStatus != 0 && !data.EstimateTime,
+          colser: data.EstimateTime < 300 }">
+        {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
+      </div>
+      <div class="stop-name">{{ data.StopName.Zh_tw }}</div>
+      <div v-if="data.PlateNumb" class="bus-numb">{{ data.PlateNumb }}</div>
+      <div class="sinal" :class="{
+        disable: data.StopStatus != 0 || !data.EstimateTime,
         colser: data.EstimateTime < 300 }">
-      {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
+      </div>
     </div>
-    <div class="stop-name">{{ data.StopName.Zh_tw }}</div>
-    <div v-if="data.PlateNumb" class="bus-numb">{{ data.PlateNumb }}</div>
-    <div class="sinal" :class="{
-      disable: data.StopStatus != 0 || !data.EstimateTime,
-      colser: data.EstimateTime < 300 }">
-    </div>
+    <div class="buffer-block" v-if="routeBuffer.bufferEndStop === data.StopName.Zh_tw">緩衝區</div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
-  props: ['data']
+  props: ['data'],
+  computed: {
+    ...mapGetters(['isCB', 'isICB', 'isCBgo', 'isICBgo', 'targetRoute', 'CBdataList', 'ICBdataList']),
+    routeBuffer() {
+      let currentDataList = this.isCB ? this.CBdataList : this.ICBdataList;
+      const thisRoute = currentDataList.find(busData => busData.RouteName.Zh_tw === this.targetRoute.routeName);
+
+      if (thisRoute && thisRoute.FareBufferZoneDescriptionZh) {
+        const bufferStr = thisRoute.FareBufferZoneDescriptionZh;
+        const bufferStrCenter = bufferStr.indexOf('－') <= 0 ? bufferStr.indexOf('-') : bufferStr.indexOf('－');
+        const bufferStartStop = bufferStr.slice(0, bufferStrCenter);
+        const bufferEndStop = bufferStr.slice(bufferStrCenter + 1, bufferStr.length);
+        if (this.isCB) {
+          if (this.isCBgo) {
+            return { bufferStartStop: bufferStartStop, bufferEndStop: bufferEndStop }
+          } else {
+            return { bufferStartStop: bufferEndStop, bufferEndStop: bufferStartStop }
+          }
+        } else if (this.isICB) {
+          if (this.isICBgo) {
+            return { bufferStartStop: bufferStartStop, bufferEndStop: bufferEndStop }
+          } else {
+            return { bufferStartStop: bufferEndStop, bufferEndStop: bufferStartStop }
+          }
+        } else {
+          console.log("routeBuffer 判斷錯誤");
+          return { bufferStartStop: '', bufferEndStop: '' }
+        }
+      } else {
+        return { bufferStartStop: '', bufferEndStop: '' }
+      }
+    }
+  }
 }
 </script>
 
@@ -33,7 +70,7 @@ export default {
       @include btn;
       @include btn-outline(primary);
       @include font-caption(bold);
-      width: 73px;
+      min-width: 73px;
       padding: 8px 11px;
       margin-right: 12px;
       &.disable {
@@ -69,6 +106,31 @@ export default {
       &.colser {
         background-color: $alert-400;
         box-shadow: 0px 0px 0px 2px lighten($alert-400, 30%);
+      }
+    }
+  }
+  .buffer-block {
+    @include flex-row-center-center;
+    @include font-caption(500);
+    width: 100%;
+    border-radius: $normal-bora;
+    background-color: $primary-100;
+    color: $primary-400;
+    padding: 2px 0;
+    margin: 10px 0;
+  }
+
+  @include screen-up {
+    .real-time-block {
+      .time-btn {
+        @include font-button(bold);
+        min-width: 85px;
+      }
+      .stop-name {
+        @include font-content(500);
+      }
+      .bus-numb {
+        @include font-overline(500);
       }
     }
   }

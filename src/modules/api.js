@@ -53,7 +53,7 @@ export const urlPath = {
 export const AJAX_getBusRoute = (urlOfRoute, keyword = null) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfRoute, { keyword: keyword, select: ['RouteUID', 'RouteName','DepartureStopNameZh', 'DestinationStopNameZh', 'City'] }),
+    url: urlQueryStr(urlOfRoute, { keyword: keyword, select: ['RouteUID', 'RouteName','DepartureStopNameZh', 'DestinationStopNameZh', 'City', 'FareBufferZoneDescriptionZh'] }),
     headers: authorizationHeader()
   })
 }
@@ -62,7 +62,7 @@ export const AJAX_getBusRoute = (urlOfRoute, keyword = null) => {
 export const AJAX_getBusStopOfRoute = (urlOfStop, routeName) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfStop, { select: ['Direction', 'Stops'], routeName: routeName }),
+    url: urlQueryStr(urlOfStop, { select: ['Direction', 'Stops', 'RouteName'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
