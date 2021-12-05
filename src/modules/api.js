@@ -80,7 +80,7 @@ export const AJAX_getBusTimeIfArrival = (urlOfTime, routeName) => {
 export const AJAX_getBusShapOfRoute = (urlOfShap, routeName) => {
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfShap, { select: ['Geometry'], routeName: routeName }),
+    url: urlQueryStr(urlOfShap, { select: ['Geometry', 'Direction'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }

@@ -2,7 +2,7 @@
   <div class="key-board-container"
     :class="{ inter: isICB, detail: isCB ? isCBdetail : isICBdetail }"
     v-if="!landingPageShow && isCB && !isCBdetail || isICB && !isICBdetail && !isBike">
-    <div class="select-city-container">
+    <div class="select-city-container" v-if="isCB">
       <div class="city-tag"
         :class="{ active: targetCity === city.enName }"
         v-for="city in cityTagList" :key="city.enName"
@@ -85,6 +85,10 @@ export default {
     },
     backSpaceBtn() {
       this.$store.commit("SLICE_ONE_CHAR_FROM_KEYWORD");
+      if (this.isCB)
+        this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      else
+        this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
     },
     checkCity(city) {
       this.$store.commit("CHECK_OUT_CITY", city);

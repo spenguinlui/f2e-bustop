@@ -2,7 +2,7 @@
   <div>
     <div class="select-area-block">
       <div class="area-container">
-        <div v-for="data in citysData" :key="data.area" class="area-block">
+        <div v-for="data in citysData" :key="data.area" class="area-block" :class="{ noshow: currentArea !== data.area }">
           <div class="city-title" @click.prevent.stop="toggleList(data.area)">
             <div class="city-text">{{ data.area }}</div>
             <div class="title-icon" :class="{ show: currentArea === data.area }"></div>
@@ -66,10 +66,13 @@ import { mapGetters } from 'vuex';
       overflow: auto;
       .area-block {
         color: $grey-600;
+        padding: 12px 0;
         &:not(:last-child) {
           border-bottom: 1px solid $grey-300;
         }
-        padding: 12px 0;
+        &.noshow {
+          cursor: pointer;
+        }
         .city-title {
           @include flex-row-flex-start-center;
           .city-text {
@@ -94,6 +97,7 @@ import { mapGetters } from 'vuex';
           margin-top: 7px;
           gap: 19px;
           .area-item {
+            cursor: pointer;
             @include font-button(500);
             &:hover {
               color: $primary-400;

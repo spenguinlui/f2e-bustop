@@ -272,7 +272,6 @@ export const storeObject = {
           const realTimeList = res[3].data;
           const realTimeStopList = res[4].data;
 
-          
           let detailList = JSON.parse(JSON.stringify(stopList));
           detailList = insertTimeArrivalToDetailList(detailList, timeList);
           detailList = insertRouteShapeToDetailList(detailList, routeList);

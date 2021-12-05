@@ -71,9 +71,9 @@ export default {
     }
     .cards-container {
       width: 100%;
-      height: 50vh;
+      height: 100%;
       padding: 12px 20px;
-      padding-bottom: 10vh;
+      padding-bottom: 50vh;
       overflow: auto;
     }
   }

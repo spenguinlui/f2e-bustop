@@ -1,9 +1,9 @@
 <template>
-  <div class="search-bar">
-    <input v-model="localKeyword" type="text" 
+  <div class="search-bar" @click="$refs.inputEl.focus()">
+    <input v-model="localKeyword" ref="inputEl" type="text" 
       :placeholder="isBike ? '搜尋站點與鄰近地點' : '搜尋公車路線及站牌'"
     >
-    <div class="search-icon" @click="goSearch"><i class="fas fa-search"></i></div>
+    <div class="search-icon" @click.prevent.stop="goSearch"><i class="fas fa-search"></i></div>
   </div>
 </template>
 
