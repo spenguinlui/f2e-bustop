@@ -3,7 +3,7 @@
     <div class="landing-page-weater">
       <div class="weater-icon">
         <div v-show="parseInt(weatherData.Wx.parameterValue) === 1"><i class="fas fa-sun"></i></div>
-        <div v-show="parseInt(weatherData.Wx.parameterValue) === 2 && parseInt(weatherData.Wx.parameterValue) === 3"><i class="fas fa-cloud-sun"></i></div>
+        <div v-show="parseInt(weatherData.Wx.parameterValue) === 2 || parseInt(weatherData.Wx.parameterValue) === 3"><i class="fas fa-cloud-sun"></i></div>
         <div v-show="parseInt(weatherData.Wx.parameterValue) >= 4 && parseInt(weatherData.Wx.parameterValue) <= 7"><i class="fas fa-cloud"></i></div>
         <div v-show="parseInt(weatherData.Wx.parameterValue) > 7"><i class="fas fa-cloud-showers-heavy"></i></div>
       </div>
@@ -14,7 +14,7 @@
             <div class="date-text">{{ date }}</div>
           </div>
           <div class="tag-block" @click="checkCity">
-            <div class="tag">更換縣市</div>
+            <div class="tag">重新定位</div>
             <div class="change" :class="{ loading: weatherLoading }"><i class="fas fa-redo-alt"></i></div>
           </div>
         </div>
@@ -136,6 +136,7 @@ export default {
         @include flex-col(3);
         color: $primary-400;
         width: 100%;
+        margin-right: 6px;
         font-size: 62px;
       }
       .weater-detail {

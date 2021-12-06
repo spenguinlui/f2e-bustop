@@ -427,6 +427,7 @@ export const storeObject = {
           },
           {}
         );
+        console.log(weatherElements)
         commit("UPDATE_WEATHER_DATA", weatherElements);
       })
     }
