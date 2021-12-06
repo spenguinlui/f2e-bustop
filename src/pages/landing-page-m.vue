@@ -1,24 +1,29 @@
 <template>
   <div class="landing-page-container" v-if="landingPageShow">
     <div class="landing-page-weater">
-      <div class="weater-icon"><i class="fas fa-sun"></i></div>
+      <div class="weater-icon">
+        <div v-show="parseInt(weatherData.Wx.parameterValue) === 1"><i class="fas fa-sun"></i></div>
+        <div v-show="parseInt(weatherData.Wx.parameterValue) === 2 && parseInt(weatherData.Wx.parameterValue) === 3"><i class="fas fa-cloud-sun"></i></div>
+        <div v-show="parseInt(weatherData.Wx.parameterValue) >= 4 && parseInt(weatherData.Wx.parameterValue) <= 7"><i class="fas fa-cloud"></i></div>
+        <div v-show="parseInt(weatherData.Wx.parameterValue) > 7"><i class="fas fa-cloud-showers-heavy"></i></div>
+      </div>
       <div class="weater-detail">
         <div class="detail-tags">
           <div class="tag-block">
-            <div class="tag">台北市</div>
-            <div class="date-text">11/20</div>
+            <div class="tag">{{ cityZh }}</div>
+            <div class="date-text">{{ date }}</div>
           </div>
-          <div class="tag-block">
+          <div class="tag-block" @click="checkCity">
             <div class="tag">更換縣市</div>
-            <div class="change"><i class="fas fa-redo-alt"></i></div>
+            <div class="change" :class="{ loading: weatherLoading }"><i class="fas fa-redo-alt"></i></div>
           </div>
         </div>
         <div class="detail-values">
           <div class="temperature">
-            <div class="temperature-max">30°C</div>
-            <div class="temperature-min">| 22°C</div>
+            <div class="temperature-max">{{ weatherData.MaxT.parameterName }}°C</div>
+            <div class="temperature-min">| {{ weatherData.MinT.parameterName }}°C</div>
           </div>
-          <div class="rain-rate"><i class="fas fa-cloud-showers-heavy"></i>80%</div>
+          <div class="rain-rate"><i class="fas fa-cloud-showers-heavy"></i>{{ weatherData.PoP.parameterName }}%</div>
         </div>
       </div>
     </div>
@@ -58,16 +63,52 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import citysHash from "../json/cityshash.json";
 
 export default {
+  data() {
+    return {
+      date: this.currentDate(),
+      weatherLoading: false
+    }
+  },
   computed: {
-    ...mapGetters(['landingPageShow'])
+    ...mapGetters(['landingPageShow', 'weatherData', 'weatherIcon', 'targetCity']),
+    cityZh() {
+      return citysHash[this.targetCity].cityName;
+    }
   },
   methods: {
     toggleDataType(type) {
       this.$store.commit("TOGGLE_LANDING_APGE", false);
       this.$store.dispatch("updateTargetData", type);
-    }
+    },
+    currentDate() {
+      const today = new Date();
+      const month = today.getMonth() + 1;
+      const day = today.getDate();
+      return `${month}/${day}`
+    },
+    checkCity() {
+      this.weatherLoading = true;
+      this.getCurrentPosition();
+    },
+    getCurrentPosition() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.setPosition(position);
+        }, () => {
+          window.alert("無定位，預設定位於台北車站")
+        })
+      } else {
+        window.alert("無定位，預設定位於台北車站")
+      }
+    },
+    setPosition(position) {
+      const currentPosition = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+      this.$store.dispatch("map/setCurrentPosition", currentPosition);
+      this.weatherLoading = false;
+    },
   }
 }
 </script>
@@ -117,6 +158,21 @@ export default {
             .change {
               @include icon-m($icon-ma, l);
               color: $primary-400;
+              &.loading {
+                svg {
+                  animation: loading;
+                  animation-duration: 1s;
+                  animation-iteration-count: infinite;
+                  @keyframes loading {
+                    0% {
+                      transform: rotate(0deg);
+                    }
+                    100% {
+                      transform: rotate(360deg);
+                    }
+                  }
+                }
+              }
             }
           }
         }

@@ -1,4 +1,5 @@
 import { distance, distanceZh } from "../modules/calculate";
+import citysHash from "../json/cityshash.json";
 import {
   AJAX_getBusRoute,
   AJAX_getBusStopOfRoute,
@@ -7,7 +8,9 @@ import {
   AJAX_getBusRealTime,
   AJAX_getBustRealTimeStop,
   AJAX_getBikeStation,
-  AJAX_getBikeAvailability
+  AJAX_getBikeAvailability,
+  AJAX_getCurrentLocation,
+  AJAX_getWeaterRain
 } from "../modules/api";
 
 import mapModules from "./map";
@@ -57,7 +60,7 @@ const insertReailTimeStopToDeatailList = (detailList, realTimeStopList) => {
 
 export const storeObject = {
   state: {
-    landingPageShow: false,
+    landingPageShow: true,
     targetMode: {
       CB: {
         currentMode: true,
@@ -99,7 +102,15 @@ export const storeObject = {
 
     // 是否去程
     isCBgo: true,
-    isICBgo: true
+    isICBgo: true,
+
+    // 天氣資訊
+    weatherData: {
+      MaxT: { parameterName: "", parameterValue: "" },    // 最高溫
+      MinT: { parameterName: "", parameterValue: "" },    // 最低溫
+      Wx: { parameterName: "", parameterValue: "1" },      // 天氣描述
+      PoP: { parameterName: "", parameterValue: "" }      // 降雨率
+    }
   },
   getters: {
     landingPageShow: state => state.landingPageShow,
@@ -128,7 +139,19 @@ export const storeObject = {
 
     // in charge - detail
     isCBgo: state => state.isCBgo,
-    isICBgo: state => state.isICBgo
+    isICBgo: state => state.isICBgo,
+    weatherData: state => state.weatherData,
+    weatherIcon: (state) => { 
+      if (["1"].includes(state.weatherData.Wx.parameterValue)) {
+        return 1
+      } else if (["2", "3"].includes(state.weatherData.Wx.parameterValue)) {
+        return 2
+      } else if (["4", "5", "6", "7"].includes(state.weatherData.Wx.parameterValue)) {
+        return 3
+      } else {
+        return 4
+      }
+    }
   },
   mutations: {
     // 切換手機版首頁
@@ -232,9 +255,23 @@ export const storeObject = {
     SORT_BY_DISTANCE: state => state.BikeDataList = state.BikeDataList.sort((a, b) => a.Distance - b.Distance),
     SORT_BY_RENT: state => state.BikeDataList = state.BikeDataList.sort((a, b) => b.AvailableRentBikes - a.AvailableRentBikes),
     SORT_BY_RETURN: state => state.BikeDataList = state.BikeDataList.sort((a, b) => b.AvailableReturnBikes - a.AvailableReturnBikes),
+
+    // 天氣資訊
+    UPDATE_WEATHER_DATA: (state, weatherData) => state.weatherData = weatherData,
   },
 
   actions: {
+    getCurrentCity({ commit }, currentPosition) {
+      AJAX_getCurrentLocation(currentPosition)
+        .then((res) => {
+          commit("CHECK_OUT_CITY", res.data[0].City);
+          this.dispatch("getWeather");
+        })
+        .catch((e) => {
+          console.log(`城市定位錯誤: ${e}`);
+          // 錯誤處理
+        })
+    },
     // 剛進入畫面要附近站點
     updateTargetData({ commit }, targetType) {
       if (targetType === "CB") {
@@ -373,6 +410,25 @@ export const storeObject = {
           console.log(e)
           // 錯誤處理
         })
+    },
+
+    // 取得天氣資料
+    getWeather({ commit }) {
+      const location = citysHash[this.state.targetCity].cityName;
+
+      AJAX_getWeaterRain(location).then(res => {
+        const locationData = res.data.records.location[0];
+        const weatherElements = locationData.weatherElement.reduce(
+          (neededElements, item) => {
+            if (["Wx", "MaxT", "MinT", "PoP"].includes(item.elementName)) {
+              neededElements[item.elementName] = item.time[0].parameter;
+            }
+            return neededElements;
+          },
+          {}
+        );
+        commit("UPDATE_WEATHER_DATA", weatherElements);
+      })
     }
   },
   modules: {

@@ -120,3 +120,20 @@ export const AJAX_getBikeAvailability = (position) => {
     headers: authorizationHeader()
   })
 }
+
+// 依照座標取得行政區
+export const AJAX_getCurrentLocation = (position) => {
+  return axios({
+    method: 'get',
+    url: `https://gist.motc.gov.tw/gist_api/V3/Map/GeoLocating/District/LocationX/${position.longitude}/LocationY/${position.latitude}?$format=JSON`,
+    headers: authorizationHeader()
+  })
+}
+
+// 天氣觀測 API ------
+export const AJAX_getWeaterRain = (currentLocation, limit = 1) => {
+  return axios({
+    method: 'get',
+    url: `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=${process.env.VUE_APP_WEATHER_API_KEY}&limit=${limit}&locationName=${currentLocation}`,
+  })
+}

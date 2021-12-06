@@ -17,7 +17,6 @@ const createBusPopupObj = (data, destinationStop) => {
   `
 };
 
-
 // 判斷單車 Marker 樣式
 const countChangeClass = (dataCount) => dataCount === 0 ? 'disable' : dataCount < 5 ? 'limit' : 'default';
 
@@ -142,6 +141,7 @@ export default {
       // 地圖更新及移動位置
       const lat = currentPosition.latitude;
       const lon = currentPosition.longitude;
+      this.dispatch("getCurrentCity", currentPosition);
       L.marker([lat, lon], { icon: centerIcon, layerName: 'center' }).addTo(this.state.map.storeMap);
       this.dispatch("map/focusCurrentPosition");
     },

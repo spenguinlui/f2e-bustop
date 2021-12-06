@@ -41,6 +41,7 @@ import { mapGetters } from 'vuex';
       },
       checkCity(city) {
         this.$store.commit("CHECK_OUT_CITY", city);
+        this.$store.dispatch("getWeather");
         this.$store.dispatch("getCBdataListWithKeyWord", { city: city, keyword: this.searchKeyword });
       }
     }
