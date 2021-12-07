@@ -49,79 +49,111 @@ export const urlPath = {
 }
 
 // 呼叫 API ----------
-// 公車路線列表
-export const AJAX_getBusRoute = (urlOfRoute, keyword = null) => {
+// 尋找附近公車站
+export const AJAX_getBusStopNearBy = ({ type = "CB", city = null, position }) => {
+  const path = type === "CB" ?
+    `Bus/Stop/City/${city}` :
+    `Bus/Stop/InterCity`;
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfRoute, { keyword: keyword, select: ['RouteUID', 'RouteName','DepartureStopNameZh', 'DestinationStopNameZh', 'City', 'FareBufferZoneDescriptionZh'] }),
+    url: urlQueryStr(path, { position: position }),
+    headers: authorizationHeader()
+  })
+}
+
+// 公車路線列表
+export const AJAX_getBusRoute = ({ type = "CB", city = null, keyword = null }) => {
+  const path = type === "CB" ?
+    `Bus/Route/City/${city}` :
+    `Bus/Route/InterCity/`;
+  return axios({
+    method: 'get',
+    url: urlQueryStr(path, { keyword: keyword, select: ['RouteUID', 'RouteName','DepartureStopNameZh', 'DestinationStopNameZh', 'City', 'FareBufferZoneDescriptionZh'] }),
     headers: authorizationHeader()
   })
 }
 
 // 指定路線站序
-export const AJAX_getBusStopOfRoute = (urlOfStop, routeName) => {
+export const AJAX_getBusStopOfRoute = ({ type = "CB", city = null, routeName = null }) => {
+  const path = type === "CB" ?
+    `Bus/StopOfRoute/City/${city}/${routeName}` :
+    `Bus/StopOfRoute/InterCity/${routeName}`;
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfStop, { select: ['Direction', 'Stops', 'RouteName'], routeName: routeName }),
+    url: urlQueryStr(path, { select: ['Direction', 'Stops', 'RouteName'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
 
 // 指定路線預估時間
-export const AJAX_getBusTimeIfArrival = (urlOfTime, routeName) => {
+export const AJAX_getBusTimeIfArrival = ({ type = "CB", city = null, routeName = null }) => {
+  const path = type === "CB" ?
+    `Bus/EstimatedTimeOfArrival/City/${city}/${routeName}` :
+    `Bus/EstimatedTimeOfArrival/InterCity/${routeName}`;
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfTime, { top: 1000, select: ['Direction', 'StopUID', 'IsLastBus','EstimateTime', 'StopStatus'], routeName: routeName }),
+    url: urlQueryStr(path, { top: 1000, select: ['Direction', 'StopUID', 'IsLastBus','EstimateTime', 'StopStatus'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
 
 // 指定路線路線圖
-export const AJAX_getBusShapOfRoute = (urlOfShap, routeName) => {
+export const AJAX_getBusShapOfRoute = ({ type = "CB", city = null, routeName = null }) => {
+  const path = type === "CB" ?
+    `Bus/Shape/City/${city}/${routeName}` :
+    `Bus/Shape/InterCity/${routeName}`;
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfShap, { select: ['Geometry', 'Direction'], routeName: routeName }),
+    url: urlQueryStr(path, { select: ['Geometry', 'Direction'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
 
 // 指定路線公車動態
-export const AJAX_getBusRealTime = (urlOfRealTime, routeName) => {
+export const AJAX_getBusRealTime = ({ type = "CB", city = null, routeName = null }) => {
+  const path = type === "CB" ?
+    `Bus/RealTimeByFrequency/City/${city}/${routeName}` :
+    `Bus/RealTimeByFrequency/InterCity/${routeName}`;
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfRealTime, { top: 1000, select: ['PlateNumb', 'Direction', 'BusPosition', 'BusStatus'], routeName: routeName }),
+    url: urlQueryStr(path, { top: 1000, select: ['PlateNumb', 'Direction', 'BusPosition', 'BusStatus'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
 
 // 指定路線站位附近公車
-export const AJAX_getBustRealTimeStop = (urlOfRealTimeStop, routeName) => {
+export const AJAX_getBustRealTimeStop = ({ type = "CB", city = null, routeName = null }) => {
+  const path = type === "CB" ?
+    `Bus/RealTimeNearStop/City/${city}/${routeName}` :
+    `Bus/RealTimeNearStop/InterCity/${routeName}`;
   return axios({
     method: 'get',
-    url: urlQueryStr(urlOfRealTimeStop, { select: ['PlateNumb', 'Direction', 'BusStatus', 'StopName', 'StopUID'], routeName: routeName }),
+    url: urlQueryStr(path, { select: ['PlateNumb', 'Direction', 'BusStatus', 'StopName', 'StopUID'], routeName: routeName }),
     headers: authorizationHeader()
   })
 }
 
 // 附近自行車站點
 export const AJAX_getBikeStation = (position) => {
+  const path = "Bike/Station/NearBy";
   return axios({
     method: 'get',
-    url: urlQueryStr("Bike/Station/NearBy", { position: position, select: ['StationUID', 'AuthorityID','StationName', 'StationPosition'] }),
+    url: urlQueryStr(path, { position: position, select: ['StationUID', 'AuthorityID','StationName', 'StationPosition'] }),
     headers: authorizationHeader()
   })
 }
 
 // 附近自行車站點可還可借量
 export const AJAX_getBikeAvailability = (position) => {
+  const path = "Bike/Availability/NearBy";
   return axios({
     method: 'get',
-    url: urlQueryStr("Bike/Availability/NearBy", { position: position, select: ['StationUID', 'AvailableRentBikes', 'AvailableReturnBikes'] }),
+    url: urlQueryStr(path, { position: position, select: ['StationUID', 'AvailableRentBikes', 'AvailableReturnBikes'] }),
     headers: authorizationHeader()
   })
 }
 
-// 依照座標取得行政區
+// 依照座標取得行政區  v3
 export const AJAX_getCurrentLocation = (position) => {
   return axios({
     method: 'get',

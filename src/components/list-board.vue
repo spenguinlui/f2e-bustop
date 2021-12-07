@@ -33,10 +33,10 @@
 
       <!-- 公車&客運 桌面版才出現 -->
       <div class="btn-filter"
-        v-show="!isBike ? !isCBdetail && !isICBdetail : false"
+        v-show="isCB ? !isCBdetail : false"
         @click="selectBlockShow = !selectBlockShow">
         <div><i class="fas fa-sort-amount-down"></i>篩選</div>
-        <SelectCityBlock  v-show="selectBlockShow"/>
+        <SelectCityBlock v-show="selectBlockShow"/>
       </div>
 
       <!-- 公車&客運 進入第二層細節才出現  -->
@@ -74,34 +74,24 @@
       <!-- 路線列表 -->
       <div class="cards" v-show="isBike ? false : isCB ? !isCBdetail : !isICBdetail">
         <template v-if="isCB && CBdataList.length > 0">
-          <template v-for="data in CBdataList">
-            <CardRotue :data="data" :key="data.a"/>
-          </template>
+          <CardRotue v-for="data in CBdataList" :data="data" :key="data.RouteUID"/>
         </template>
         <template v-if="isICB && ICBdataList.length > 0">
-          <template v-for="data in ICBdataList">
-            <CardRotue :data="data" :key="data.a"/>
-          </template>
+          <CardRotue v-for="data in ICBdataList" :data="data" :key="data.RouteUID"/>
         </template>
       </div>
 
       <!-- 即時路況 -->
       <div class="cards" v-show="isBike ? false : isCB && isCBdetail">
-        <template v-for="(data, index) in (isCBgo ? goCBrouteDetailList : backCBrouteDetailList)">
-          <CardRealTime :data="data" :key="index"/>
-        </template>
+        <CardRealTime v-for="(data, index) in (isCBgo ? goCBrouteDetailList : backCBrouteDetailList)" :data="data" :key="index"/>
       </div>
       <div class="cards" v-show="isBike ? false : isICB && isICBdetail">
-        <template v-for="(data, index) in (isICBgo ? goICBrouteDetailList : backICBrouteDetailList)">
-          <CardRealTime :data="data" :key="index"/>
-        </template>
+        <CardRealTime v-for="(data, index) in (isICBgo ? goICBrouteDetailList : backICBrouteDetailList)" :data="data" :key="index"/>
       </div>
 
       <!-- 單車站點 -->
       <div class="cards" v-show="isBike">
-        <template v-for="data in BikeDataList">
-          <CardBike :data="data" :key="data.StationUID"/>
-        </template>
+        <CardBike v-for="data in BikeDataList" :data="data" :key="data.StationUID"/>
       </div>
     </div>
   </div>
@@ -121,8 +111,6 @@ export default {
       keyword: "",
       selectBlockShow: false,
       sortBlockShow: false,
-      routeDetail: false,
-      lisboardShow: true,
       mobileExpanding: false,
     }
   },
@@ -138,7 +126,8 @@ export default {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
           const currentPosition = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-          this.$store.dispatch("map/setCurrentPosition", currentPosition);
+          this.$store.dispatch("getCurrentPostion", currentPosition);
+          this.checkGoAndBackRoute(false);
         }, () => {
           window.alert("重新定位失敗")
         })

@@ -33,7 +33,7 @@ export default {
       const dataType = this.isCB ? "CB" : "ICB";
       const { RouteName, DepartureStopNameZh, DestinationStopNameZh } = this.data;
       // 切換模式
-      this.$store.commit("CHECK_OUTE_ROUTE_DETAIL", dataType);
+      this.$store.commit("CHECK_OUT_ROUTE_DETAIL", dataType);
       this.$store.commit("UPDATE_TARGET_ROUTE", {
         routeName: RouteName.Zh_tw,
         departureStop: DepartureStopNameZh,
@@ -43,7 +43,7 @@ export default {
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.dispatch("getRouteDetail", RouteName.Zh_tw);
     }
-  },
+  }
 }
 </script>
 

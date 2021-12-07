@@ -7,8 +7,8 @@
     <KeyboardMobile />
     <footer>
       <div class="footer-container">
-        <div class="footer-left">Released 2021 ©</div>
-        <div class="footer-right">問題回報</div>
+        <div class="footer-left">Released 2021 by Shiaohan&阿柳 ©</div>
+        <!-- <div class="footer-right">問題回報</div> -->
       </div>
     </footer>
     <Map />
@@ -40,6 +40,7 @@ export default {
   @import "@/assets/scss/main.scss";
 
   footer {
+    @include flex-row-center-center;
     width: 100vw;
     height: $footer-m-h;
     position: absolute;
@@ -47,18 +48,20 @@ export default {
     bottom: 0;
     background-color: $primary-300;
     z-index: $footer;
-    @include flex-row-center-center;
     .footer-container {
-      @include flex-row-space-between-center;
-      color: $grey-100;
+      @include flex-row-center-center;
       @include font-overline(500);
-      width: 55%;
+      color: $grey-100;
+      width: 70%;
+      // .footer-right {
+      //   min-width: 50px;
+      // }
     }
     @include screen-up {
       height: $footer-h;
       .footer-container {
         @include font-content(500);
-        width: 30%;
+        width: 50%;
       }
     }
   }

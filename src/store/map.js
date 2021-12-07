@@ -11,10 +11,13 @@ const busPointIcon = new L.DivIcon({ className: 'bus-point-marker-icon', iconSiz
 
 // 公車站點 Marker 的 Popup
 const createBusPopupObj = (data, destinationStop) => {
-  return `
-    <div class="popup-title">${data.StopName.Zh_tw}</div>
-    <div class="popup-direction">往 ${destinationStop}</div>
-  `
+  if (destinationStop)
+    return `
+      <div class="popup-title">${data.StopName.Zh_tw}</div>
+      <div class="popup-direction">往 ${destinationStop}</div>
+    `
+  else
+    return `<div class="popup-title">${data.StopName.Zh_tw}</div>`
 };
 
 // 判斷單車 Marker 樣式
@@ -136,12 +139,10 @@ export default {
 
     // 取得目前位置
     setCurrentPosition({ commit }, currentPosition) {
-      commit("SET_POSITION", currentPosition);
       commit("REMOVE_OLD_CENTER");
       // 地圖更新及移動位置
       const lat = currentPosition.latitude;
       const lon = currentPosition.longitude;
-      this.dispatch("getCurrentCity", currentPosition);
       L.marker([lat, lon], { icon: centerIcon, layerName: 'center' }).addTo(this.state.map.storeMap);
       this.dispatch("map/focusCurrentPosition");
     },
@@ -176,16 +177,19 @@ export default {
     },
 
     // 將公車站點打上地圖
-    setBusStopDataOnMap({ commit }) {
-      const targetStops = getTargetDataList(this).Stops;
+    setBusStopDataOnMap({ commit }, targetDataList = []) {
+      // if bus stop data given, else find it
+      const istargetGiven = targetDataList.length !== 0;
+      const targetStops = istargetGiven ? targetDataList : getTargetDataList(this).Stops;
+
       let busLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
       targetStops.map((data, index) => {
         const marker = L.marker([data.StopPosition.PositionLat, data.StopPosition.PositionLon], { icon: busStopIcon })
           .bindPopup(createBusPopupObj(data, this.state.targetRoute.destinationStop), { minWidth: 100, offset: [90, 20], className: "bus-popup" })
           .addTo(busLayer);
-        if (index === 0) marker.openPopup();
+        if (index === 0 && this.state.targetRoute.destinationStop) marker.openPopup();
       })
-      this.state.map.storeMap.flyTo([targetStops[0].StopPosition.PositionLat, targetStops[0].StopPosition.PositionLon], 16);
+      if (!istargetGiven) this.state.map.storeMap.flyTo([targetStops[0].StopPosition.PositionLat, targetStops[0].StopPosition.PositionLon], 16);
       commit("SET_BUS_STOP_LAYER", busLayer);
     },
 
