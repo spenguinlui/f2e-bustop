@@ -1,7 +1,7 @@
 <template>
   <div class="key-board-container"
-    :class="{ inter: isICB, detail: isCB ? isCBdetail : isICBdetail }"
-    v-if="!landingPageShow && isCB && !isCBdetail || isICB && !isICBdetail && !isBike">
+    :class="{ inter: isICB, detail: isRouteDetail }"
+    v-if="!landingPageShow && !isRouteDetail && !isBike">
     <div class="select-city-container" v-if="isCB">
       <div class="city-tag"
         :class="{ active: targetCity === city.enName }"
@@ -19,37 +19,17 @@
         <div class="panel-container" @click="enterBtn('棕')"><div class="brown-line panel-btn">棕</div></div>
       </div>
       <div class="route-panel" v-if="isCB">
-        <div class="panel-container" @click="enterBtn('幹線')"><div class="panel-btn">幹線</div></div>
-        <div class="panel-container" @click="enterBtn('1')"><div class="panel-btn">1</div></div>
-        <div class="panel-container" @click="enterBtn('2')"><div class="panel-btn">2</div></div>
-        <div class="panel-container" @click="enterBtn('3')"><div class="panel-btn">3</div></div>
-        <div class="panel-container" @click="enterBtn('通勤')"><div class="panel-btn">通勤</div></div>
-        <div class="panel-container" @click="enterBtn('4')"><div class="panel-btn">4</div></div>
-        <div class="panel-container" @click="enterBtn('5')"><div class="panel-btn">5</div></div>
-        <div class="panel-container" @click="enterBtn('6')"><div class="panel-btn">6</div></div>
-        <div class="panel-container" @click="enterBtn('小巴')"><div class="panel-btn">小巴</div></div>
-        <div class="panel-container" @click="enterBtn('7')"><div class="panel-btn">7</div></div>
-        <div class="panel-container" @click="enterBtn('8')"><div class="panel-btn">8</div></div>
-        <div class="panel-container" @click="enterBtn('9')"><div class="panel-btn">9</div></div>
-        <div class="panel-container" @click="enterBtn('接駁')"><div class="panel-btn">接駁</div></div>
-        <div class="panel-container" @click="enterBtn('0')"><div class="panel-btn">0</div></div>
+        <div v-for="text in cityBusBtn"
+          class="panel-container" @click="enterBtn(text)" :key="text">
+          <div class="panel-btn">{{ text }}</div>
+        </div>
         <div class="panel-container back-btn" @click="backSpaceBtn"><div class="panel-btn"><i class="fas fa-backspace"></i></div></div>
       </div>
       <div class="inner-city-panel" v-if="isICB">
-        <div class="panel-container" @click="enterBtn('北部')"><div class="panel-btn">北部</div></div>
-        <div class="panel-container" @click="enterBtn('1')"><div class="panel-btn">1</div></div>
-        <div class="panel-container" @click="enterBtn('2')"><div class="panel-btn">2</div></div>
-        <div class="panel-container" @click="enterBtn('3')"><div class="panel-btn">3</div></div>
-        <div class="panel-container" @click="enterBtn('中部')"><div class="panel-btn">中部</div></div>
-        <div class="panel-container" @click="enterBtn('4')"><div class="panel-btn">4</div></div>
-        <div class="panel-container" @click="enterBtn('5')"><div class="panel-btn">5</div></div>
-        <div class="panel-container" @click="enterBtn('6')"><div class="panel-btn">6</div></div>
-        <div class="panel-container" @click="enterBtn('南部')"><div class="panel-btn">南部</div></div>
-        <div class="panel-container" @click="enterBtn('7')"><div class="panel-btn">7</div></div>
-        <div class="panel-container" @click="enterBtn('8')"><div class="panel-btn">8</div></div>
-        <div class="panel-container" @click="enterBtn('9')"><div class="panel-btn">9</div></div>
-        <div class="panel-container" @click="enterBtn('東部')"><div class="panel-btn">東部</div></div>
-        <div class="panel-container" @click="enterBtn('0')"><div class="panel-btn">0</div></div>
+        <div v-for="text in InterCityBusBtn"
+          class="panel-container" @click="enterBtn(text)" :key="text">
+          <div class="panel-btn">{{ text }}</div>
+        </div>
         <div class="panel-container back-btn" @click="backSpaceBtn"><div class="panel-btn"><i class="fas fa-backspace"></i></div></div>
       </div>
     </div>
@@ -64,11 +44,23 @@ export default {
   data() {
     return {
       citysData: CitysData,
-      keyword: ""
+      keyword: "",
+      cityBusBtn: [
+        "幹線", "1", "2", "3",
+        "通勤", "4", "5", "6",
+        "小巴", "7", "8", "9",
+        "接駁", "0"
+      ],
+      InterCityBusBtn: [
+        "北部", "1", "2", "3",
+        "中部", "4", "5", "6",
+        "南部", "7", "8", "9",
+        "東部", "0"
+      ]
     }
   },
   computed: {
-    ...mapGetters(['landingPageShow', 'targetCity', 'searchKeyword', 'isCB', 'isCBdetail','isICB', 'isICBdetail', 'isBike']),
+    ...mapGetters(['landingPageShow', 'targetCity', 'searchKeyword', 'isCB','isICB', 'isBike', 'isRouteDetail']),
     cityTagList() {
       let cityList = [];
       this.citysData.forEach((data) => data.citys.forEach((city) => cityList.push(city)))
@@ -78,22 +70,16 @@ export default {
   methods: {
     enterBtn(msg) {
       this.$store.commit("ENTER_MSG_TO_KEYWORD", msg);
-      if (this.isCB)
-        this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      else
-        this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      this.$store.dispatch("getBusDataWithKeyword");
     },
     backSpaceBtn() {
       this.$store.commit("SLICE_ONE_CHAR_FROM_KEYWORD");
-      if (this.isCB)
-        this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      else
-        this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      this.$store.dispatch("getBusDataWithKeyword");
     },
     checkCity(city) {
       this.$store.commit("CHECK_OUT_CITY", city);
       this.$store.dispatch("getWeather");
-      this.$store.dispatch("getCBdataListWithKeyWord", { city: city, keyword: this.searchKeyword });
+      this.$store.dispatch("getBusDataWithKeyword");
     }
   },
 }

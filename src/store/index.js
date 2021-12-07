@@ -1,5 +1,10 @@
 import { distance, distanceZh } from "../modules/calculate";
-import citysHash from "../json/cityshash.json";
+import {
+  insertTimeArrivalToDetailList,
+  insertRouteShapeToDetailList,
+  insertRealTimeToDetailList,
+  insertReailTimeStopToDeatailList
+} from "../modules/data-insert.js";
 import {
   AJAX_getBusStopNearBy,
   AJAX_getBusRoute,
@@ -14,98 +19,31 @@ import {
   AJAX_getWeaterRain
 } from "../modules/api";
 
+import citysHash from "../json/cityshash.json";
 import mapModules from "./map";
-
-// 路線細節塞入預估時間
-const insertTimeArrivalToDetailList = (detailList, timeList) => {
-  detailList.map((detailListDir) => {
-    const direction = detailListDir.Direction;
-    detailListDir.Stops = detailListDir.Stops.map((detailData) => {
-      let findData = timeList.find(timeData => timeData.Direction === direction && detailData.StopUID === timeData.StopUID);
-      if (findData) detailData = { ...detailData, ...findData }
-      return detailData;
-    });
-  })
-  return detailList;
-}
-
-// 路線細節塞入路線圖資
-const insertRouteShapeToDetailList = (detailList, routeList) => {
-  detailList[0].Geometry = routeList[0].Geometry;
-  routeList[1] ? detailList[1].Geometry = routeList[1].Geometry : detailList[1].Geometry = routeList[0].Geometry;
-  return detailList
-}
-
-// 路線細節塞入公車動態
-const insertRealTimeToDetailList = (detailList, realTimeList) => {
-  detailList.map((detailListDir) => {
-    const direction = detailListDir.Direction;
-    detailListDir.BusRealTime = [];
-    realTimeList.forEach(rtData => rtData.Direction === direction && detailListDir.BusRealTime.push(rtData));
-  })
-  return detailList;
-}
-
-// 路線細節塞入公車動態站名
-const insertReailTimeStopToDeatailList = (detailList, realTimeStopList) => {
-  detailList.map((detailListDir) => {
-    const direction = detailListDir.Direction;
-    detailListDir.Stops = detailListDir.Stops.map((detailData) => {
-      let findData = realTimeStopList.find(timeData => timeData.Direction === direction && detailData.StopUID === timeData.StopUID);
-      if (findData) detailData = { ...detailData, ...findData }
-      return detailData;
-    });
-  })
-  return detailList;
-}
 
 export const storeObject = {
   state: {
-    landingPageShow: true,
-    targetMode: {
-      CB: {
-        currentMode: true,
-        routeDetail: false,
-      },
-      ICB: {
-        currentMode: false,
-        routeDetail: false,
-      },
-      Bike: {
-        currentMode: false,
-        routeDetail: false,
-      },
-    },
+    landingPageShow: true, // 手機版首頁是否顯示
+    targetType: "CB",      // 目標類型 - CB: 市區公車, ICB: 公路客運, Bike: 自行車
+    targetCity: "Taipei",  // 目標城市, default: Taipei
+    searchKeyword: "",     // 搜尋關鍵字
 
-    // 目標類型 - CB: 市區公車, ICB: 公路客運, Bike: 自行車
-    targetType: "CB", 
+    // 取回資料列表
+    bikeDataList: [],
+    busDataList: [],
+    busStopDataList: [],
+    routeDataList: [],
 
-    // 搜尋關鍵字
-    searchKeyword: "",
-
-    // 目標城市
-    targetCity: "Taipei",
-
-    // data
-    BikeDataList: [],
-    CBdataList: [],
-    CBrouteDetailList: [],
-    CBstopList: [],
-    ICBdataList: [],
-    ICBrouteDetailList: [],
-    ICBstopList: [],
-
-    // 詳細內容判斷
+    // 選定路線
     targetRoute: {
       routeName: "",
       departureStop: "",
       destinationStop: "",
-
     },
 
-    // 是否去程
-    isCBgo: true,
-    isICBgo: true,
+    isRouteDetail: false,   // 是否顯示路線詳細資料
+    isGoDirection: true,    // 是否去程
 
     // 天氣資訊
     weatherData: {
@@ -117,141 +55,76 @@ export const storeObject = {
   },
   getters: {
     landingPageShow: state => state.landingPageShow,
-    targetMode: state => state.targetMode,
     searchKeyword: state => state.searchKeyword,
     targetCity: state => state.targetCity,
     targetRoute: state => state.targetRoute,
     
     // dataList
-    BikeDataList: state => state.BikeDataList,
-    CBdataList: state => state.CBdataList,
-    CBrouteDetailList: state => state.CBrouteDetailList,
-    goCBrouteDetailList: (state) => state.CBrouteDetailList.length !== 0 ? state.CBrouteDetailList[0].Stops : [],
-    backCBrouteDetailList: (state) => state.CBrouteDetailList.length !== 0 ? state.CBrouteDetailList[1].Stops : [],
-    CBstopList: (state) => state.CBstopList,
-    ICBdataList: state => state.ICBdataList,
-    ICBrouteDetailList: state => state.ICBrouteDetailList,
-    goICBrouteDetailList: (state) => state.ICBrouteDetailList.length !== 0 ? state.ICBrouteDetailList[0].Stops : [], 
-    backICBrouteDetailList: (state) => state.ICBrouteDetailList.length !== 0 ? state.ICBrouteDetailList[1].Stops : [], 
-    ICBstopList: (state) => state.ICBstopList,
+    bikeDataList: state => state.bikeDataList,
+    busDataList: state => state.busDataList,
+    busStopDataList: state => state.busStopDataList,
+    routeGoDetailList: state => state.routeDataList.length !== 0 ? state.routeDataList[0].Stops : [],
+    routeBackDetailList: state => state.routeDataList.length !== 0 ? state.routeDataList[1].Stops : [],
 
     // in charge
-    isCB: state => state.targetMode.CB.currentMode,
-    isCBdetail: (state) => state.targetMode.CB.currentMode ? state.targetMode.CB.routeDetail : false,
-    isICB: state => state.targetMode.ICB.currentMode,
-    isICBdetail: state => state.targetMode.ICB.currentMode ? state.targetMode.ICB.routeDetail : false,
-    isBike: state => state.targetMode.Bike.currentMode,
+    isCB: state => state.targetType === "CB",
+    isICB: state => state.targetType === "ICB",
+    isBike: state => state.targetType === "Bike",
+    isRouteDetail: state => state.isRouteDetail,
+    isGoDirection: state => state.isGoDirection,
 
-    // in charge - detail
-    isCBgo: state => state.isCBgo,
-    isICBgo: state => state.isICBgo,
-    weatherData: state => state.weatherData,
-    weatherIcon: (state) => { 
-      if (["1"].includes(state.weatherData.Wx.parameterValue)) {
-        return 1
-      } else if (["2", "3"].includes(state.weatherData.Wx.parameterValue)) {
-        return 2
-      } else if (["4", "5", "6", "7"].includes(state.weatherData.Wx.parameterValue)) {
-        return 3
-      } else {
-        return 4
-      }
-    }
+    weatherData: state => state.weatherData
   },
   mutations: {
-    // 切換手機版首頁
-    TOGGLE_LANDING_APGE: (state, toggle) => state.landingPageShow = toggle,
-
     // 初始化資料類型(按首頁圖用的)
     INIT_TARGET_MODE(state) {
-      state.targetMode = {
-        CB: {
-          currentMode: true,
-          routeDetail: false
-        },
-        ICB: {
-          currentMode: false,
-          routeDetail: false
-        },
-        Bike: {
-          currentMode: false,
-          routeDetail: false
-        },
-      }
-      state.routeDetail = false;
-      state.BikeDataList = [];
-      state.CBdataList = [];
-      state.CBrouteDetailList = [];
-      state.CBstopList = [];
-      state.ICBdataList = [];
-      state.ICBrouteDetailList = [];
-      state.ICBstopList = [];
+      state.landingPageShow = false;
+      state.targetType = "CB";
       state.searchKeyword = "";
+      state.isRouteDetail = false;
+      state.isGoDirection = true;
+      state.bikeDataList = state.busDataList = state.busStopDataList = state.routeDataList = [];
+      state.targetRoute = {
+        routeName: "",
+        departureStop: "",
+        destinationStop: ""
+      };
     },
 
-    // 切換資料類型
-    CHECK_OUT_TARGET_MODE(state, targetType) {
-      if (targetType === "CB") {
-        state.targetMode.CB.currentMode = true;
-        state.targetMode.ICB.currentMode = false;
-        state.targetMode.Bike.currentMode = false;
-      } else if (targetType === "ICB") {
-        state.targetMode.CB.currentMode = false;
-        state.targetMode.ICB.currentMode = true;
-        state.targetMode.Bike.currentMode = false;
-      } else if (targetType === "Bike") {
-        state.targetMode.CB.currentMode = false;
-        state.targetMode.ICB.currentMode = false;
-        state.targetMode.Bike.currentMode = true;
-      } else {
-        console.log(`CHECK_OUT_TARGET_MODE 錯誤, targetType: ${targetType}`);
-      }
-    },
-
-    // 切換城市
-    CHECK_OUT_CITY: (state, city) => state.targetCity = city,
-
-    // 公車搜尋 輸入/輸出
+    // 公車 & 客運搜尋 輸入/輸出
     UPDATE_KEYWORD: (state, word) => state.searchKeyword = word,
     ENTER_MSG_TO_KEYWORD: (state, msg) => state.searchKeyword += msg,
     SLICE_ONE_CHAR_FROM_KEYWORD: state => state.searchKeyword = state.searchKeyword.substr(0, state.searchKeyword.length - 1),
     CLEAR_OUT_SEARCH_KEY_WORD: state => state.searchKeyword = "",
-
-    // 切換至路線動態
-    CHECK_OUT_ROUTE_DETAIL(state, busType) {
-      if (busType === "CB") state.targetMode.CB.routeDetail = true;
-      if (busType === "ICB") state.targetMode.ICB.routeDetail = true;
-    },
-
-    // 切換回路線列表
-    CHECK_OUT_ROUTE_LIST(state, busType) {
-      if (busType === "CB") state.targetMode.CB.routeDetail = false;
-      if (busType === "ICB") state.targetMode.ICB.routeDetail = false;
-    },
     
-    // 路線細節判斷
-    CHECK_CB_GO_ROUTE: (state, toggle) =>  state.isCBgo = toggle,
-    CHECK_ICB_GO_ROUTE: (state, toggle) => state.isICBgo = toggle,
+    // 切換手機版首頁
+    TOGGLE_LANDING_APGE: (state, toggle) => state.landingPageShow = toggle,
+    // 切換資料類型
+    CHECK_OUT_TARGET_TYPE: (state, targetType) => state.targetType = targetType,
+    // 切換城市
+    CHECK_OUT_CITY: (state, city) => state.targetCity = city,
+    // 切換至路線動態
+    CHECK_OUT_ROUTE_DETAIL_LIST: (state) => state.isRouteDetail = true,
     UPDATE_TARGET_ROUTE: (state, targetRoute) => state.targetRoute = targetRoute,
+    // 切換回路線列表
+    CLOSE_ROUTE_DETAIL_LIST: (state) => state.isRouteDetail = false,
+    // 路線細節判斷
+    CHECK_OUT_ROUTE_DIRCTION: (state, isGo) => state.isGoDirection = isGo,
 
-    // 市區公車
-    UPDATE_CITY_BUS_DATA: (state, dataList) => state.CBdataList = dataList,
-    UPDATE_CITY_BUS_ROUTE_DETAIL: (state, dataList) => state.CBrouteDetailList = dataList,
-    UPDATE_CITY_BUS_STOP_DATA: (state, dataList) => state.CBstopList = dataList,
-
-    // 公路客運
-    UPDATE_INTER_CITY_BUS_DATA: (state, dataList) => state.ICBdataList = dataList,
-    UPDATE_INTER_CITY_BUS_ROUTE_DETAIL: (state, dataList) => state.ICBrouteDetailList = dataList,
-    UPDATE_INTER_CITY_BUS_STOP_DATA: (state, dataList) => state.CBstopList = dataList,
-
+    // 公車 & 客運
+    UPDATE_BUS_DATA_LIST: (state, dataList) => state.busDataList = dataList,
+    UPDATE_BUS_STOP_DATA_LIST: (state, dataList) => state.busStopDataList = dataList,
+    UPDATE_BUS_ROUTE_DATA_LIST: (state, dataList) => state.routeDataList = dataList,
+    
     // 單車 ------------
 
     // 更新單車資料
-    UPDATE_BIKE_DATA_LIST: (state, dataList) => state.BikeDataList = dataList,
+    UPDATE_BIKE_DATA_LIST: (state, dataList) => state.bikeDataList = dataList,
+    
     // 距離排序/可租排序/可還排序
-    SORT_BY_DISTANCE: state => state.BikeDataList = state.BikeDataList.sort((a, b) => a.Distance - b.Distance),
-    SORT_BY_RENT: state => state.BikeDataList = state.BikeDataList.sort((a, b) => b.AvailableRentBikes - a.AvailableRentBikes),
-    SORT_BY_RETURN: state => state.BikeDataList = state.BikeDataList.sort((a, b) => b.AvailableReturnBikes - a.AvailableReturnBikes),
+    SORT_BY_DISTANCE: state => state.bikeDataList = state.bikeDataList.sort((a, b) => a.Distance - b.Distance),
+    SORT_BY_RENT: state => state.bikeDataList = state.bikeDataList.sort((a, b) => b.AvailableRentBikes - a.AvailableRentBikes),
+    SORT_BY_RETURN: state => state.bikeDataList = state.bikeDataList.sort((a, b) => b.AvailableReturnBikes - a.AvailableReturnBikes),
 
     // 天氣資訊
     UPDATE_WEATHER_DATA: (state, weatherData) => state.weatherData = weatherData,
@@ -273,49 +146,60 @@ export const storeObject = {
           commit("CHECK_OUT_CITY", res.data[0].City);
           this.dispatch("getWeather");
         })
-        .catch((e) => {
-          console.log(`城市定位錯誤: ${e}`);
-          // 錯誤處理
+        .catch((error) => {
+          const errorMsg = `
+            getCurrentCity 發生錯誤: ${error}
+            currentPosition: [${currentPosition.latitude}, ${currentPosition.longitude}]
+          `;
+          console.log(errorMsg);
         })
     },
+
     // 切換目標型態
     checkOutTargetType({ commit }, targetType) {
-      commit("CHECK_OUT_TARGET_MODE", targetType);
-      commit("CHECK_OUT_ROUTE_LIST", targetType);
+      commit("CHECK_OUT_TARGET_TYPE", targetType);
+      commit("CLOSE_ROUTE_DETAIL_LIST");
       this.dispatch("updateTargetData");
     },
-    // 取得目前位置後尋找附近站點 || 切換目標資料型態
-    updateTargetData({ commit }, targetType = null) {
-      const { isCB, isICB, isBike } = this.getters;
-      const targetParam = {
-        type: isCB ? "CB" : "ICB",
-        city: this.state.targetCity,
-        position: this.state.map.currentPosition
-      };
-      if (isCB) {
-        AJAX_getBusStopNearBy(targetParam).then((res) => {
-          commit("UPDATE_CITY_BUS_STOP_DATA", res.data);
-          this.dispatch("map/setBusStopDataOnMap", res.data);
-        })
-      } else if (isICB) {
-        AJAX_getBusStopNearBy(targetParam).then((res) => {
-          commit("UPDATE_INTER_CITY_BUS_STOP_DATA", res.data);
-          this.dispatch("map/setBusStopDataOnMap", res.data);
-        })
-      } else if (isBike) {
-        this.dispatch("getBikeDataList");
+
+    // 無搜尋狀態下更新資料
+    updateTargetData() {
+      const { targetType } = this.state;
+      if (targetType !== "Bike") {
+        this.dispatch("getBusStopList");
       } else {
-        console.log(`updateTargetData 錯誤: ${targetType}`);
+        this.dispatch("getBikeDataList");
       }
     },
 
-    // 取得路線細節
-    getRouteDetail({ commit }, routeName) {
-      const isCB = this.getters.isCB;
+    // 尋找附近公車站牌
+    getBusStopList({commit}) {
+      const { targetType, targetCity, map } = this.state;
       const targetParam = {
-        type: isCB ? "CB" : "ICB",
-        city: this.state.targetCity,
-        routeName
+        type: targetType,
+        city: targetCity,
+        position: map.currentPosition
+      };
+      AJAX_getBusStopNearBy(targetParam).then((res) => {
+        commit("UPDATE_BUS_STOP_DATA_LIST", res.data);
+        this.dispatch("map/setBusStopDataOnMap", res.data);
+      }).catch((error) => {
+        let errorMsg = `getBusStopList 發生錯誤: ${error},\ntargetParam: `;
+        for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
+        console.log(errorMsg)
+      })
+    },
+
+    // 取得路線細節
+    getRouteDetail({ commit }, targetRoute) {
+      commit("CHECK_OUT_ROUTE_DETAIL_LIST");
+      commit("UPDATE_TARGET_ROUTE", targetRoute);
+
+      const { targetType, targetCity } = this.state;
+      const targetParam = {
+        type: targetType,
+        city: targetCity,
+        routeName: targetRoute.routeName
       };
 
       Promise.all([
@@ -332,36 +216,32 @@ export const storeObject = {
         const realTimeStopList = res[4].data;
 
         let detailList = JSON.parse(JSON.stringify(stopList));
+
         detailList = insertTimeArrivalToDetailList(detailList, timeList);
         detailList = insertRouteShapeToDetailList(detailList, routeList);
         detailList = insertRealTimeToDetailList(detailList, realTimeList);
         detailList = insertReailTimeStopToDeatailList(detailList, realTimeStopList);
         
-        if (isCB)
-          commit("UPDATE_CITY_BUS_ROUTE_DETAIL", detailList);
-        else (isCB)
-          commit("UPDATE_INTER_CITY_BUS_ROUTE_DETAIL", detailList);
+        commit("UPDATE_BUS_ROUTE_DATA_LIST", detailList);
         
         // 地圖分別打上 站點、路線、動態
         this.dispatch("map/setBusStopDataOnMap");
         this.dispatch("map/setBusRouteDataOnMap");
         this.dispatch("map/setBusRealTimeOnMap");
-      }).catch((e) => {
-        const errorMsg = `
-          getRouteDetail 發生錯誤: ${e}
-          targetParam: { type: ${targetParam.type}, city: ${targetParam.city} }
-        `;
+      }).catch((error) => {
+        let errorMsg = `getRouteDetail 發生錯誤: ${error},\ntargetParam: `;
+        for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
         console.log(errorMsg)
-        // 錯誤處理
       })
     },
+
+    // 刷新路線細節
     refreshRouteDetail({ commit }) {
-      const routeName = this.state.targetRoute.routeName;
-      const isCB = this.getters.isCB;
+      const { targetType, targetCity, targetRoute, routeDataList } = this.state;
       const targetParam = {
-        type: isCB ? "CB" : "ICB",
-        city: this.state.targetCity,
-        routeName
+        type: targetType,
+        city: targetCity,
+        routeName: targetRoute.routeName
       };
 
       Promise.all([
@@ -373,60 +253,41 @@ export const storeObject = {
         const realTimeList = res[1].data;
         const realTimeStopList = res[2].data;
 
-        let detailList = this.getters.isCB ? this.getters.CBrouteDetailList : this.getters.ICBrouteDetailList;
+        let detailList = JSON.parse(JSON.stringify(routeDataList));
         detailList = insertTimeArrivalToDetailList(detailList, timeList);
         detailList = insertRealTimeToDetailList(detailList, realTimeList);
         detailList = insertReailTimeStopToDeatailList(detailList, realTimeStopList);
 
-        if (isCB) 
-          commit("UPDATE_CITY_BUS_ROUTE_DETAIL", detailList);
-        else
-          commit("UPDATE_INTER_CITY_BUS_ROUTE_DETAIL", detailList);
+        commit("UPDATE_BUS_ROUTE_DATA_LIST", detailList);
 
         // 只清掉公車動態再重新打新的上去
         this.dispatch("map/removeBusPointLayers");
         this.dispatch("map/setBusRealTimeOnMap");
-      }).catch((e) => {
-        const errorMsg = `
-          refreshRouteDetail 發生錯誤: ${e}
-          targetParam: { type: ${targetParam.type}, city: ${targetParam.city} }
-        `;
+      }).catch((error) => {
+        let errorMsg = `refreshRouteDetail 發生錯誤: ${error},\ntargetParam: `;
+        for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
         console.log(errorMsg)
-        // 錯誤處理
-      })
-    },
-
-    // 關鍵字搜尋市區公車
-    getCBdataListWithKeyWord({ commit }, { city, keyword }) {
-      const targetParam = {
-        type: "CB",
-        city,
-        keyword
-      }
-      AJAX_getBusRoute(targetParam)
-      .then(res => {
-        commit("UPDATE_CITY_BUS_DATA", res.data);
-      })
-      .catch((e) => {
-        console.log(`AJAX_getBusRoute 失敗: ${e}`);
-        // 錯誤處理
       })
     },
 
     // 關鍵字搜尋客運
-    getICBdataListWithKeyWord({ commit }, { keyword }) {
-      const targetParam = {
-        type: "ICB",
-        keyword
+    getBusDataWithKeyword({ commit }) {
+      const { targetType, targetCity, searchKeyword } = this.state;
+      let targetParam = {
+        type: targetType,
+        keyword: searchKeyword
       }
+      if (targetType === "CB") targetParam.city = targetCity;
+
       AJAX_getBusRoute(targetParam)
-      .then(res => {
-        commit("UPDATE_INTER_CITY_BUS_DATA", res.data);
-      })
-      .catch((e) => {
-        console.log(`AJAX_getBusRoute 失敗: ${e}`);
-        // 錯誤處理
-      })
+        .then(res => {
+          commit("UPDATE_BUS_DATA_LIST", res.data);
+        })
+        .catch((error) => {
+          let errorMsg = `getBusDataWithKeyword 發生錯誤: ${error},\ntargetParam: `;
+          for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
+          console.log(errorMsg)
+        })
     },
 
     // 取得附近單車站點
@@ -452,9 +313,9 @@ export const storeObject = {
         });
         commit("UPDATE_BIKE_DATA_LIST", avaDataList);
         this.dispatch("map/setBikeRentDataOnMap", avaDataList);
-      }).catch((e) => {
-        console.log(e)
-        // 錯誤處理
+      }).catch((error) => {
+        let errorMsg = `getBikeDataList 發生錯誤: ${error}`;
+        console.log(errorMsg)
       })
     },
 
@@ -474,6 +335,9 @@ export const storeObject = {
           {}
         );
         commit("UPDATE_WEATHER_DATA", weatherElements);
+      }).catch((error) => {
+        let errorMsg = `getWeather 發生錯誤: ${error}`;
+        console.log(errorMsg)
       })
     }
   },

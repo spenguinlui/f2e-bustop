@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     ...mapState("map", ['currentPosition']),
-    ...mapGetters(['targetRoute', 'isCB', 'isICB', 'isCBdetail', 'isICBdetail'])
+    ...mapGetters(['targetRoute', 'isCB', 'isICB', 'isRouteDetail'])
   },
   methods: {
     initMap() {
@@ -51,11 +51,7 @@ export default {
   mounted() {
     this.initMap();
     this.refreshInterval = setInterval(() => {
-      if (this.isCB ? this.isCBdetail : this.isICBdetail) {
-        this.$store.dispatch("refreshRouteDetail");
-      } else {
-        return;
-      }
+      if (this.isRouteDetail) this.$store.dispatch("refreshRouteDetail");
     }, 15000);
   },
   beforeDestroy() {

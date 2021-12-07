@@ -1,24 +1,17 @@
 <template>
-  <div class="list-board-m" v-if="!isBike" v-show="isCB ? !isCBdetail : !isICBdetail">
+  <div class="list-board-m" v-if="!isBike" v-show="!isRouteDetail">
     <div class="search-container">
       <SearchBar />
     </div>
 
-    <div class="searching-img-container" v-show="isCB ? CBdataList.length === 0 : ICBdataList.length === 0">
+    <div class="searching-img-container" v-show="busDataList.length === 0">
       <img src="../assets/images/searching.png" alt="搜尋無結果圖片">
       <div class="text">點選下面的鍵盤搜尋公車吧！</div>
     </div>
 
     <div class="cards-container">
-      <template v-if="isCB && CBdataList.length > 0">
-        <template v-for="data in CBdataList">
-          <CardRotue :data="data" :key="data.RouteUID"/>
-        </template>
-      </template>
-      <template v-if="isICB && ICBdataList.length > 0">
-        <template v-for="data in ICBdataList">
-          <CardRotue :data="data" :key="data.RouteUID"/>
-        </template>
+      <template v-if="!isBike && busDataList.length > 0">
+        <CardRotue v-for="data in busDataList" :data="data" :key="data.RouteUID"/>
       </template>
     </div>
   </div>
@@ -32,8 +25,8 @@ import SearchBar from "./search-bar.vue";
 export default {
   computed: {
     ...mapGetters([
-      'targetMode', 'CBdataList', 'ICBdataList',
-      'isBike', 'isCB', 'isCBdetail', 'isICB', 'isICBdetail'
+      'busDataList',
+      'isBike', 'isCB', 'isICB', 'isRouteDetail'
       ])
   },
   components: {

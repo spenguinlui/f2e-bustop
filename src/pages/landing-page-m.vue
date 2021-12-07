@@ -81,13 +81,13 @@ export default {
   methods: {
     toggleDataType(type) {
       this.$store.commit("TOGGLE_LANDING_APGE", false);
-      this.$store.dispatch("updateTargetData", type);
+      this.$store.dispatch("checkOutTargetType", type);
     },
     currentDate() {
       const today = new Date();
       const month = today.getMonth() + 1;
       const day = today.getDate();
-      return `${month}/${day}`
+      return `${month}/ ${day}`
     },
     checkCity() {
       this.weatherLoading = true;
@@ -98,10 +98,10 @@ export default {
         navigator.geolocation.getCurrentPosition((position) => {
           this.setPosition(position);
         }, () => {
-          window.alert("無定位，預設定位於台北車站")
+          window.alert("若無定位，預設定位於台北車站")
         })
       } else {
-        window.alert("無定位，預設定位於台北車站")
+        window.alert("若無定位，預設定位於台北車站")
       }
     },
     setPosition(position) {

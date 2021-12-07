@@ -25,8 +25,7 @@ export default {
   },
   methods: {
     goSearch() {
-      if (this.isCB) this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      if (this.isICB) this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
+      this.$store.dispatch("getBusDataWithKeyword");
     }
   }
 }

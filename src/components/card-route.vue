@@ -23,25 +23,22 @@ import citysHash from "../json/cityshash.json";
 export default {
   props: ['data'],
   computed: {
-    ...mapGetters(['isCB', 'isICB']),
+    ...mapGetters(['isCB']),
     cityZh() {
       return citysHash[this.data.City].cityName;
     }
   },
   methods: {
     goRuteDetail() {
-      const dataType = this.isCB ? "CB" : "ICB";
       const { RouteName, DepartureStopNameZh, DestinationStopNameZh } = this.data;
-      // 切換模式
-      this.$store.commit("CHECK_OUT_ROUTE_DETAIL", dataType);
-      this.$store.commit("UPDATE_TARGET_ROUTE", {
+      const targetRoute = {
         routeName: RouteName.Zh_tw,
         departureStop: DepartureStopNameZh,
         destinationStop: DestinationStopNameZh
-      });
-      // 改動資料
+      }
+
       this.$store.dispatch("map/removeOtherLayers");
-      this.$store.dispatch("getRouteDetail", RouteName.Zh_tw);
+      this.$store.dispatch("getRouteDetail", targetRoute);
     }
   }
 }

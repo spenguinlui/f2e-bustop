@@ -52,22 +52,8 @@ const createBikePopupObj = (data) => {
 };
 
 // 決定路線詳細資料去程返程，是要用哪一筆
-const getTargetDataList = (store) => {
-  let targetDataList;
-  if (store.getters.isCB) {
-    if (store.state.isCBgo) {
-      targetDataList = store.state.CBrouteDetailList[0];
-    } else {
-      targetDataList = store.state.CBrouteDetailList[1];
-    }
-  } else {
-    if (store.state.isICBgo) {
-      targetDataList = store.state.ICBrouteDetailList[0];
-    } else {
-      targetDataList = store.state.ICBrouteDetailList[1];
-    }
-  }
-  return targetDataList;
+const getTargetDataList = ({ isGoDirection, routeDataList }) => {
+  return isGoDirection ? routeDataList[0] : routeDataList[1];
 }
 
 // 解析 geojson 純文字資料成 json
@@ -76,7 +62,6 @@ const geometryStrToGeoJson = (geometryStr) => {
   const isMultiLine = geometryStr.substr(0, 15) === "MULTILINESTRING";
   let corStr = "";
   let corNewAry = [];
-
 
   if (isLineStr) {
     corStr = geometryStr.slice(12, -2);
@@ -147,7 +132,7 @@ export default {
       this.dispatch("map/focusCurrentPosition");
     },
 
-    // 清除底圖與中心點以外圖層
+    // 清除底圖與中心點以外圖層 (盡量在 vue 元件呼叫)
     removeOtherLayers() {
       const storeMap = this.state.map.storeMap;
       storeMap.eachLayer(function(layer){ 
@@ -180,7 +165,7 @@ export default {
     setBusStopDataOnMap({ commit }, targetDataList = []) {
       // if bus stop data given, else find it
       const istargetGiven = targetDataList.length !== 0;
-      const targetStops = istargetGiven ? targetDataList : getTargetDataList(this).Stops;
+      const targetStops = istargetGiven ? targetDataList : getTargetDataList(this.state).Stops;
 
       let busLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
       targetStops.map((data, index) => {
@@ -196,7 +181,7 @@ export default {
     // 將公車路線打上地圖
     setBusRouteDataOnMap() {
       const busRouteLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
-      const targetGeometry = getTargetDataList(this).Geometry;
+      const targetGeometry = getTargetDataList(this.state).Geometry;
       const geoJsonData = geometryStrToGeoJson(targetGeometry);
       const lineStyle = { color: "#4EA476", weight: 4 };
       try {
@@ -209,7 +194,7 @@ export default {
     // 將公車動態打上地圖
     setBusRealTimeOnMap() {
       const busRealTimeLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
-      const targetRealTime = getTargetDataList(this).BusRealTime;
+      const targetRealTime = getTargetDataList(this.state).BusRealTime;
       targetRealTime.map((data) => {
         L.marker([data.BusPosition.PositionLat, data.BusPosition.PositionLon], { icon: busPointIcon, zIndexOffset: 1000, layerName: "buspoint" })
           .addTo(busRealTimeLayer);

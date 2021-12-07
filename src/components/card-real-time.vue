@@ -25,9 +25,9 @@ import { mapGetters } from 'vuex'
 export default {
   props: ['data'],
   computed: {
-    ...mapGetters(['isCB', 'isICB', 'isCBgo', 'isICBgo', 'targetRoute', 'CBdataList', 'ICBdataList']),
+    ...mapGetters(['isCB', 'isICB', 'isGoDirection', 'targetRoute', 'busDataList', 'routeDataList']),
     routeBuffer() {
-      let currentDataList = this.isCB ? this.CBdataList : this.ICBdataList;
+      let currentDataList = this.busDataList;
       const thisRoute = currentDataList.find(busData => busData.RouteName.Zh_tw === this.targetRoute.routeName);
 
       if (thisRoute && thisRoute.FareBufferZoneDescriptionZh) {
@@ -35,21 +35,10 @@ export default {
         const bufferStrCenter = bufferStr.indexOf('－') <= 0 ? bufferStr.indexOf('-') : bufferStr.indexOf('－');
         const bufferStartStop = bufferStr.slice(0, bufferStrCenter);
         const bufferEndStop = bufferStr.slice(bufferStrCenter + 1, bufferStr.length);
-        if (this.isCB) {
-          if (this.isCBgo) {
-            return { bufferStartStop: bufferStartStop, bufferEndStop: bufferEndStop }
-          } else {
-            return { bufferStartStop: bufferEndStop, bufferEndStop: bufferStartStop }
-          }
-        } else if (this.isICB) {
-          if (this.isICBgo) {
-            return { bufferStartStop: bufferStartStop, bufferEndStop: bufferEndStop }
-          } else {
-            return { bufferStartStop: bufferEndStop, bufferEndStop: bufferStartStop }
-          }
+        if (this.isGoDirection) {
+          return { bufferStartStop: bufferStartStop, bufferEndStop: bufferEndStop }
         } else {
-          console.log("routeBuffer 判斷錯誤");
-          return { bufferStartStop: '', bufferEndStop: '' }
+          return { bufferStartStop: bufferEndStop, bufferEndStop: bufferStartStop }
         }
       } else {
         return { bufferStartStop: '', bufferEndStop: '' }
@@ -67,17 +56,24 @@ export default {
     width: 100%;
     padding: 8px 16px;
     .time-btn {
-      @include btn;
-      @include btn-outline(primary);
+      @include flex-row-center-center;
       @include font-caption(bold);
+      border-radius: $normal-bora;
       min-width: 73px;
       padding: 8px 11px;
       margin-right: 12px;
+      color: $primary-400;
+      background-color: $grey-100;
+      border: 1px solid $primary-300;
       &.disable {
-        @include btn-outline(disabled);
+        color: $alert-400;
+        background-color: $grey-100;
+        border: 1px solid $alert-300;
       }
       &.colser {
-        @include btn-outline(alert);
+        color: $grey-400;
+        background-color: $grey-100;
+        border: 1px solid $grey-300;
       }
     }
     .stop-name {

@@ -3,11 +3,11 @@
   <div class="list-board-container"
     :class="{
       expanding: mobileExpanding,
-      hide: isBike ? false : (isCB ? !isCBdetail : !isICBdetail)
-      }">
+      hide: isBike ? false : !isRouteDetail }
+  ">
     <div @click="locateCurrentPosition" class="locate-icon"><i class="fas fa-crosshairs"></i></div>
     <div class="list-board-header"
-      :class="{ route: isBike ? false : (isCB ? isCBdetail : isICBdetail) }">
+      :class="{ route: isBike ? false : isRouteDetail }">
 
       <!-- 單車手機版出現 -->
       <div class="header-expand-btn expand-btn"
@@ -17,7 +17,7 @@
 
       <!-- 公車&客運 手機版出現，單車雙版本皆有 -->
       <SearchBar
-        v-show="isBike ? true : isCB ? !isCBdetail : !isICBdetail"
+        v-show="isBike ? true : !isRouteDetail"
         :class="{ bike: isBike }"/>
 
       <!-- 單車雙版本皆有 -->
@@ -33,7 +33,7 @@
 
       <!-- 公車&客運 桌面版才出現 -->
       <div class="btn-filter"
-        v-show="isCB ? !isCBdetail : false"
+        v-show="isCB && !isRouteDetail"
         @click="selectBlockShow = !selectBlockShow">
         <div><i class="fas fa-sort-amount-down"></i>篩選</div>
         <SelectCityBlock v-show="selectBlockShow"/>
@@ -42,7 +42,7 @@
       <!-- 公車&客運 進入第二層細節才出現  -->
       <div class="route-block"
         @click="mobileExpanding = !mobileExpanding"
-        v-show="isBike ? false : isCB ? isCBdetail : isICBdetail">
+        v-show="isBike ? false : isRouteDetail">
         <!-- 展開  切換函式先擺到母元素上比較好按 -->
         <div class="expand-btn"><i class="fas fa-angle-up"></i></div>
         <!-- 回前一頁 -->
@@ -54,44 +54,41 @@
 
     <!-- 公車&客運 進入第二層細節才出現 -->
     <div class="route-path-block"
-      v-show="isBike ? false : isCB ? isCBdetail : isICBdetail">
+      v-show="isBike ? false : isRouteDetail">
       <div class="left-block"
-        :class="{ active: isCB ? isCBgo : isICBgo }"
+        :class="{ active: isGoDirection }"
         @click="checkGoAndBackRoute(true)">往{{ targetRoute.destinationStop }}</div>
       <div class="right-block"
-        :class="{ active: isCB ? !isCBgo : !isICBgo }"
+        :class="{ active: !isGoDirection }"
         @click="checkGoAndBackRoute(false)">往{{ targetRoute.departureStop }}</div>
     </div>
 
     <!-- 公車&客運 桌面版一開始出現 -->
     <div class="searching-img-container"
-      v-show="!isBike && (isCB ? CBdataList.length === 0 : ICBdataList.length === 0)" >
+      v-show="!isBike && busDataList.length === 0" >
       <img src="../assets/images/searching.png" alt="搜尋無結果圖片">
     </div>
 
     <!-- 公車&客運 桌面版出現 -->
     <div class="cards-container">
       <!-- 路線列表 -->
-      <div class="cards" v-show="isBike ? false : isCB ? !isCBdetail : !isICBdetail">
-        <template v-if="isCB && CBdataList.length > 0">
-          <CardRotue v-for="data in CBdataList" :data="data" :key="data.RouteUID"/>
-        </template>
-        <template v-if="isICB && ICBdataList.length > 0">
-          <CardRotue v-for="data in ICBdataList" :data="data" :key="data.RouteUID"/>
+      <div class="cards" v-show="isBike ? false : !isRouteDetail">
+        <template v-if="busDataList.length > 0">
+          <CardRotue v-for="data in busDataList" :data="data" :key="data.RouteUID"/>
         </template>
       </div>
 
       <!-- 即時路況 -->
-      <div class="cards" v-show="isBike ? false : isCB && isCBdetail">
-        <CardRealTime v-for="(data, index) in (isCBgo ? goCBrouteDetailList : backCBrouteDetailList)" :data="data" :key="index"/>
+      <div class="cards" v-show="isBike ? false : isRouteDetail && isGoDirection">
+        <CardRealTime v-for="(data, index) in routeGoDetailList" :data="data" :key="index"/>
       </div>
-      <div class="cards" v-show="isBike ? false : isICB && isICBdetail">
-        <CardRealTime v-for="(data, index) in (isICBgo ? goICBrouteDetailList : backICBrouteDetailList)" :data="data" :key="index"/>
+      <div class="cards" v-show="isBike ? false : isRouteDetail && !isGoDirection">
+        <CardRealTime v-for="(data, index) in routeBackDetailList" :data="data" :key="index"/>
       </div>
 
       <!-- 單車站點 -->
       <div class="cards" v-show="isBike">
-        <CardBike v-for="data in BikeDataList" :data="data" :key="data.StationUID"/>
+        <CardBike v-for="data in bikeDataList" :data="data" :key="data.StationUID"/>
       </div>
     </div>
   </div>
@@ -116,10 +113,9 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'targetCity', 'searchKeyword',
-      'BikeDataList', 'CBdataList', 'ICBdataList',
-      'goCBrouteDetailList', 'backCBrouteDetailList', 'goICBrouteDetailList', 'backICBrouteDetailList',
-      'isCB', 'isCBdetail', 'isICB', 'isICBdetail', 'isBike', 'isCBgo', 'isICBgo', 'targetRoute'])
+      'targetCity', 'searchKeyword', 'targetRoute',
+      'bikeDataList', 'busDataList', 'routeGoDetailList', 'routeBackDetailList',
+      'isCB', 'isICB', 'isBike', 'isRouteDetail', 'isGoDirection'])
   },
   methods: {
     locateCurrentPosition() {
@@ -135,10 +131,6 @@ export default {
         window.alert("重新定位失敗")
       }
     },
-    goSearch() {
-      if (this.isCB) this.$store.dispatch("getCBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-      if (this.isICB) this.$store.dispatch("getICBdataListWithKeyWord", { city: this.targetCity, keyword: this.searchKeyword });
-    },
     sortBikeByDistace() {
       this.$store.commit("SORT_BY_DISTANCE");
       this.sortBlockShow = false;
@@ -152,12 +144,12 @@ export default {
       this.sortBlockShow = false;
     },
     goBackRouteList() {
-      this.$store.commit("CHECK_OUTE_ROUTE_LIST", this.isCB ? "CB" : "ICB")
+      this.$store.commit("CLOSE_ROUTE_DETAIL_LIST")
       this.$store.dispatch("map/focusCurrentPosition");
     },
     checkGoAndBackRoute(toggle) {
-      if (this.isCB) { this.$store.commit("CHECK_CB_GO_ROUTE", toggle) }
-      if (this.isICB) { this.$store.commit("CHECK_ICB_GO_ROUTE", toggle) }
+      this.$store.commit("CHECK_OUT_ROUTE_DIRCTION", toggle);
+
       // 資料不變，但切換要顯示的資料
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.dispatch("map/setBusStopDataOnMap");

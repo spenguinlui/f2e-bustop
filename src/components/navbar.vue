@@ -10,7 +10,7 @@
         <div class="nav-list-item disabled">轉乘資訊<i class="fas fa-subway"></i></div>
       </div>
       <div class="bus-goback"
-        v-show="isCB && isCBdetail || isICB && isICBdetail && !isBike && !landingPageShow"
+        v-show="isRouteDetail && !isBike && !landingPageShow"
         @click="goBackRouteList"
       ><i class="fas fa-angle-left"></i></div>
     </nav>
@@ -36,13 +36,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['landingPageShow', 'isCB', 'isCBdetail', 'isICB', 'isICBdetail', 'isBike'])
+    ...mapGetters(['landingPageShow', 'isCB', 'isICB', 'isBike', 'isRouteDetail'])
   },
   methods: {
     checkLandingPage() {
       this.$store.dispatch("map/removeOtherLayers");
-      this.$store.commit("TOGGLE_LANDING_APGE", true);
       this.$store.commit("INIT_TARGET_MODE");
+      this.$store.commit("TOGGLE_LANDING_APGE", true);
     },
     toggleCityBus() {
       this.toggleMethod();
@@ -58,13 +58,12 @@ export default {
     },
     toggleMethod() {
       this.navBarPopUp = false;
-      this.$store.commit("TOGGLE_LANDING_APGE", false);
-      this.$store.commit("CLEAR_OUT_SEARCH_KEY_WORD");
+      this.$store.commit("INIT_TARGET_MODE");
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.dispatch("map/focusCurrentPosition");
     },
     goBackRouteList() {
-      this.$store.commit("CHECK_OUT_ROUTE_LIST", this.isCB ? "CB" : "ICB")
+      this.$store.commit("CLOSE_ROUTE_DETAIL_LIST")
       this.$store.dispatch("map/focusCurrentPosition");
     },
   }
