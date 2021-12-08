@@ -7,6 +7,7 @@ import {
 } from "../modules/data-insert.js";
 import {
   AJAX_getBusStopNearBy,
+  AJAX_getBusRouteByStop,
   AJAX_getBusRoute,
   AJAX_getBusStopOfRoute,
   AJAX_getBusTimeIfArrival,
@@ -173,7 +174,7 @@ export const storeObject = {
     },
 
     // 尋找附近公車站牌
-    getBusStopList({commit}) {
+    getBusStopList({ commit }) {
       const { targetType, targetCity, map } = this.state;
       const targetParam = {
         type: targetType,
@@ -183,6 +184,23 @@ export const storeObject = {
       AJAX_getBusStopNearBy(targetParam).then((res) => {
         commit("UPDATE_BUS_STOP_DATA_LIST", res.data);
         this.dispatch("map/setBusStopDataOnMap", res.data);
+      }).catch((error) => {
+        let errorMsg = `getBusStopList 發生錯誤: ${error},\ntargetParam: `;
+        for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
+        console.log(errorMsg)
+      })
+    },
+
+    // 依照公車站牌尋找路線
+    getBusRoutebyStop({ commit }, stationId) {
+      const { targetType, targetCity } = this.state;
+      const targetParam = {
+        type: targetType,
+        city: targetCity,
+        stationId: stationId
+      };
+      AJAX_getBusRouteByStop(targetParam).then((res) => {
+        commit("UPDATE_BUS_DATA_LIST", res.data);
       }).catch((error) => {
         let errorMsg = `getBusStopList 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `

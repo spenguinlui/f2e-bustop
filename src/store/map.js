@@ -169,10 +169,14 @@ export default {
 
       let busLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
       targetStops.map((data, index) => {
-        const marker = L.marker([data.StopPosition.PositionLat, data.StopPosition.PositionLon], { icon: busStopIcon })
+        const marker = L.marker([data.StopPosition.PositionLat, data.StopPosition.PositionLon], { icon: busStopIcon, title: data.StationID })
           .bindPopup(createBusPopupObj(data, this.state.targetRoute.destinationStop), { minWidth: 100, offset: [90, 20], className: "bus-popup" })
           .addTo(busLayer);
         if (index === 0 && this.state.targetRoute.destinationStop) marker.openPopup();
+        marker.on("click", (e) => {
+          const stationId = e.target.options.title;
+          this.dispatch("getBusRoutebyStop", stationId);
+        })
       })
       if (!istargetGiven) this.state.map.storeMap.flyTo([targetStops[0].StopPosition.PositionLat, targetStops[0].StopPosition.PositionLon], 16);
       commit("SET_BUS_STOP_LAYER", busLayer);

@@ -43,7 +43,7 @@ export default {
     setPosition(position) {
       const currentPosition = { latitude: position.coords.latitude, longitude: position.coords.longitude };
       this.$store.dispatch("getCurrentPostion", currentPosition);
-    },
+    }
   },
   created() {
     this.getCurrentPosition();

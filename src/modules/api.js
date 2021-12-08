@@ -61,6 +61,18 @@ export const AJAX_getBusStopNearBy = ({ type = "CB", city = null, position }) =>
   })
 }
 
+// 依照公車站牌查找路線
+export const AJAX_getBusRouteByStop = ({ type = "CB", city = null, stationId }) => {
+  const path = type === "CB" ?
+    `Bus/Route/City/${city}/PassThrough/Station/${stationId}` :
+    `Bus/Route/PassThrough/Station/${stationId}`;
+  return axios({
+    method: 'get',
+    url: urlQueryStr(path),
+    headers: authorizationHeader()
+  })
+}
+
 // 公車路線列表
 export const AJAX_getBusRoute = ({ type = "CB", city = null, keyword = null }) => {
   const path = type === "CB" ?
