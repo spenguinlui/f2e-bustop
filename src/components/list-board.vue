@@ -145,7 +145,6 @@ export default {
     },
     goBackRouteList() {
       this.$store.commit("CLOSE_ROUTE_DETAIL_LIST")
-      this.$store.dispatch("map/focusCurrentPosition");
     },
     checkGoAndBackRoute(toggle) {
       this.$store.commit("CHECK_OUT_ROUTE_DIRCTION", toggle);

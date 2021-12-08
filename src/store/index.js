@@ -212,6 +212,7 @@ export const storeObject = {
     getRouteDetail({ commit }, targetRoute) {
       commit("CHECK_OUT_ROUTE_DETAIL_LIST");
       commit("UPDATE_TARGET_ROUTE", targetRoute);
+      commit("CLEAR_OUT_SEARCH_KEY_WORD");
 
       const { targetType, targetCity } = this.state;
       const targetParam = {

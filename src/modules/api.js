@@ -65,7 +65,7 @@ export const AJAX_getBusStopNearBy = ({ type = "CB", city = null, position }) =>
 export const AJAX_getBusRouteByStop = ({ type = "CB", city = null, stationId }) => {
   const path = type === "CB" ?
     `Bus/Route/City/${city}/PassThrough/Station/${stationId}` :
-    `Bus/Route/PassThrough/Station/${stationId}`;
+    `Bus/Route/InterCity/PassThrough/Station/${stationId}`;
   return axios({
     method: 'get',
     url: urlQueryStr(path),
