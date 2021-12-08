@@ -4,8 +4,9 @@
     <div class="real-time-block">
       <div class="time-btn"
         :class="{
-          disable: data.StopStatus != 0 && !data.EstimateTime,
-          colser: data.EstimateTime < 300 }">
+          disable: data.StopStatus != 0 && data.EstimateTime === undefined,
+          colser: data.EstimateTime !== undefined && data.EstimateTime < 300,
+          }">
         {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
       </div>
       <div class="stop-name">{{ data.StopName.Zh_tw }}</div>
@@ -67,9 +68,9 @@ export default {
       background-color: $grey-100;
       border: 1px solid $primary-300;
       &.disable {
-        color: $alert-400;
+        color: $grey-400;
         background-color: $grey-100;
-        border: 1px solid $alert-300;
+        border: 1px solid $grey-300;
       }
       &.colser {
         color: $grey-400;
