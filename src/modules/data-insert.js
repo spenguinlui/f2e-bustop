@@ -1,3 +1,23 @@
+import { distance } from "./calculate";
+// 路線細節塞入最靠近車站
+export const insertNearByStopToDetailList = (detailList, currentPosition) => {
+  detailList.map((detailListDir) => {
+    let minDistance = { index: 0, distance: 0 };
+    detailListDir.Stops = detailListDir.Stops.map((detailData, index) => {
+      const { PositionLat, PositionLon } = detailData.StopPosition;
+      const thisDistance = distance(PositionLat, PositionLon, currentPosition.latitude, currentPosition.longitude);
+      if (index === 1 || minDistance.distance > thisDistance) {
+        minDistance.index = index;
+        minDistance.distance = thisDistance;
+      }
+      detailData.ClosestStop = false;
+      return detailData;
+    })
+    detailListDir.Stops[minDistance.index].ClosestStop = true;
+  })
+  return detailList;
+}
+
 // 路線細節塞入預估時間
 export const insertTimeArrivalToDetailList = (detailList, timeList) => {
   detailList.map((detailListDir) => {

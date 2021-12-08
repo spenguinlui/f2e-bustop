@@ -9,6 +9,7 @@
         {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
       </div>
       <div class="stop-name">{{ data.StopName.Zh_tw }}</div>
+      <div v-if="data.ClosestStop" class="stop-closest">最近</div>
       <div v-if="data.PlateNumb" class="bus-numb">{{ data.PlateNumb }}</div>
       <div class="sinal" :class="{
         disable: data.StopStatus != 0 || !data.EstimateTime,
@@ -83,11 +84,20 @@ export default {
     }
     .bus-numb {
       @include font-overline(500);
-      margin-right: 0.5rem;
+      margin-right: 0.6rem;
       padding: 4px;
       border-radius: 4px;
       background-color: $primary-400;
       color: $grey-100;
+    }
+    .stop-closest {
+      @include font-overline(500);
+      margin-right: 1rem;
+      padding: .4rem;
+      border-radius: 8px;
+      border: 1px solid $primary-400;
+      background-color: $grey-100;
+      color: $primary-400;
     }
     .sinal {
       width: 5px;

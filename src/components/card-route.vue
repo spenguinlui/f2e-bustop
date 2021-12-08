@@ -3,10 +3,12 @@
     <div class="card-route-msg">
       <div class="left-block">
         <div class="bus-number">{{ data.RouteName.Zh_tw }}</div>
-        <div class="city-tag" v-if="isCB">{{ cityZh }}</div>
-        <div class="near-stop" v-if="isCB"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div>
+        <!-- <div class="near-stop" v-if="isCB"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div> -->
       </div>
-      <div class="right-block"><i class="fas fa-angle-right"></i></div>
+      <div class="right-block">
+        <div class="city-tag" v-if="isCB">{{ cityZh }}</div>
+        <i class="fas fa-angle-right"></i>
+      </div>
     </div>
     <div class="card-route-content">
       <div class="star-stop">{{ data.DepartureStopNameZh }}</div>
@@ -66,20 +68,21 @@ export default {
           color: $grey-600;
           margin-right: 8px;
         }
-        .city-tag {
-          @include btn(8px);
-          @include btn-filled($primary-400);
-          @include font-overline(bold);
-          padding: 4px 6px;
-          margin-right: 10px;
-        }
-        .near-stop {
-          @include font-overline(500);
-          @include icon-m(6px);
-          color: $grey-500;
-        }
+        // .near-stop {
+          //   @include font-overline(500);
+        //   @include icon-m(6px);
+        //   color: $grey-500;
+        // }
       }
       .right-block {
+        @include flex-row-center-center;
+        .city-tag {
+          @include btn(12px);
+          @include btn-filled($primary-400);
+          @include font-overline(bold);
+          padding: 4px 12px;
+          margin-right: 10px;
+        }
         font-size: 18px;
         color: $grey-500;
         cursor: pointer;
@@ -110,20 +113,20 @@ export default {
           .bus-number {
             @include font-h4(bold);
           }
+          // .near-stop {
+            //   @include font-caption(500);
+          // }
+        }
+        .right-block {
           .city-tag {
             @include font-caption(bold);
           }
-          .near-stop {
-            @include font-caption(500);
-          }
-        }
-        .right-block {
           font-size: 20px;
         }
       }
-      .card-route-content {
+      // .card-route-content {
 
-      }
+      // }
     }
   }
 

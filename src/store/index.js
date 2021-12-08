@@ -1,5 +1,6 @@
 import { distance, distanceZh } from "../modules/calculate";
 import {
+  insertNearByStopToDetailList,
   insertTimeArrivalToDetailList,
   insertRouteShapeToDetailList,
   insertRealTimeToDetailList,
@@ -235,7 +236,8 @@ export const storeObject = {
         const realTimeStopList = res[4].data;
 
         let detailList = JSON.parse(JSON.stringify(stopList));
-
+        
+        detailList = insertNearByStopToDetailList(detailList, this.state.map.currentPosition);
         detailList = insertTimeArrivalToDetailList(detailList, timeList);
         detailList = insertRouteShapeToDetailList(detailList, routeList);
         detailList = insertRealTimeToDetailList(detailList, realTimeList);
