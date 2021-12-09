@@ -1,13 +1,13 @@
 <template>
-  <div class="landing-page-container" v-if="landingPageShow">
+  <div class="landing-page" v-if="landingPageShow">
     <div class="landing-page-weater">
-      <div class="weater-icon">
+      <div class="landing-page-weater-icon">
         <div v-show="parseInt(weatherData.Wx.parameterValue) === 1"><i class="fas fa-sun"></i></div>
         <div v-show="parseInt(weatherData.Wx.parameterValue) === 2 || parseInt(weatherData.Wx.parameterValue) === 3"><i class="fas fa-cloud-sun"></i></div>
         <div v-show="parseInt(weatherData.Wx.parameterValue) >= 4 && parseInt(weatherData.Wx.parameterValue) <= 7"><i class="fas fa-cloud"></i></div>
         <div v-show="parseInt(weatherData.Wx.parameterValue) > 7"><i class="fas fa-cloud-showers-heavy"></i></div>
       </div>
-      <div class="weater-detail">
+      <div class="landing-page-weater-detail">
         <div class="detail-tags">
           <div class="tag-block">
             <div class="tag">{{ cityZh }}</div>
@@ -29,27 +29,35 @@
     </div>
     <div class="landing-page-boxs">
       <div class="landing-page-box-container" @click="toggleDataType('CB')">
-        <div class="landing-page-box">
-          <div class="box-icon"><i class="fas fa-bus-alt"></i></div>
-          <div class="box-text">找公車</div>
+        <div class="landing-page-box-outside">
+          <div class="landing-page-box">
+            <div class="box-icon"><i class="fas fa-bus-alt"></i></div>
+            <div class="box-text">找公車</div>
+          </div>
         </div>
       </div>
       <div class="landing-page-box-container" @click="toggleDataType('ICB')">
-        <div class="landing-page-box">
-          <div class="box-icon"><i class="fas fa-road"></i></div>
-        <div class="box-text">找客運</div>
+        <div class="landing-page-box-outside">
+          <div class="landing-page-box">
+            <div class="box-icon"><i class="fas fa-road"></i></div>
+          <div class="box-text">找客運</div>
+          </div>
         </div>
       </div>
       <div class="landing-page-box-container" @click="toggleDataType('Bike')">
-        <div class="landing-page-box">
-          <div class="box-icon"><i class="fas fa-bicycle"></i></div>
-        <div class="box-text">找單車</div>
+        <div class="landing-page-box-outside">
+          <div class="landing-page-box">
+            <div class="box-icon"><i class="fas fa-bicycle"></i></div>
+          <div class="box-text">找單車</div>
+          </div>
         </div>
       </div>
       <div class="landing-page-box-container">
-        <div class="landing-page-box">
-          <div class="box-icon"><i class="fas fa-subway"></i></div>
-        <div class="box-text">轉乘資訊</div>
+        <div class="landing-page-box-outside">
+          <div class="landing-page-box">
+            <div class="box-icon"><i class="fas fa-subway"></i></div>
+          <div class="box-text">轉乘資訊</div>
+          </div>
         </div>
       </div>
     </div>
@@ -116,30 +124,27 @@ export default {
 <style lang="scss" scoped>
   @import "@/assets/scss/main.scss";
 
-  .landing-page-container {
-    @include flex-column-flex-start-center;
-    position: fixed;
-    left: 0;
-    top: 0;
+  .landing-page {
+    @include flex-column-space-around-center;
+    @include posi(f);
     width: 100%;
-    height: 100%;
+    height: calc(100vh - #{$nav-bar-m-h} - #{$footer-m-h});
     margin-top: $nav-bar-m-h;
     margin-bottom: $footer-m-h;
     background-color: $primary-100;
-    padding: 10px 32px;
+    padding: 3vh 8vw;
     z-index: $landing-page;
-    .landing-page-weater {
+    &-weater {
       @include flex-row-center-center;
       width: 100%;
-      padding: 15px;
-      .weater-icon {
+      &-icon {
         @include flex-col(3);
         color: $primary-400;
         width: 100%;
-        margin-right: 6px;
-        font-size: 62px;
+        margin-right: .25rem;
+        font-size: 15vw;
       }
-      .weater-detail {
+      &-detail {
         @include flex-col(9);
         color: $primary-500;
         .detail-tags {
@@ -179,7 +184,7 @@ export default {
         }
         .detail-values {
           @include flex-row-space-between-baseline;
-          margin-top: 12px;
+          margin-top: 1vh;
           .temperature {
             @include flex-row-center-baseline;
             .temperature-max {
@@ -197,37 +202,48 @@ export default {
         }
       }
     }
-    .landing-page-boxs {
+    &-boxs {
       @include flex-row-center-center;
       flex-wrap: wrap;
       width: 100%;
       .landing-page-box-container {
         @include flex-column-center-center;
         @include flex-col(6);
-        padding: 10px;
-        .landing-page-box {
-          @include flex-column-center-center;
-          min-height: 166px;
+        &:nth-child(odd) {
+          padding-right: 2.5vw;
+        }
+        &:nth-child(even) {
+          padding-left: 2.5vw;
+        }
+        &:nth-child(1), &:nth-child(2) {
+          margin-bottom: 5vw;
+        }
+        .landing-page-box-outside {
           width: 100%;
           background-color: $grey-100;
-          border-radius: 12px;
-          .box-icon {
-            color: $primary-400;
-            font-size: 60px;
-          }
-          .box-text {
-            @include font-button(bold);
-            margin-top: 8px;
-            color: $grey-500;
+          border-radius: .75rem;
+          .landing-page-box {
+            @include flex-column-center-center;
+            width: 100%;
+            padding: 6vh 10vw;
+            .box-icon {
+              color: $primary-400;
+              font-size: 15vw;
+            }
+            .box-text {
+              @include font-button(bold);
+              margin-top: .5rem;
+              color: $grey-500;
+            }
           }
         }
       }
     }
-    .landing-page-service {
+    &-service {
       @include flex-row-center-center;
       width: 100%;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 2vh 2vw;
+      border-radius: $normal-bora;
       &.accent {
         background-color: $accent-100;
         .service-icon {
@@ -241,7 +257,7 @@ export default {
         }
       }
       .service-icon {
-        font-size: 24px;
+        font-size: 7vw;
         margin-right: $tag-ma;
       }
       .service-text {
@@ -251,7 +267,7 @@ export default {
     }
   }
   @include screen-up {
-    .landing-page-container {
+    .landing-page {
       display: none;
     }
   }

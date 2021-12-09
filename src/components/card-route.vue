@@ -1,5 +1,5 @@
 <template>
-  <div class="card-route-container" @click="goRuteDetail">
+  <div class="card-route" @click="goRuteDetail">
     <div class="card-route-msg">
       <div class="left-block">
         <div class="bus-number">{{ data.RouteName.Zh_tw }}</div>
@@ -49,14 +49,14 @@ export default {
 <style lang="scss" scoped>
   @import "@/assets/scss/main.scss";
 
-  .card-route-container {
+  .card-route {
     width: 100%;
-    padding: 12px 20px;
+    padding: 1rem 6%;
     background-color: $grey-100;
     border-radius: $normal-bora;
-    margin-bottom: 20px;
+    margin-bottom: 1.2rem;
     @include flex-column-center-center;
-    .card-route-msg {
+    &-msg {
       @include flex-row-space-between-center;
       width: 100%;
       .left-block {
@@ -64,69 +64,58 @@ export default {
         .bus-number {
           @include font-h5(bold);
           @include ellipsis-text;
-          max-width: 150px;
+          max-width: 55vw;
           color: $grey-600;
-          margin-right: 8px;
+          margin-right: .5rem;
         }
-        // .near-stop {
-          //   @include font-overline(500);
-        //   @include icon-m(6px);
-        //   color: $grey-500;
-        // }
       }
       .right-block {
         @include flex-row-center-center;
-        .city-tag {
-          @include btn(12px);
-          @include btn-filled($primary-400);
-          @include font-overline(bold);
-          padding: 4px 12px;
-          margin-right: 10px;
-        }
-        font-size: 18px;
+        font-size: 1.125rem;
         color: $grey-500;
         cursor: pointer;
+        .city-tag {
+          @include btn(1.5em);
+          @include btn-filled($primary-400);
+          @include font-overline(bold);
+          padding: .5em 1em;
+          margin-right: .7rem;
+        }
       }
     }
-    .card-route-content {
+    &-content {
       @include flex-row-space-between-center;
       @include font-button(500);
       width: 100%;
       color: $grey-500;
-      margin-top: 8px;
+      margin-top: .5rem;
       .line {
         flex-grow: 1;
         border-top: 1px solid #767676;
-        margin: 0 14px;
+        margin: 0 .8rem;
       }
     }
   }
 
   @include screen-up {
-    .card-route-container {
+    .card-route {
       border-radius: 0;
       border-bottom: 1px solid $grey-300;
-      padding: 32px 0;
+      padding: 2rem 0;
       margin: 0;
-      .card-route-msg {
+      &-msg {
         .left-block {
           .bus-number {
             @include font-h4(bold);
           }
-          // .near-stop {
-            //   @include font-caption(500);
-          // }
         }
         .right-block {
           .city-tag {
             @include font-caption(bold);
           }
-          font-size: 20px;
+          font-size: 1.25rem;
         }
       }
-      // .card-route-content {
-
-      // }
     }
   }
 

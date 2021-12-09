@@ -45,19 +45,17 @@
   flex: 0 0 ((100% / 12) * $i);
 }
 
-// 內部對齊
-// @each $direction in $flex-direction {
-//   @each $justify in $flex-justify {
-//     @each $align in $flex-align {
-//       %flex-#{$direction}-#{$justify}-#{$align} {
-//           display: flex;
-//           flex-direction: $direction;
-//           justify-content: $justify;
-//           align-items: $align;
-//       }
-//     }
-//   }
-// }
+// position
+@mixin posi($mode: a) {
+  @if $mode == a {
+    position: absolute;
+  }
+  @if $mode == f {
+    position: fixed;
+  }
+  left: 0;
+  top: 0;
+}
 
 @mixin flex-row-center-center {
   display: flex;
@@ -147,6 +145,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-column-space-around-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -270,6 +275,7 @@
     background-color: $grey-100;
     color: $grey-300;
     border: 1px solid $grey-300;
+    cursor: default;
   }
 }
 
@@ -292,12 +298,12 @@
 // icon
 @mixin icon-m($ma, $d: r) {
   @if $d == r {
-    > svg {
+    svg {
       margin-right: $ma;
     }
   }
   @if $d == l {
-    > svg {
+    svg {
       margin-left: $ma;
     }
   }

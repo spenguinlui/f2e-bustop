@@ -5,10 +5,9 @@
     <ListBoard />
     <ListBoardMobile />
     <KeyboardMobile />
-    <footer>
+    <footer class="footer">
       <div class="footer-container">
-        <div class="footer-left">Released 2021 by Shiaohan&阿柳 ©</div>
-        <!-- <div class="footer-right">問題回報</div> -->
+        <div>Released 2021 by Shiaohan & 阿柳 ©</div>
       </div>
     </footer>
     <Map />
@@ -39,27 +38,25 @@ export default {
 <style lang="scss" scoped>
   @import "@/assets/scss/main.scss";
 
-  footer {
+  .footer {
     @include flex-row-center-center;
-    width: 100vw;
+    width: 100%;
     height: $footer-m-h;
-    position: absolute;
+    position: fixed;
     left: 0;
     bottom: 0;
     background-color: $primary-300;
     z-index: $footer;
-    .footer-container {
+    &-container {
       @include flex-row-center-center;
       @include font-overline(500);
       color: $grey-100;
       width: 70%;
-      // .footer-right {
-      //   min-width: 50px;
-      // }
     }
+
     @include screen-up {
       height: $footer-h;
-      .footer-container {
+      &-container {
         @include font-content(500);
         width: 50%;
       }

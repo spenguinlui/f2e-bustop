@@ -52,22 +52,21 @@ import { mapGetters } from 'vuex';
   @import "@/assets/scss/main.scss";
 
   .select-area-block {
-    width: 390px;
-    padding: 28px 24px;
-    position: absolute;
-    left: 0;
+    @include posi(a);
     top: 40px;
+    width: 390px;
+    padding: 1.5rem;
     background-color: $grey-100;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1;
     cursor: default;
     border-radius: $normal-bora;
+    z-index: $select-city-block;
     .area-container {
       height: 270px;
       overflow: auto;
       .area-block {
         color: $grey-600;
-        padding: 12px 0;
+        padding: .75rem 0;
         &:not(:last-child) {
           border-bottom: 1px solid $grey-300;
         }
@@ -80,7 +79,7 @@ import { mapGetters } from 'vuex';
             @include font-content(bold);
           }
           .title-icon {
-            margin-left: 8px;
+            margin-left: .5rem;
             // 以下三角型設定
             width: 0;
             height: 0;
@@ -96,9 +95,11 @@ import { mapGetters } from 'vuex';
         .area-list {
           @include flex-row-flex-start-center;
           margin-top: 7px;
-          gap: 19px;
           .area-item {
             cursor: pointer;
+            &:not(:last-child) {
+              margin-right: 19px;
+            }
             @include font-button(500);
             &:hover {
               color: $primary-400;

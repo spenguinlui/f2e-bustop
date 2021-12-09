@@ -56,14 +56,14 @@ export default {
   .real-time-block {
     @include flex-row-space-between-center;
     width: 100%;
-    padding: 8px 16px;
+    padding: .5rem 0;
     .time-btn {
       @include flex-row-center-center;
       @include font-caption(bold);
       border-radius: $normal-bora;
-      min-width: 73px;
-      padding: 8px 11px;
-      margin-right: 12px;
+      min-width: 6.3em;
+      padding: .7em 1em;
+      margin-right: 3%;
       color: $primary-400;
       background-color: $grey-100;
       border: 1px solid $primary-300;
@@ -85,17 +85,17 @@ export default {
     }
     .bus-numb {
       @include font-overline(500);
-      margin-right: 0.6rem;
-      padding: 4px;
-      border-radius: 4px;
+      margin-right: 1rem;
+      padding: .5em;
+      border-radius: $normal-bora;
       background-color: $primary-400;
       color: $grey-100;
     }
     .stop-closest {
       @include font-overline(500);
       margin-right: 1rem;
-      padding: .4rem;
-      border-radius: 8px;
+      padding: .5em;
+      border-radius: $normal-bora;
       border: 1px solid $primary-400;
       background-color: $grey-100;
       color: $primary-400;
@@ -118,20 +118,19 @@ export default {
   }
   .buffer-block {
     @include flex-row-center-center;
-    @include font-caption(500);
+    @include font-caption;
     width: 100%;
     border-radius: $normal-bora;
     background-color: $primary-100;
     color: $primary-400;
-    padding: 2px 0;
-    margin: 10px 0;
+    padding: .3em 0;
+    margin: .5rem 0;
   }
 
   @include screen-up {
     .real-time-block {
       .time-btn {
         @include font-button(bold);
-        min-width: 85px;
       }
       .stop-name {
         @include font-content(500);

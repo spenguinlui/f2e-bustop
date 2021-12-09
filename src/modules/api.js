@@ -2,12 +2,15 @@ import axios from 'axios';
 import jsSHA from "jssha";
 
 const API_DOMAIN = "https://ptx.transportdata.tw/MOTC/v2/";
+const API_DOMAIN_V3 = "https://gist.motc.gov.tw/gist_api/V3"
+const APP_ID = process.env.VUE_APP_APP_ID;
+const APP_KEY = process.env.VUE_APP_APP_KEY;
+
+const WEATHER_DOMAIN = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/";
+const WEATHER_KEY = process.env.VUE_APP_WEATHER_API_KEY;
 
 // APP 授權認證 header
 export const authorizationHeader = () => {
-  const APP_ID = process.env.VUE_APP_APP_ID;
-  const APP_KEY = process.env.VUE_APP_APP_KEY;
-
   const GMTString = new Date().toGMTString();
   let ShaObj = new jsSHA('SHA-1', 'TEXT');
   ShaObj.setHMACKey(APP_KEY, 'TEXT');
@@ -27,7 +30,7 @@ export const urlQueryStr = (dataType, query = { top: null, position: null, selec
   let queryStr = "";
 
   if (query.top) queryStr += `&$top=${query.top}`;
-  if (!query.top) queryStr += `&$top=30`;  // 安全機制
+  if (!query.top) queryStr += `&$top=30`;           // 安全機制
   
   if (query.position) queryStr += createNearByStr(query.position);
   if (query.select) queryStr += createSelectByStr(query.select);
@@ -39,13 +42,6 @@ export const urlQueryStr = (dataType, query = { top: null, position: null, selec
   if (query.routeName) queryStr += `&$filter=RouteName/Zh_tw eq '${query.routeName}'`;
 
   return encodeURI(`${API_DOMAIN}${dataType}?$format=JSON${queryStr}`);
-}
-
-export const urlPath = {
-  BikeSt: "Bike/Station/NearBy",
-  BikeAv: "Bike/Availability/NearBy",
-  cityBusR_n: "Bus/Route/City/",
-  cityBusRS_n: "Bus/Shape/City/Taipei/"
 }
 
 // 呼叫 API ----------
@@ -169,7 +165,7 @@ export const AJAX_getBikeAvailability = (position) => {
 export const AJAX_getCurrentLocation = (position) => {
   return axios({
     method: 'get',
-    url: `https://gist.motc.gov.tw/gist_api/V3/Map/GeoLocating/District/LocationX/${position.longitude}/LocationY/${position.latitude}?$format=JSON`,
+    url: `${API_DOMAIN_V3}/Map/GeoLocating/District/LocationX/${position.longitude}/LocationY/${position.latitude}?$format=JSON`,
     headers: authorizationHeader()
   })
 }
@@ -178,6 +174,6 @@ export const AJAX_getCurrentLocation = (position) => {
 export const AJAX_getWeaterRain = (currentLocation, limit = 1) => {
   return axios({
     method: 'get',
-    url: `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=${process.env.VUE_APP_WEATHER_API_KEY}&limit=${limit}&locationName=${currentLocation}`,
+    url: `${WEATHER_DOMAIN}F-C0032-001?Authorization=${WEATHER_KEY}&limit=${limit}&locationName=${currentLocation}`,
   })
 }

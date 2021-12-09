@@ -62,11 +62,11 @@ $letter-spacing-overline: 0.01em;
 
 // 版型 (固定 height、width)
 $nav-bar-h: 78px;
-$nav-bar-m-h: 49px;
-$footer-h: 60px;
-$footer-m-h: 40px;
+$nav-bar-m-h: 8vh;
+$footer-h: 3.75rem;
+$footer-m-h: 6vh;
 $list-board-w: 425px;
-$list-board-header-h: 84px;
+$list-board-header-h: 10vh;
 
 // 內距 (padding)
 $btn-tag-p: 4px 6px;
@@ -76,14 +76,14 @@ $btn-msg-p: 8px 11px;
 $btn-nav-p: 9px 21px;
 
 // 外距 (margin)
-$icon-ma: 4px;
-$tag-ma: 8px;
-$option-ma: 12px;
-$nav-ma: 16px;
+$icon-ma: .25rem;
+$tag-ma: .5rem;
+$option-ma: .75rem;
+$nav-ma: 1rem;
 
 // 圓角 (border-radius)
-$normal-bora: 8px;
-$oval-bora: 30%;
+$normal-bora: .5em;
+$oval-bora: 2em;
 $cycle-bora: 50%;
 
 // z-index 順序
@@ -93,3 +93,5 @@ $key-board: 60;
 $list-board: 50;
 $footer: 40;
 $landing-page: 30;
+$select-city-block: 10;
+$map: -1;

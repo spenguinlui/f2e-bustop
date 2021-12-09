@@ -40,33 +40,35 @@ export default {
   @import "@/assets/scss/main.scss";
 
   .list-board-m {
-    width: 100vw;
-    height: 100vh;
-    background-color: $primary-100;
-    padding-top: $nav-bar-m-h;
     @include flex-column-flex-start-center;
+    width: 100vw;
+    height: calc(100vh - #{$nav-bar-m-h} - #{$footer-m-h});
+    margin-top: $nav-bar-m-h;
+    margin-bottom: $footer-m-h;
+    background-color: $primary-100;
     .search-container {
-      padding: 8px 20px;
+      margin-top: 1vh;
+      padding: 1vh 6vw;
       width: 100%;
     }
     .searching-img-container {
       @include flex-column-center-center;
       width: 60%;
-      padding-top: 34px;
+      padding-top: 4vh;
       > img {
         width: 100%;
       }
       .text {
         @include font-caption(500);
         color: $grey-500;
-        margin-top: 8px;
+        margin-top: .5rem;
       }
     }
     .cards-container {
       width: 100%;
       height: 100%;
-      padding: 12px 20px;
-      padding-bottom: 50vh;
+      padding: 1vh 6vw;
+      padding-bottom: 40vh;
       overflow: auto;
     }
   }

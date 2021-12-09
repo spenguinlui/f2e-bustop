@@ -1,9 +1,9 @@
 <template>
   <div>
-    <nav>
-      <div class="nav-list-block-m" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-bars"></i></div>
+    <nav class="nav">
+      <div class="nav-list-m" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-bars"></i></div>
       <div class="nav-brand" @click="checkLandingPage"><img src="../assets/images/logo-g.svg" alt="LOGO 圖片"></div>
-      <div class="nav-list-block">
+      <div class="nav-list">
         <div class="nav-list-item" :class="{ active: isCB }" @click="toggleCityBus">找公車<i class="fas fa-bus-alt"></i></div>
         <div class="nav-list-item" :class="{ active: isICB }" @click="toggleInterCityBus">找客運<i class="fas fa-road"></i></div>
         <div class="nav-list-item" :class="{ active: isBike }" @click="toggleBike">找單車<i class="fas fa-bicycle"></i></div>
@@ -17,10 +17,10 @@
     <div class="nav-popup" :class="{ show: navBarPopUp }">
       <div class="nav-popup-close" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-times"></i></div>
       <div class="nav-popup-list">
-        <div class="nav-popup-item" :class="{ active: isCB }" @click="toggleCityBus"><i class="fas fa-bus-alt"></i>找公車</div>
-        <div class="nav-popup-item" :class="{ active: isICB }" @click="toggleInterCityBus"><i class="fas fa-road"></i>找客運</div>
-        <div class="nav-popup-item" :class="{ active: isBike }" @click="toggleBike"><i class="fas fa-bicycle"></i>找單車</div>
-        <div class="nav-popup-item disabled"><i class="fas fa-subway"></i>轉乘資訊</div>
+        <div class="nav-popup-list-item" :class="{ active: isCB }" @click="toggleCityBus"><i class="fas fa-bus-alt"></i>找公車</div>
+        <div class="nav-popup-list-item" :class="{ active: isICB }" @click="toggleInterCityBus"><i class="fas fa-road"></i>找客運</div>
+        <div class="nav-popup-list-item" :class="{ active: isBike }" @click="toggleBike"><i class="fas fa-bicycle"></i>找單車</div>
+        <div class="nav-popup-list-item disabled"><i class="fas fa-subway"></i>轉乘資訊</div>
       </div>
     </div>
   </div>
@@ -73,77 +73,81 @@ export default {
 <style lang="scss" scoped>
   @import "@/assets/scss/main.scss";
 
-  nav {
+  .nav {
     @include flex-row-center-center;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
+    @include posi(f);
+    $padding: .8rem 1.5rem;
+    width: 100vw;
     height: $nav-bar-m-h;
     background: $grey-100;
-    padding: 14px 36px;
+    padding: $padding;
     z-index: $nav-bar;
-    .nav-list-block-m {
-      font-size: $font-size-h5;
-      position: absolute;
-      left: 25px;
-      top: 14px;
+    &-list-m {
+      @include flex-row-center-center;
+      @include posi(a);
+      width: $nav-bar-m-h;
+      height: $nav-bar-m-h;
+      font-size: 3.5vh;
       color: $grey-500;
     }
-    .nav-brand {
+    &-brand {
       height: 100%;
+      cursor: pointer;
       > img {
         width: 100%;
         height: 100%;
         vertical-align: middle;
       }
     }
-    .nav-list-block {
+    &-list {
       display: none;
     }
     .bus-goback {
       @include flex-row-center-center;
       @include btn($cycle-bora);
+      $btn-offset: 1rem;
+      $btn-size: 2em;
+
       position: absolute;
-      top: calc(#{$nav-bar-m-h} + 14px);
-      left: 16px;
-      width: 36px;
-      height: 36px;
+      top: calc(#{$nav-bar-m-h} + #{$btn-offset});
+      left: $btn-offset;
+      width: $btn-size;
+      height: $btn-size;
       box-shadow: 3px 3px 8px rgba(154, 154, 154, 0.25);
-      font-size: 12px;
       background-color: $grey-100;
       color: $grey-500;
     }
   }
   .nav-popup {
     @include flex-row-center-baseline;
-    width: 90vw;
-    height: 100vh;
+    @include posi(a);
+    @include transi;
+    $pop-up-w: 90vw;
+
+    left: -1 * $pop-up-w;
+    width: $pop-up-w;
+    height: 100%;
     background-color: $primary-200;
-    position: absolute;
-    top: 0;
-    left: -90vw;
     z-index: $nav-popup;
     &.show {
       left: 0;
     }
-    @include transi;
-    .nav-popup-close {
-      position: absolute;
-      left: 24px;
-      top: 24px;
-      font-size: 24px;
+    &-close {
+      @include posi(a);
+      $close-size: 1.5rem;
+      padding: $close-size;
+      font-size: $close-size;
       color: $primary-500;
     }
-    .nav-popup-list {
+    &-list {
       @include flex-column-center-baseline;
       @include flex-col(8);
-      margin-top: 80px;
-      .nav-popup-item {
+      margin-top: 20%;
+      &-item {
         @include font-h4(bold);
         @include icon-m($option-ma);
         width: 100%;
-        padding: 28px 0;
+        padding: 1.75rem 0;
         color: $primary-500;
         &:not(:last-child) {
           border-bottom: 2px solid $primary-300;
@@ -159,24 +163,24 @@ export default {
   }
 
   @include screen-up {
-    nav {
+    .nav {
       @include flex-row-space-between-center;
       height: $nav-bar-h;
-      padding: 20px 36px;
-      .nav-list-block-m {
+      padding: 1.25rem 2.25rem;
+      &-list-m {
         display: none;
       }
-      .nav-list-block {
+      &-list {
         @include flex-row-space-between-center;
-        .nav-list-item {
+        &-item {
           @include btn;
           @include btn-outline-color($primary-500, $grey-100, $primary-500);
           @include icon-m($tag-ma, l);
+          border-radius: $oval-bora;
+          padding: $btn-nav-p;
           &.active {
             border: 3px solid $primary-300;
           }
-          border-radius: 63px;
-          padding: $btn-nav-p;
           &:not(:last-child) {
             margin-right: $nav-ma;
           }
@@ -186,8 +190,6 @@ export default {
         display: none;
       }
     }
-  }
-  @include screen-up {
     .nav-popup {
       display: none;
     }

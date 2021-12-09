@@ -171,22 +171,21 @@ export default {
 
   @include pad-m {
     .list-board-container {
+      @include transi(.3s);
       width: 100%;
-      height: 180px;
-      border-radius: $normal-bora;
+      height: 25vh;
+      border-radius: $normal-bora $normal-bora 0 0;
       background-color: $grey-100;
       position: absolute;
       left: 0;
-      bottom: -10px;
+      bottom: 0;
       overflow: visible;
       z-index: $list-board;
-      // mobile-pad only
-      @include transi(.3s);
       &.hide {
         display: none;
       }
       &.expanding {
-        height: 559px;
+        height: 65vh;
         .expand-btn {
           transform: rotate(180deg);
         }
@@ -195,13 +194,14 @@ export default {
         @include flex-row-center-center;
         @include btn-filled($primary-500);
         @include btn($cycle-bora);
+        $locate-icon-size: 12vw;
+        width: $locate-icon-size;
+        height: $locate-icon-size;
         position: absolute;
-        top: -68px;
-        right: 24px;
-        width: 48px;
-        height: 48px;
+        top: calc(-1 *(#{$locate-icon-size} + 5vw));
+        right: 5vw;
         box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);
-        font-size: 20px;
+        font-size: 1.25rem;
         &:hover {
           background-color: $primary-600;
         } 
@@ -209,19 +209,20 @@ export default {
       .list-board-header {
         @include flex-row-center-center;
         width: 100%;
-        height: 70px;
+        height: $list-board-header-h;
+        padding: 0px 5vw;
         background-color: $primary-300;
         border-radius: $normal-bora $normal-bora 0 0;
         .header-expand-btn {
           @include font-h4(bold);
           color: $grey-100;
-          margin-right: 14px;
+          margin-right: 1rem;
           cursor: pointer;
         }
         .btn-filter {
           @include btn;
           @include font-button(bold);
-          @include icon-m(4px);
+          @include icon-m($icon-ma);
           color: $primary-400;
           background-color: $grey-100;
           padding: $btn-msg-p;
@@ -229,10 +230,9 @@ export default {
           overflow: visible;
           .filter-select-block {
             @include flex-column-center-center;
-            position: absolute;
-            right: 0;
-            top: 40px;
-            padding: 11px;
+            @include posi(a);
+            top: 2.5rem;
+            padding: .4em .8em;
             border: 1px solid $primary-400;
             box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);;
             border-radius: $normal-bora;
@@ -240,7 +240,7 @@ export default {
             width: max-content;
             cursor: pointer;
             .filter-select {
-              padding: 8px 0;
+              padding: .5em 0;
               &:nth-child(1), &:nth-child(2) {
                 border-bottom: 1px solid $grey-300;
               }
@@ -248,13 +248,12 @@ export default {
           }
         }
         &.route {
-          height: 48px;
+          height: 6vh;
           .route-block {
             @include flex-row-space-between-center;
             @include font-content(bold);
             width: 100%;
             color: $grey-100;
-            padding: 0 20px;
             .back-btn {
               display: none;
             }
@@ -265,8 +264,8 @@ export default {
         @include flex-row-center-center;
         @include font-button(bold);
         background-color: $primary-200;
-        padding: 8px 0;
-        .left-block , .right-block {
+        padding: .5rem 0;
+        .left-block, .right-block {
           @include flex-row-center-center;
           @include flex-col(6);
           cursor: pointer;
@@ -283,11 +282,10 @@ export default {
         display: none;
       }
       .cards-container {
-        $pading-top: 8px;
+        $pading-top: .5rem;
         width: 100%;
         height: calc(100% - #{$list-board-header-h});
-        padding: $pading-top 16px;
-        padding-bottom: 20px;
+        padding: $pading-top 1rem 0 1rem;
         .cards {
           width: 100%;
           height: 100%;
@@ -299,14 +297,14 @@ export default {
 
   @include screen-up {
     .list-board-container {
-      $top-margin: 34px;
+      $top-margin: 2rem;
       width: $list-board-w;
       height: calc(100% - #{$nav-bar-h} - #{$footer-h} - (#{$top-margin} * 2));
       border-radius: $normal-bora;
       background-color: $grey-100;
       position: absolute;
-      left: 32px;
-      top: $nav-bar-h + $top-margin;
+      left: 2rem;
+      top: calc(#{$nav-bar-h} + #{$top-margin});
       overflow: visible;
       z-index: $list-board;
       box-shadow: 3px 3px 8px rgba(154, 154, 154, 0.25);
@@ -314,13 +312,14 @@ export default {
         @include flex-row-center-center;
         @include btn-filled($primary-500);
         @include btn($cycle-bora);
+        $locate-icon-size: 1.875rem;
         position: absolute;
         top: 0;
-        right: -80px;
-        width: 60px;
-        height: 60px;
+        right: calc(((#{$locate-icon-size} * 2) + 1.25rem) * -1);
+        width: $locate-icon-size * 2;
+        height: $locate-icon-size * 2;
         box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);
-        font-size: 30px;
+        font-size: $locate-icon-size;
         &:hover {
           background-color: $primary-600;
         } 
@@ -328,42 +327,19 @@ export default {
       .list-board-header {
         @include flex-row-center-center;
         width: 100%;
-        height: 84px;
+        height: 15%;
         background-color: $primary-300;
         border-radius: $normal-bora $normal-bora 0 0;
         .header-expand-btn {
           display: none;
         }
-        .search-bar {
-          @include flex-col(8);
-          @include flex-row-space-between-center;
-          @include font-button(500);
-          border-radius: $normal-bora;
-          background-color: $primary-100;
-          color: $primary-500;
-          padding: 8px 20px;
-          margin-right: 12px;
-          position: relative;
-          > input {
-            color: $primary-500;
-            background-color: inherit;
-            &::placeholder {
-              color: $primary-500;
-            }
-          }
-          .search-icon {
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-          }
-        }
         .btn-filter {
           @include btn;
-          @include font-caption(bold);
-          @include icon-m(10px);
+          @include font-button(bold);
+          @include icon-m($tag-ma);
+          padding: 1.2vh 1em;
           color: $primary-400;
           background-color: $grey-100;
-          padding: $btn-msg-p;
           position: relative;
           overflow: visible;
           .filter-select-block {
@@ -379,7 +355,7 @@ export default {
             width: max-content;
             cursor: pointer;
             .filter-select {
-              padding: 8px 0;
+              padding: .5rem 0;
               &:nth-child(1), &:nth-child(2) {
                 border-bottom: 1px solid $grey-300;
               }
@@ -391,13 +367,13 @@ export default {
           }
         }
         &.route {
-          height: 64px;
+          height: 11%;
           .route-block {
             @include flex-row-space-between-center;
             @include font-h4(bold);
             width: 100%;
             color: $grey-100;
-            padding: 0 32px;
+            padding: 0 10%;
             .expand-btn {
               display: none;
             }
@@ -411,7 +387,8 @@ export default {
         @include flex-row-center-center;
         @include font-content(bold);
         background-color: $primary-200;
-        padding: 10px 0;
+        padding: .75rem 0;
+        height: 8%;
         .left-block , .right-block {
           @include flex-row-center-center;
           @include flex-col(6);
@@ -428,17 +405,17 @@ export default {
       .searching-img-container {
         @include flex-row-center-center;
         width: 100%;
-        margin-top: 28px;
+        margin-top: 10vh;
         > img {
           width: 253px;
         }
       }
     }
     .cards-container {
-      $pading-top: 10px;
+      $pading-top: .75rem;
       width: 100%;
-      height: calc(100% - #{$list-board-header-h} - (#{$pading-top} * 2));
-      padding: $pading-top 32px;
+      height: calc(100% - 10% - 8%);
+      padding: $pading-top 2rem;
       .cards {
         width: 100%;
         height: 100%;

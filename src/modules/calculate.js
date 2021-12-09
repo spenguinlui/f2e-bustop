@@ -1,5 +1,7 @@
+// 小數點四捨五入
 export const roundX = (val, precision) => Math.round(Math.round(val * Math.pow(10, (precision || 0) + 1)) / 10) / Math.pow(10, (precision || 0));
 
+// 計算兩點距離
 export const distance = (lat1, lon1, lat2, lon2) => {
   if (!((lat1 == lat2) && (lon1 == lon2))) {
     let radlat1 = Math.PI * lat1 / 180;
@@ -17,6 +19,8 @@ export const distance = (lat1, lon1, lat2, lon2) => {
     return 0;
   }
 }
+
+// 距離顯示，公尺公里轉換 -- 套用 distance 結果
 export const distanceZh = (dist) => {
   let distStr = '0公尺';
   if (dist <= 1) {

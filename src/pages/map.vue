@@ -64,13 +64,11 @@ export default {
   @import "@/assets/scss/main.scss";
 
   #map {
+    @include posi(f);
     width: 100%;
     height: 100%;
     margin-top: $nav-bar-m-h;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: -1;
+    z-index: $map;
     @include screen-up {
       margin-top: $nav-bar-h;
     }

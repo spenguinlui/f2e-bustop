@@ -89,45 +89,43 @@ export default {
   @import "@/assets/scss/main.scss";
 
   .key-board-container {
+    @include transi;
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
     background-color: $grey-100;
     z-index: $key-board;
-    @include transi;
     &.detail {
-      bottom: -400px;
+      bottom: -100vh;
     }
-    // &.inter {
-    //   height: 300px;
-    // }
     .select-city-container {
       @include flex-row-flex-start-center;
       width: 100%;
+      $city-tag-padding: .75rem;
       background-color: $primary-200;
-      padding: 12px 0;
+      padding: $city-tag-padding 0;
       flex-wrap: nowrap;
       overflow: auto;
       .city-tag {
         @include flex-col(2);
-        @include btn;
+        @include btn(.7em);
         @include btn-filled($primary-400);
         @include font-caption(bold);
-        padding: 4px 8px;
-        min-width: 55px;
-        margin-right: 12px;
+        padding: .2em .7em;
+        margin-right: $city-tag-padding;
         &:nth-child(1) {
-          margin-left: 20px;
+          margin-left: $city-tag-padding;
         }
-
         &.active {
           background-color: $primary-600;
         }
       }
     }
     .key-board-panel {
-      padding: 12px 20px;
+      $key-board-panel-padding: 3vw;
+      padding-top: $key-board-panel-padding;
+      padding-left: $key-board-panel-padding;
       .city-panel {
         @include flex-row-center-center;
         width: 100%;
@@ -144,18 +142,21 @@ export default {
         }
       }
       .panel-container {
-        padding-right: 10px;
-        padding-bottom: 10px;
+        padding-right: $key-board-panel-padding;
+        padding-bottom: $key-board-panel-padding;
         .panel-btn {
-          @include btn;
+          @include btn(.5rem);
           @include btn-outline-color($primary-500, $grey-100, $primary-500);
           @include font-content;
-          height: 40px;
+          padding: .4em 0;
           &.red-line { @include btn-outline-color($alert-300, $alert-100, $alert-300) }
           &.green-line { @include btn-outline-color($primary-500, $primary-100, $primary-500) }
           &.orange-line { @include btn-outline-color($accent-400, $accent-100, $accent-400) }
           &.blue-line { @include btn-outline-color(#59C3DA, #D9F4FF, #59C3DA) }
           &.brown-line { @include btn-outline-color($accent-500, $accent-100, $accent-500) }
+          @media screen and (max-height: 600px) {
+            @include font-button;  // 手機太短降一級距 SE~I8
+          }
         }
         &.back-btn {
           flex-grow: 1;
