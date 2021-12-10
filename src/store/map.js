@@ -134,7 +134,7 @@ export default {
 
     // 清除底圖與中心點以外圖層 (盡量在 vue 元件呼叫)
     removeOtherLayers() {
-      const storeMap = this.state.map.storeMap;
+      const { storeMap } = this.state.map;
       storeMap.eachLayer(function(layer){ 
         if (!(layer instanceof L.TileLayer)) {
           if (layer.options.layerName !== 'center') storeMap.removeLayer(layer);
@@ -143,7 +143,7 @@ export default {
     },
 
     removeBusPointLayers() {
-      const storeMap = this.state.map.storeMap;
+      const { storeMap } = this.state.map;
       storeMap.eachLayer(function(layer){
         if (layer.options.layerName === 'buspoint') storeMap.removeLayer(layer);
       })
@@ -151,23 +151,26 @@ export default {
 
     // 將單車資料打上地圖
     setBikeRentDataOnMap({ commit }, bikeDataList) {
-      let bikeLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
+      const { storeMap } = this.state.map;
+      let bikeLayer = new L.LayerGroup().addTo(storeMap);
       bikeDataList.map((data) => {
         const divIcon = createBikeMarker(data.AvailableRentBikes);
         L.marker([data.StationPosition.PositionLat, data.StationPosition.PositionLon], { icon: divIcon })
           .bindPopup(createBikePopupObj(data), { minWidth: 270, offset: [0, 0], className: "bike-tooltips" })
           .addTo(bikeLayer);
       })
+      if (storeMap.tap) storeMap.tap.disable();  // 解決 safari、edge popup失效
       commit("SET_BIKE_RENT_LAYER", bikeLayer);
     },
 
     // 將公車站點打上地圖
     setBusStopDataOnMap({ commit }, targetDataList = []) {
       // if bus stop data given, else find it
+      const { storeMap } = this.state.map;
       const istargetGiven = targetDataList.length !== 0;
       const targetStops = istargetGiven ? targetDataList : getTargetDataList(this.state).Stops;
 
-      let busLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
+      let busLayer = new L.LayerGroup().addTo(storeMap);
       targetStops.map((data, index) => {
         const marker = L.marker([data.StopPosition.PositionLat, data.StopPosition.PositionLon], { icon: busStopIcon, title: data.StationID })
           .bindPopup(createBusPopupObj(data, this.state.targetRoute.destinationStop), { minWidth: 100, offset: [90, 20], className: "bus-popup" })
@@ -178,13 +181,15 @@ export default {
           this.dispatch("getBusRoutebyStop", stationId);
         })
       })
-      if (!istargetGiven) this.state.map.storeMap.flyTo([targetStops[0].StopPosition.PositionLat, targetStops[0].StopPosition.PositionLon], 16);
+      if (storeMap.tap) storeMap.tap.disable();  // 解決 safari、edge popup失效
+      if (!istargetGiven) storeMap.flyTo([targetStops[0].StopPosition.PositionLat, targetStops[0].StopPosition.PositionLon], 16);
       commit("SET_BUS_STOP_LAYER", busLayer);
     },
 
     // 將公車路線打上地圖
     setBusRouteDataOnMap() {
-      const busRouteLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
+      const { storeMap } = this.state.map;
+      const busRouteLayer = new L.LayerGroup().addTo(storeMap);
       const targetGeometry = getTargetDataList(this.state).Geometry;
       const geoJsonData = geometryStrToGeoJson(targetGeometry);
       const lineStyle = { color: "#4EA476", weight: 4 };
@@ -197,7 +202,8 @@ export default {
 
     // 將公車動態打上地圖
     setBusRealTimeOnMap() {
-      const busRealTimeLayer = new L.LayerGroup().addTo(this.state.map.storeMap);
+      const { storeMap } = this.state.map;
+      const busRealTimeLayer = new L.LayerGroup().addTo(storeMap);
       const targetRealTime = getTargetDataList(this.state).BusRealTime;
       targetRealTime.map((data) => {
         L.marker([data.BusPosition.PositionLat, data.BusPosition.PositionLon], { icon: busPointIcon, zIndexOffset: 1000, layerName: "buspoint" })
