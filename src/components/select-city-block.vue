@@ -62,8 +62,8 @@ import { mapGetters } from 'vuex';
     border-radius: $normal-bora;
     z-index: $select-city-block;
     .area-container {
+      @include scroll;
       height: 270px;
-      overflow: auto;
       .area-block {
         color: $grey-600;
         padding: .75rem 0;

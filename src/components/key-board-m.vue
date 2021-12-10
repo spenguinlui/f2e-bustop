@@ -101,12 +101,12 @@ export default {
     }
     .select-city-container {
       @include flex-row-flex-start-center;
+      @include scroll;
       width: 100%;
       $city-tag-padding: .75rem;
       background-color: $primary-200;
       padding: $city-tag-padding 0;
       flex-wrap: nowrap;
-      overflow: auto;
       .city-tag {
         @include flex-col(2);
         @include btn(.7em);

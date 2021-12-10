@@ -419,7 +419,7 @@ export default {
       .cards {
         width: 100%;
         height: 100%;
-        overflow: auto;
+        @include scroll;
       }
     }
   }

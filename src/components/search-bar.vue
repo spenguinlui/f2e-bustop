@@ -1,7 +1,7 @@
 <template>
   <div class="search-bar" :class="{ icb: isICB }" @click="$refs.inputEl.focus()">
     <input v-model="localKeyword" ref="inputEl" type="text" 
-      :placeholder="isBike ? '搜尋站點與鄰近地點' : '搜尋公車路線及站牌'"
+      :placeholder="isBike ? '搜尋站點' : '搜尋公車路線及站牌'"
     >
     <div class="search-icon" @click.prevent.stop="goSearch"><i class="fas fa-search"></i></div>
   </div>
@@ -44,6 +44,7 @@ export default {
     padding: 1.2vh 1.5em;
     position: relative;
     > input {
+      width: 100%;
       color: $grey-500;
       background-color: inherit;
       &::placeholder {
@@ -55,7 +56,7 @@ export default {
       font-weight: bold; 
     }
     &.bike {
-      @include flex-col(6);
+      max-width: 50vw;
       margin-right: .75rem;
       background-color: $primary-100;
       color: $primary-500;

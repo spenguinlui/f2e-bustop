@@ -326,3 +326,8 @@
   transition-timing-function: ease-in-out;
 }
 
+// 滾輪效果
+@mixin scroll {
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
