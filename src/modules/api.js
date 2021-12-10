@@ -177,3 +177,9 @@ export const AJAX_getWeaterRain = (currentLocation, limit = 1) => {
     url: `${WEATHER_DOMAIN}F-C0032-001?Authorization=${WEATHER_KEY}&limit=${limit}&locationName=${currentLocation}`,
   })
 }
+export const AJAX_getWeaterTep = (currentLocation, limit = 1) => {
+  return axios({
+    method: 'get',
+    url: `${WEATHER_DOMAIN}O-A0003-001?Authorization=${WEATHER_KEY}&limit=${limit}&locationName=${currentLocation}`,
+  })
+}

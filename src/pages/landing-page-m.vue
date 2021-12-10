@@ -20,8 +20,8 @@
         </div>
         <div class="detail-values">
           <div class="temperature">
-            <div class="temperature-max">{{ weatherData.MaxT.parameterName }}°C</div>
-            <div class="temperature-min">| {{ weatherData.MinT.parameterName }}°C</div>
+            <div class="temperature-max">{{ weatherData.TEMP }}°C</div>
+            <!-- <div class="temperature-min">| {{ weatherData.MinT.parameterName }}°C</div> -->
           </div>
           <div class="rain-rate"><i class="fas fa-cloud-showers-heavy"></i>{{ weatherData.PoP.parameterName }}%</div>
         </div>

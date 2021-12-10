@@ -101,10 +101,12 @@ export default {
       color: $primary-400;
     }
     .sinal {
-      width: 5px;
-      height: 5px;
+      $sinal-size: 5px;
+      width: $sinal-size;
+      height: $sinal-size;
       border-radius: $cycle-bora;
       background-color: $primary-400;
+      margin-right: calc(#{$sinal-size} / 2);
       box-shadow: 0px 0px 0px 2px lighten($primary-400, 30%);
       &.disable {
         background-color: $grey-400;

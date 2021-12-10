@@ -18,6 +18,7 @@ import {
   AJAX_getBikeStation,
   AJAX_getBikeAvailability,
   AJAX_getCurrentLocation,
+  AJAX_getWeaterTep,
   AJAX_getWeaterRain
 } from "../modules/api";
 
@@ -144,11 +145,11 @@ export const storeObject = {
     // 依座標取得目前行政區域(城市)
     getCurrentCity({ commit }, currentPosition) {
       AJAX_getCurrentLocation(currentPosition)
-        .then((res) => {
+        .then(res => {
           commit("CHECK_OUT_CITY", res.data[0].City);
           this.dispatch("getWeather");
         })
-        .catch((error) => {
+        .catch(error => {
           const errorMsg = `
             getCurrentCity 發生錯誤: ${error}
             currentPosition: [${currentPosition.latitude}, ${currentPosition.longitude}]
@@ -182,10 +183,10 @@ export const storeObject = {
         city: targetCity,
         position: map.currentPosition
       };
-      AJAX_getBusStopNearBy(targetParam).then((res) => {
+      AJAX_getBusStopNearBy(targetParam).then(res => {
         commit("UPDATE_BUS_STOP_DATA_LIST", res.data);
         this.dispatch("map/setBusStopDataOnMap", res.data);
-      }).catch((error) => {
+      }).catch(error => {
         let errorMsg = `getBusStopList 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
         console.log(errorMsg)
@@ -200,9 +201,9 @@ export const storeObject = {
         city: targetCity,
         stationId: stationId
       };
-      AJAX_getBusRouteByStop(targetParam).then((res) => {
+      AJAX_getBusRouteByStop(targetParam).then(res => {
         commit("UPDATE_BUS_DATA_LIST", res.data);
-      }).catch((error) => {
+      }).catch(error => {
         let errorMsg = `getBusStopList 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
         console.log(errorMsg)
@@ -249,7 +250,7 @@ export const storeObject = {
         this.dispatch("map/setBusStopDataOnMap");
         this.dispatch("map/setBusRouteDataOnMap");
         this.dispatch("map/setBusRealTimeOnMap");
-      }).catch((error) => {
+      }).catch(error => {
         let errorMsg = `getRouteDetail 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
         console.log(errorMsg)
@@ -284,7 +285,7 @@ export const storeObject = {
         // 只清掉公車動態再重新打新的上去
         this.dispatch("map/removeBusPointLayers");
         this.dispatch("map/setBusRealTimeOnMap");
-      }).catch((error) => {
+      }).catch(error => {
         let errorMsg = `refreshRouteDetail 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
         console.log(errorMsg)
@@ -304,7 +305,7 @@ export const storeObject = {
         .then(res => {
           commit("UPDATE_BUS_DATA_LIST", res.data);
         })
-        .catch((error) => {
+        .catch(error => {
           let errorMsg = `getBusDataWithKeyword 發生錯誤: ${error},\ntargetParam: `;
           for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
           console.log(errorMsg)
@@ -321,20 +322,22 @@ export const storeObject = {
       ]).then(res => {
         const dataList = res[0].data;
         let avaDataList = res[1].data;
-        avaDataList = avaDataList.map((data) => {
-          let findData = dataList.find((d) => d.StationUID === data.StationUID);
-          if (findData) data = {...data, ...findData}
-          // 改個名字
-          data.StationName.Zh_tw = data.StationName.Zh_tw.replace("YouBike1.0_", "");
-          data.StationName.Zh_tw = data.StationName.Zh_tw.replace("YouBike2.0_", "");
-          const { PositionLat, PositionLon } = data.StationPosition;
-          data.Distance = distance(PositionLat, PositionLon, position.latitude, position.longitude);
-          data.DistanceZH = distanceZh(data.Distance);
-          return data;
-        });
+        avaDataList = avaDataList.map(
+          data => {
+            const { PositionLat, PositionLon } = data.StationPosition;
+            let findData = dataList.find((d) => d.StationUID === data.StationUID);
+            if (findData) data = {...data, ...findData}
+            // 改個名字
+            data.StationName.Zh_tw = data.StationName.Zh_tw.replace("YouBike1.0_", "");
+            data.StationName.Zh_tw = data.StationName.Zh_tw.replace("YouBike2.0_", "");
+            data.Distance = distance(PositionLat, PositionLon, position.latitude, position.longitude);
+            data.DistanceZH = distanceZh(data.Distance);
+            return data;
+          }
+        );
         commit("UPDATE_BIKE_DATA_LIST", avaDataList);
         this.dispatch("map/setBikeRentDataOnMap", avaDataList);
-      }).catch((error) => {
+      }).catch(error => {
         let errorMsg = `getBikeDataList 發生錯誤: ${error}`;
         console.log(errorMsg)
       })
@@ -343,9 +346,12 @@ export const storeObject = {
     // 取得天氣資料
     getWeather({ commit }) {
       const location = citysHash[this.state.targetCity].cityName;
+      const weatherLocation = citysHash[this.state.targetCity].locationName;
 
-      AJAX_getWeaterRain(location).then(res => {
-        const locationData = res.data.records.location[0];
+      Promise.all([
+        AJAX_getWeaterRain(location), AJAX_getWeaterTep(weatherLocation)
+      ]).then(res => {
+        const locationData = res[0].data.records.location[0];
         const weatherElements = locationData.weatherElement.reduce(
           (neededElements, item) => {
             if (["Wx", "MaxT", "MinT", "PoP"].includes(item.elementName)) {
@@ -355,8 +361,16 @@ export const storeObject = {
           },
           {}
         );
+        const TepLocationData = res[1].data.records.location[0];
+        TepLocationData.weatherElement.forEach(
+          item => {
+            if (["TEMP"].includes(item.elementName)) {
+              weatherElements[item.elementName] = item.elementValue;
+            }
+          }
+        );
         commit("UPDATE_WEATHER_DATA", weatherElements);
-      }).catch((error) => {
+      }).catch(error => {
         let errorMsg = `getWeather 發生錯誤: ${error}`;
         console.log(errorMsg)
       })

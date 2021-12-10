@@ -135,7 +135,7 @@ export default {
     // 清除底圖與中心點以外圖層 (盡量在 vue 元件呼叫)
     removeOtherLayers() {
       const { storeMap } = this.state.map;
-      storeMap.eachLayer(function(layer){ 
+      storeMap.eachLayer(layer => { 
         if (!(layer instanceof L.TileLayer)) {
           if (layer.options.layerName !== 'center') storeMap.removeLayer(layer);
         }
@@ -144,7 +144,7 @@ export default {
 
     removeBusPointLayers() {
       const { storeMap } = this.state.map;
-      storeMap.eachLayer(function(layer){
+      storeMap.eachLayer(layer => {
         if (layer.options.layerName === 'buspoint') storeMap.removeLayer(layer);
       })
     },
@@ -153,7 +153,7 @@ export default {
     setBikeRentDataOnMap({ commit }, bikeDataList) {
       const { storeMap } = this.state.map;
       let bikeLayer = new L.LayerGroup().addTo(storeMap);
-      bikeDataList.map((data) => {
+      bikeDataList.map(data => {
         const divIcon = createBikeMarker(data.AvailableRentBikes);
         L.marker([data.StationPosition.PositionLat, data.StationPosition.PositionLon], { icon: divIcon })
           .bindPopup(createBikePopupObj(data), { minWidth: 270, offset: [0, 0], className: "bike-tooltips" })
@@ -205,7 +205,7 @@ export default {
       const { storeMap } = this.state.map;
       const busRealTimeLayer = new L.LayerGroup().addTo(storeMap);
       const targetRealTime = getTargetDataList(this.state).BusRealTime;
-      targetRealTime.map((data) => {
+      targetRealTime.map(data => {
         L.marker([data.BusPosition.PositionLat, data.BusPosition.PositionLon], { icon: busPointIcon, zIndexOffset: 1000, layerName: "buspoint" })
           .addTo(busRealTimeLayer);
       })
