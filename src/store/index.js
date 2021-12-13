@@ -27,6 +27,7 @@ import mapModules from "./map";
 
 export const storeObject = {
   state: {
+    allowPosition: false,  // 使用者是否允許定位
     landingPageShow: true, // 手機版首頁是否顯示
     targetType: "CB",      // 目標類型 - CB: 市區公車, ICB: 公路客運, Bike: 自行車
     targetCity: "Taipei",  // 目標城市, default: Taipei
@@ -57,6 +58,7 @@ export const storeObject = {
     }
   },
   getters: {
+    allowPosition: state => state.allowPosition,
     landingPageShow: state => state.landingPageShow,
     searchKeyword: state => state.searchKeyword,
     targetCity: state => state.targetCity,
@@ -79,6 +81,8 @@ export const storeObject = {
     weatherData: state => state.weatherData
   },
   mutations: {
+    // 更新同意定位
+    UPDATE_ALLOW_POSITION: (state) => state.allowPosition = true,
     // 初始化資料類型(按首頁圖用的)
     INIT_TARGET_MODE(state) {
       state.landingPageShow = false;

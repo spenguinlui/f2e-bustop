@@ -27,12 +27,13 @@ export default {
     getCurrentPosition() {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
+          this.$store.commit("UPDATE_ALLOW_POSITION");
           this.setPosition(position);
         }, () => {
-          window.alert("無定位，預設定位於台北車站")
+          window.alert("建議允許定位功能取用您的位置已獲得更完整的服務，預設定位於台北車站")
         })
       } else {
-        window.alert("無定位，預設定位於台北車站")
+        window.alert("無定位功能，預設定位於台北車站")
       }
     },
     setPosition(position) {

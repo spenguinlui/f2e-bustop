@@ -61,10 +61,9 @@
         </div>
       </div>
     </div>
-    <div class="landing-page-service accent">
+    <div class="landing-page-service" :class="{ accent: allowPosition, alert: !allowPosition }">
       <div class="service-icon"><i class="fas fa-crosshairs"></i></div>
-      <div class="service-text">您已同意開啟定位服務</div>
-      <div class="service-btns"></div>
+      <div class="service-text">{{ allowPosition ? "您已同意開啟定位服務" : "您未同意開啟定位服務" }}</div>
     </div>
   </div>
 </template>
@@ -81,7 +80,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['landingPageShow', 'weatherData', 'weatherIcon', 'targetCity']),
+    ...mapGetters(['landingPageShow', 'allowPosition', 'weatherData', 'weatherIcon', 'targetCity']),
     cityZh() {
       return citysHash[this.targetCity].cityName;
     }
