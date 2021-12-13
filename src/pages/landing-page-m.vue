@@ -126,10 +126,12 @@ export default {
   .landing-page {
     @include flex-column-space-around-center;
     @include posi(f);
+    @include heightvh(calc(100 - #{$nav-bar-m-h} - #{$footer-m-h}));
     width: 100%;
-    height: calc(100vh - #{$nav-bar-m-h} - #{$footer-m-h});
-    margin-top: $nav-bar-m-h;
-    margin-bottom: $footer-m-h;
+    margin-top: #{$nav-bar-m-h}vh;
+    margin-top: calc(var(--vh, 1vh) * #{$nav-bar-m-h});
+    margin-bottom: #{$footer-m-h}vh;
+    margin-bottom: calc(var(--vh, 1vh) * #{$footer-m-h});
     background-color: $primary-100;
     padding: 3vh 8vw;
     z-index: $landing-page;

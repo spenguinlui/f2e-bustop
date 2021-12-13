@@ -1,7 +1,7 @@
 <template>
-  <div class="route-header">
+  <div class="route-header" @click="mobileExpand">
     <!-- 展開  切換函式先擺到母元素上比較好按 -->
-    <div class="expand-btn"><i class="fas fa-angle-up"></i></div>
+    <div class="expand-btn" :class="{ expanding: mobileExpanding}"><i class="fas fa-angle-up"></i></div>
     <!-- 回前一頁 -->
     <div class="back-btn" @click.prevent.stop="goBackRouteList"><i class="fas fa-angle-left"></i></div>
     <div class="route-name">{{ targetRoute.routeName }}</div>
@@ -13,6 +13,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
+  props: ['mobileExpand', 'mobileExpanding'],
   computed: {
     ...mapGetters(['targetRoute'])
   },
@@ -39,6 +40,9 @@ export default {
     color: $grey-100;
     .expand-btn {
       display: block;
+      &.expanding {
+        transform: rotate(180deg);
+      }
     }
     .back-btn {
       display: none;

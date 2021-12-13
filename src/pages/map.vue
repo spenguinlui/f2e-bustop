@@ -57,7 +57,8 @@ export default {
     @include posi(f);
     width: 100%;
     height: 100%;
-    margin-top: $nav-bar-m-h;
+    margin-top: #{$nav-bar-m-h}vh;
+    margin-top: calc(var(--vh, 1vh) * #{$nav-bar-m-h});
     z-index: $map;
     @include screen-up {
       margin-top: $nav-bar-h;

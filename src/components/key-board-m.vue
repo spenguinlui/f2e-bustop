@@ -98,6 +98,7 @@ export default {
     z-index: $key-board;
     &.detail {
       bottom: -100vh;
+      bottom: calc(var(--vh, 1vh) * -100);
     }
     .select-city-container {
       @include flex-row-flex-start-center;

@@ -60,13 +60,13 @@ $letter-spacing-button: 0.03em;
 $letter-spacing-caption: 0.01em;
 $letter-spacing-overline: 0.01em;
 
-// 版型 (固定 height、width)
+// 版型 (固定 height、width) mobile 要用計算的
 $nav-bar-h: 78px;
-$nav-bar-m-h: 8vh;
+$nav-bar-m-h: 8;
 $footer-h: 3.75rem;
-$footer-m-h: 6vh;
+$footer-m-h: 6;
 $list-board-w: 425px;
-$list-board-header-h: 10vh;
+$list-board-header-h: 10;
 
 // 內距 (padding)
 $btn-tag-p: 4px 6px;

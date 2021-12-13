@@ -41,10 +41,12 @@ export default {
 
   .list-board-m {
     @include flex-column-flex-start-center;
+    @include heightvh(calc(100 - #{$nav-bar-m-h} - #{$footer-m-h}));
     width: 100vw;
-    height: calc(100vh - #{$nav-bar-m-h} - #{$footer-m-h});
-    margin-top: $nav-bar-m-h;
-    margin-bottom: $footer-m-h;
+    margin-top: #{$nav-bar-m-h}vh;
+    margin-top: calc(var(--vh, 1vh) * #{$nav-bar-m-h});
+    margin-bottom: #{$footer-m-h}vh;
+    margin-bottom: calc(var(--vh, 1vh) * #{$footer-m-h});
     background-color: $primary-100;
     .search-container {
       margin-top: 1vh;
@@ -70,6 +72,7 @@ export default {
       height: 100%;
       padding: 1vh 6vw;
       padding-bottom: 40vh;
+      padding-bottom: calc(var(--vh, 1vh) * 40);
     }
   }
 

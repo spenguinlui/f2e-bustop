@@ -81,15 +81,19 @@ export default {
     @include posi(f);
     $padding: .8rem 1.5rem;
     width: 100vw;
-    height: $nav-bar-m-h;
+    $nav-bar-m-vh: calc(var(--vh, 1vh) * #{$nav-bar-m-h});
+    height: #{$nav-bar-m-h}vh;
+    height: $nav-bar-m-vh;
     background: $grey-100;
     padding: $padding;
     z-index: $nav-bar;
     &-list-m {
       @include flex-row-center-center;
       @include posi(a);
-      width: $nav-bar-m-h;
-      height: $nav-bar-m-h;
+      width: #{$nav-bar-m-h}vh;
+      width: $nav-bar-m-vh;
+      height: #{$nav-bar-m-h}vh;
+      height: $nav-bar-m-vh;
       font-size: 3.5vh;
       color: $grey-500;
     }
@@ -112,7 +116,7 @@ export default {
       $btn-size: 2em;
 
       position: absolute;
-      top: calc(#{$nav-bar-m-h} + #{$btn-offset});
+      top: calc(#{$nav-bar-m-h}vh + #{$btn-offset});
       left: $btn-offset;
       width: $btn-size;
       height: $btn-size;

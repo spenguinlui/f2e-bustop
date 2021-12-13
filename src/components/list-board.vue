@@ -10,7 +10,7 @@
       :class="{ route: isBike ? false : isRouteDetail }">
 
       <!-- 單車手機版出現 -->
-      <div class="header-expand-btn expand-btn"
+      <div class="header-expand-btn expand-btn" :class="{ expanding: mobileExpanding }"
         v-show="isBike" @click="mobileExpanding = !mobileExpanding">
         <i class="fas fa-angle-up"></i>
       </div>
@@ -40,9 +40,8 @@
       </div>
 
       <!-- 公車&客運 進入第二層細節才出現  -->
-      <RouteHeader
-        v-if="isBike ? false : isRouteDetail"
-        @click="mobileExpanding = !mobileExpanding"/>
+      <RouteHeader v-if="isBike ? false : isRouteDetail"
+        :mobileExpand="mobileExpand" :mobileExpanding="mobileExpanding"/>
     </div>
 
     <!-- 公車&客運 進入第二層細節才出現 -->
@@ -104,6 +103,9 @@ export default {
       'isCB', 'isICB', 'isBike', 'isRouteDetail', 'isGoDirection'])
   },
   methods: {
+    mobileExpand() {
+      this.mobileExpanding = !this.mobileExpanding;
+    },
     locateCurrentPosition() {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -157,8 +159,8 @@ export default {
   @include pad-m {
     .list-board-container {
       @include transi(.3s);
+      @include heightvh(25);
       width: 100%;
-      height: 25vh;
       border-radius: $normal-bora $normal-bora 0 0;
       background-color: $grey-100;
       position: absolute;
@@ -170,10 +172,7 @@ export default {
         display: none;
       }
       &.expanding {
-        height: 65vh;
-        .expand-btn {
-          transform: rotate(180deg);
-        }
+        @include heightvh(65);
       }
       .locate-icon {
         @include flex-row-center-center;
@@ -194,7 +193,8 @@ export default {
       .list-board-header {
         @include flex-row-center-center;
         width: 100%;
-        height: $list-board-header-h;
+        height: #{$list-board-header-h}vh;
+        height: calc(var(--vh, 1vh) * #{$list-board-header-h});
         padding: 0px 5vw;
         background-color: $primary-300;
         border-radius: $normal-bora $normal-bora 0 0;
@@ -203,6 +203,9 @@ export default {
           color: $grey-100;
           margin-right: 1rem;
           cursor: pointer;
+          &.expanding {
+            transform: rotate(180deg);
+          }
         }
         .btn-filter {
           @include btn;
@@ -233,7 +236,7 @@ export default {
           }
         }
         &.route {
-          height: 6vh;
+          @include heightvh(6);
         }
       }
       .searching-img-container {
@@ -242,7 +245,7 @@ export default {
       .cards-container {
         $pading-top: .5rem;
         width: 100%;
-        height: calc(100% - #{$list-board-header-h});
+        height: calc(100% - #{$list-board-header-h}vh);
         padding: $pading-top 1rem 0 1rem;
         .cards {
           width: 100%;
@@ -332,6 +335,7 @@ export default {
         @include flex-row-center-center;
         width: 100%;
         margin-top: 10vh;
+        margin-top: calc(var(--vh, 1vh) * 10);
         > img {
           width: 253px;
         }

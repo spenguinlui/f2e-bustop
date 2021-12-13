@@ -41,17 +41,24 @@ export default {
     MobileOrientation
   },
   methods: {
+    // 手機模式是否橫放
     orientationchange() {
       const width = document.documentElement.clientWidth;
       const height = document.documentElement.clientHeight;
       if (width < height) {
         this.isHorizontal = true;
-        console.log(`width: ${width}, height: ${height}`)
       } else {
         this.isHorizontal = false;
-        console.log(`width: ${width}, height: ${height}`)
       }
+    },
+    // 得到瀏覽器實際 vh 高度 (扣掉手機瀏覽器 header、nav)
+    getRealVH() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
+  },
+  created() {
+    this.getRealVH();
   },
   mounted() {
     window.addEventListener("orientationchange", this.orientationchange, false);
@@ -67,8 +74,8 @@ export default {
 
   .footer {
     @include flex-row-center-center;
+    @include heightvh($footer-m-h);
     width: 100%;
-    height: $footer-m-h;
     position: fixed;
     left: 0;
     bottom: 0;

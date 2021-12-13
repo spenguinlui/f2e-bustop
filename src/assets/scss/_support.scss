@@ -331,3 +331,9 @@
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
+
+// vh 設定
+@mixin heightvh($value) {
+  height: #{$value}vh;
+  height: calc(var(--vh, 1vh) * #{$value});
+}
