@@ -7,11 +7,6 @@ import L from 'leaflet';
 import { mapGetters, mapState } from 'vuex';
 
 export default {
-  data() {
-    return {
-      refreshInterval: {}
-    }
-  },
   computed: {
     ...mapState("map", ['currentPosition']),
     ...mapGetters(['targetRoute', 'isCB', 'isICB', 'isRouteDetail'])
@@ -50,12 +45,6 @@ export default {
   },
   mounted() {
     this.initMap();
-    this.refreshInterval = setInterval(() => {
-      if (this.isRouteDetail) this.$store.dispatch("refreshRouteDetail");
-    }, 15000);
-  },
-  beforeDestroy() {
-    clearInterval(this.refreshInterval);
   }
 }
 </script>

@@ -174,6 +174,7 @@ export const storeObject = {
       } else {
         this.dispatch("getBikeDataList");
       }
+      this.dispatch("map/focusCurrentPosition");
     },
 
     // 尋找附近公車站牌

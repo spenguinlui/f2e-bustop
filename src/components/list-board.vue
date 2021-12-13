@@ -40,28 +40,13 @@
       </div>
 
       <!-- 公車&客運 進入第二層細節才出現  -->
-      <div class="route-block"
-        @click="mobileExpanding = !mobileExpanding"
-        v-show="isBike ? false : isRouteDetail">
-        <!-- 展開  切換函式先擺到母元素上比較好按 -->
-        <div class="expand-btn"><i class="fas fa-angle-up"></i></div>
-        <!-- 回前一頁 -->
-        <div class="back-btn" @click.prevent.stop="goBackRouteList"><i class="fas fa-angle-left"></i></div>
-        <div class="route-name">{{ targetRoute.routeName }}</div>
-        <div class="info"><i class="fas fa-info-circle"></i></div>
-      </div>
+      <RouteHeader
+        v-if="isBike ? false : isRouteDetail"
+        @click="mobileExpanding = !mobileExpanding"/>
     </div>
 
     <!-- 公車&客運 進入第二層細節才出現 -->
-    <div class="route-path-block"
-      v-show="isBike ? false : isRouteDetail">
-      <div class="left-block"
-        :class="{ active: isGoDirection }"
-        @click="checkGoAndBackRoute(true)">往{{ targetRoute.destinationStop }}</div>
-      <div class="right-block"
-        :class="{ active: !isGoDirection }"
-        @click="checkGoAndBackRoute(false)">往{{ targetRoute.departureStop }}</div>
-    </div>
+    <RoutePathHeader v-if="isBike ? false : isRouteDetail"/>
 
     <!-- 公車&客運 桌面版一開始出現 -->
     <div class="searching-img-container"
@@ -101,6 +86,8 @@ import CardRotue from "./card-route.vue";
 import CardRealTime from "./card-real-time.vue";
 import CardBike from "./card-bike.vue";
 import SearchBar from "./search-bar.vue";
+import RouteHeader from "./route-header.vue";
+import RoutePathHeader from "./route-path-header.vue";
 
 export default {
   data() {
@@ -113,7 +100,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'targetCity', 'searchKeyword', 'targetRoute',
       'bikeDataList', 'busDataList', 'routeGoDetailList', 'routeBackDetailList',
       'isCB', 'isICB', 'isBike', 'isRouteDetail', 'isGoDirection'])
   },
@@ -125,10 +111,10 @@ export default {
           this.$store.dispatch("getCurrentPostion", currentPosition);
           this.checkGoAndBackRoute(false);
         }, () => {
-          window.alert("重新定位失敗")
+          window.alert("重新定位失敗");
         })
       } else {
-        window.alert("重新定位失敗")
+        window.alert("重新定位失敗");
       }
     },
     sortBikeByDistace() {
@@ -142,9 +128,6 @@ export default {
     sortBikeByReturn() {
       this.$store.commit("SORT_BY_RETURN");
       this.sortBlockShow = false;
-    },
-    goBackRouteList() {
-      this.$store.commit("CLOSE_ROUTE_DETAIL_LIST")
     },
     checkGoAndBackRoute(toggle) {
       this.$store.commit("CHECK_OUT_ROUTE_DIRCTION", toggle);
@@ -161,7 +144,9 @@ export default {
     CardRotue,
     CardRealTime,
     CardBike,
-    SearchBar
+    SearchBar,
+    RouteHeader,
+    RoutePathHeader
   }
 }
 </script>
@@ -249,33 +234,6 @@ export default {
         }
         &.route {
           height: 6vh;
-          .route-block {
-            @include flex-row-space-between-center;
-            @include font-content(bold);
-            width: 100%;
-            color: $grey-100;
-            .back-btn {
-              display: none;
-            }
-          }
-        }
-      }
-      .route-path-block {
-        @include flex-row-center-center;
-        @include font-button(bold);
-        background-color: $primary-200;
-        padding: .5rem 0;
-        .left-block, .right-block {
-          @include flex-row-center-center;
-          @include flex-col(6);
-          cursor: pointer;
-          color: $grey-100;
-          &.active {
-            color: $primary-500;
-          }
-        }
-        .right-block {
-          border-left: 1px solid $grey-100;
         }
       }
       .searching-img-container {
@@ -368,38 +326,6 @@ export default {
         }
         &.route {
           height: 11%;
-          .route-block {
-            @include flex-row-space-between-center;
-            @include font-h4(bold);
-            width: 100%;
-            color: $grey-100;
-            padding: 0 10%;
-            .expand-btn {
-              display: none;
-            }
-            .back-btn {
-              cursor: pointer;
-            }
-          }
-        }
-      }
-      .route-path-block {
-        @include flex-row-center-center;
-        @include font-content(bold);
-        background-color: $primary-200;
-        padding: .75rem 0;
-        height: 8%;
-        .left-block , .right-block {
-          @include flex-row-center-center;
-          @include flex-col(6);
-          cursor: pointer;
-          color: $grey-100;
-          &.active {
-            color: $primary-500;
-          }
-        }
-        .right-block {
-          border-left: 1px solid $grey-100;
         }
       }
       .searching-img-container {

@@ -43,6 +43,8 @@ export default {
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.commit("INIT_TARGET_MODE");
       this.$store.commit("TOGGLE_LANDING_APGE", true);
+      this.$store.dispatch("map/focusCurrentPosition");
+      this.$store.dispatch("updateTargetData");
     },
     toggleCityBus() {
       this.toggleMethod();
@@ -65,6 +67,7 @@ export default {
     goBackRouteList() {
       this.$store.commit("CLOSE_ROUTE_DETAIL_LIST")
       this.$store.dispatch("map/focusCurrentPosition");
+      this.$store.dispatch("updateTargetData");
     },
   }
 }
