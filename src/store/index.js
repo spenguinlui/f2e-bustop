@@ -294,7 +294,7 @@ export const storeObject = {
       })
     },
 
-    // 關鍵字搜尋客運
+    // 關鍵字搜尋公車客運
     getBusDataWithKeyword({ commit }) {
       const { targetType, targetCity, searchKeyword } = this.state;
       let targetParam = {
@@ -319,8 +319,8 @@ export const storeObject = {
       const position = this.state.map.currentPosition;
 
       Promise.all([
-        AJAX_getBikeStation(position),
-        AJAX_getBikeAvailability(position)
+        AJAX_getBikeAvailability(position),
+        AJAX_getBikeStation(position)
       ]).then(res => {
         const dataList = res[0].data;
         let avaDataList = res[1].data;
