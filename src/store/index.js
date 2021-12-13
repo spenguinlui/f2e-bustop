@@ -154,6 +154,7 @@ export const storeObject = {
             getCurrentCity 發生錯誤: ${error}
             currentPosition: [${currentPosition.latitude}, ${currentPosition.longitude}]
           `;
+          commit("CHECK_OUT_CITY", "Taipei");
           console.log(errorMsg);
         })
     },

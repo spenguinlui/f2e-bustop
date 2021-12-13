@@ -417,9 +417,9 @@ export default {
       height: calc(100% - 10% - 8%);
       padding: $pading-top 2rem;
       .cards {
+        @include scroll;
         width: 100%;
         height: 100%;
-        @include scroll;
       }
     }
   }
