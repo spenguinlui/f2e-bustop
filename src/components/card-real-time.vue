@@ -2,19 +2,23 @@
   <div>
     <div class="buffer-block" v-if="routeBuffer.bufferStartStop === data.StopName.Zh_tw">緩衝區</div>
     <div class="real-time-block">
-      <div class="time-btn"
-        :class="{
-          disable: data.StopStatus != 0 && data.EstimateTime === undefined,
-          colser: data.EstimateTime !== undefined && data.EstimateTime < 300,
-          }">
-        {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
+      <div class="left-block">
+        <div class="time-btn"
+          :class="{
+            disable: data.StopStatus != 0 && data.EstimateTime === undefined,
+            colser: data.EstimateTime !== undefined && data.EstimateTime < 300,
+            }">
+          {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
+        </div>
+        <div class="stop-name">{{ data.StopName.Zh_tw }}</div>
       </div>
-      <div class="stop-name">{{ data.StopName.Zh_tw }}</div>
-      <div v-if="data.ClosestStop" class="stop-closest">最近</div>
-      <div v-if="data.PlateNumb" class="bus-numb">{{ data.PlateNumb }}</div>
-      <div class="sinal" :class="{
-        disable: data.StopStatus != 0 || !data.EstimateTime,
-        colser: data.EstimateTime < 300 }">
+      <div class="right-block">
+        <div v-if="data.ClosestStop" class="stop-closest">最近</div>
+        <div v-if="data.PlateNumb" class="bus-numb">{{ data.PlateNumb }}</div>
+        <div class="sinal" :class="{
+          disable: data.StopStatus != 0 || !data.EstimateTime,
+          colser: data.EstimateTime < 300 }">
+        </div>
       </div>
     </div>
     <div class="buffer-block" v-if="routeBuffer.bufferEndStop === data.StopName.Zh_tw">緩衝區</div>
@@ -57,64 +61,73 @@ export default {
     @include flex-row-space-between-center;
     width: 100%;
     padding: .5rem 0;
-    .time-btn {
+    .left-block {
       @include flex-row-center-center;
-      @include font-caption(bold);
-      border-radius: $normal-bora;
-      min-width: 6.3em;
-      padding: .7em 1em;
-      margin-right: 3%;
-      color: $primary-400;
-      background-color: $grey-100;
-      border: 1px solid $primary-300;
-      &.disable {
-        color: $grey-400;
-        background-color: $grey-100;
-        border: 1px solid $grey-300;
-      }
-      &.colser {
-        color: $grey-400;
-        background-color: $grey-100;
-        border: 1px solid $grey-300;
-      }
-    }
-    .stop-name {
-      @include font-button(500);
-      color: $grey-500;
+      max-width: 60%;
       flex-grow: 1;
-    }
-    .bus-numb {
-      @include font-overline(500);
-      margin-right: 1rem;
-      padding: .5em;
-      border-radius: $normal-bora;
-      background-color: $primary-400;
-      color: $grey-100;
-    }
-    .stop-closest {
-      @include font-overline(500);
-      margin-right: 1rem;
-      padding: .5em;
-      border-radius: $normal-bora;
-      border: 1px solid $primary-400;
-      background-color: $grey-100;
-      color: $primary-400;
-    }
-    .sinal {
-      $sinal-size: 5px;
-      width: $sinal-size;
-      height: $sinal-size;
-      border-radius: $cycle-bora;
-      background-color: $primary-400;
-      margin-right: calc(#{$sinal-size} / 2);
-      box-shadow: 0px 0px 0px 2px lighten($primary-400, 30%);
-      &.disable {
-        background-color: $grey-400;
-        box-shadow: 0px 0px 0px 2px lighten($grey-400, 30%);
+      .time-btn {
+        @include flex-row-center-center;
+        @include font-caption(bold);
+        border-radius: $normal-bora;
+        min-width: 6.3em;
+        padding: .7em 1em;
+        margin-right: 3%;
+        color: $primary-400;
+        background-color: $grey-100;
+        border: 1px solid $primary-300;
+        &.disable {
+          color: $grey-400;
+          background-color: $grey-100;
+          border: 1px solid $grey-300;
+        }
+        &.colser {
+          color: $alert-400;
+          background-color: $grey-100;
+          border: 1px solid $alert-300;
+        }
       }
-      &.colser {
-        background-color: $alert-400;
-        box-shadow: 0px 0px 0px 2px lighten($alert-400, 30%);
+      .stop-name {
+        @include font-button(500);
+        @include ellipsis-text;
+        color: $grey-500;
+        flex-grow: 1;
+      }
+    }
+    .right-block {
+      @include flex-row-center-center;
+      .bus-numb {
+        @include font-overline(500);
+        margin-right: 1rem;
+        padding: .5em;
+        border-radius: $normal-bora;
+        background-color: $primary-400;
+        color: $grey-100;
+      }
+      .stop-closest {
+        @include font-overline(500);
+        margin-right: 1rem;
+        padding: .5em;
+        border-radius: $normal-bora;
+        border: 1px solid $primary-400;
+        background-color: $grey-100;
+        color: $primary-400;
+      }
+      .sinal {
+        $sinal-size: 5px;
+        width: $sinal-size;
+        height: $sinal-size;
+        border-radius: $cycle-bora;
+        background-color: $primary-400;
+        margin-right: calc(#{$sinal-size} / 2);
+        box-shadow: 0px 0px 0px 2px lighten($primary-400, 30%);
+        &.disable {
+          background-color: $grey-400;
+          box-shadow: 0px 0px 0px 2px lighten($grey-400, 30%);
+        }
+        &.colser {
+          background-color: $alert-400;
+          box-shadow: 0px 0px 0px 2px lighten($alert-400, 30%);
+        }
       }
     }
   }
