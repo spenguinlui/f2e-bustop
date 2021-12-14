@@ -69,7 +69,7 @@ export default {
         @include flex-row-center-center;
         @include font-caption(bold);
         border-radius: $normal-bora;
-        min-width: 6.3em;
+        min-width: 6.6em;
         padding: .7em 1em;
         margin-right: 3%;
         color: $primary-400;

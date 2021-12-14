@@ -52,7 +52,7 @@ import { mapGetters } from 'vuex';
   .select-area-block {
     @include posi(a);
     top: 40px;
-    width: 390px;
+    width: 400px;
     padding: 1.5rem;
     background-color: $grey-100;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -61,7 +61,7 @@ import { mapGetters } from 'vuex';
     z-index: $select-city-block;
     .area-container {
       @include scroll;
-      height: 270px;
+      height: 275px;
       .area-block {
         color: $grey-600;
         padding: .75rem 0;

@@ -43,6 +43,7 @@ export default {
     }
     .back-btn {
       display: none;
+      margin-right: 1rem;
     }
   }
 

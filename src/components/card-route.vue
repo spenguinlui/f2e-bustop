@@ -106,7 +106,7 @@ export default {
         .left-block {
           .bus-number {
             @include font-h4(bold);
-            max-width: 17rem;
+            max-width: 15rem;
           }
         }
         .right-block {
