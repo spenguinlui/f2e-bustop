@@ -24,10 +24,7 @@ import SearchBar from "./search-bar.vue";
 
 export default {
   computed: {
-    ...mapGetters([
-      'busDataList',
-      'isBike', 'isCB', 'isICB', 'isRouteDetail'
-      ])
+    ...mapGetters(['busDataList', 'isBike', 'isRouteDetail'])
   },
   components: {
     CardRotue,

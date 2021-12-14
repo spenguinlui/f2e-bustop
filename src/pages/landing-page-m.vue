@@ -55,7 +55,7 @@
       <div class="landing-page-box-container">
         <div class="landing-page-box-outside">
           <div class="landing-page-box">
-            <div class="box-icon"><i class="fas fa-subway"></i></div>
+            <div class="box-icon disable"><i class="fas fa-subway"></i></div>
           <div class="box-text">轉乘資訊</div>
           </div>
         </div>
@@ -101,21 +101,8 @@ export default {
       this.getCurrentPosition();
     },
     getCurrentPosition() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          this.setPosition(position);
-        }, () => {
-          window.alert("若無定位，預設定位於台北車站")
-        })
-      } else {
-        window.alert("若無定位，預設定位於台北車站")
-      }
-    },
-    setPosition(position) {
-      const currentPosition = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-      this.$store.dispatch("map/setCurrentPosition", currentPosition);
-      this.weatherLoading = false;
-    },
+      this.$bus.$emit("get-position", () => this.weatherLoading = false );
+    }
   }
 }
 </script>
@@ -133,7 +120,7 @@ export default {
     margin-bottom: #{$footer-m-h}vh;
     margin-bottom: calc(var(--vh, 1vh) * #{$footer-m-h});
     background-color: $primary-100;
-    padding: 3vh 8vw;
+    padding: 3% 8vw;
     z-index: $landing-page;
     &-weater {
       @include flex-row-center-center;
@@ -185,7 +172,7 @@ export default {
         }
         .detail-values {
           @include flex-row-space-between-baseline;
-          margin-top: 1vh;
+          margin-top: 2%;
           .temperature {
             @include flex-row-center-baseline;
             .temperature-max {
@@ -226,10 +213,13 @@ export default {
           .landing-page-box {
             @include flex-column-center-center;
             width: 100%;
-            padding: 6vh 10vw;
+            padding: 5vh 10vw;
             .box-icon {
               color: $primary-400;
               font-size: 15vw;
+              &.disable {
+                color: $grey-400;
+              }
             }
             .box-text {
               @include font-button(bold);
@@ -243,7 +233,7 @@ export default {
     &-service {
       @include flex-row-center-center;
       width: 100%;
-      padding: 2vh 2vw;
+      padding: 1.2vh 2vw;
       border-radius: $normal-bora;
       &.accent {
         background-color: $accent-100;

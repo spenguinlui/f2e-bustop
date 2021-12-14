@@ -3,7 +3,6 @@
     <div class="card-route-msg">
       <div class="left-block">
         <div class="bus-number">{{ data.RouteName.Zh_tw }}</div>
-        <!-- <div class="near-stop" v-if="isCB"><i class="fas fa-map-marker-alt"></i>{{ data.DepartureStopNameZh }}</div> -->
       </div>
       <div class="right-block">
         <div class="city-tag" v-if="isCB">{{ cityZh }}</div>
@@ -107,6 +106,7 @@ export default {
         .left-block {
           .bus-number {
             @include font-h4(bold);
+            max-width: 17rem;
           }
         }
         .right-block {

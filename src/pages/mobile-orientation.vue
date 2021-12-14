@@ -16,11 +16,11 @@ export default {
   .keepmsg {
     @include posi(f);
     @include flex-row-center-center;
-    width: 100vw;
+    width: 100%;
     height: 100%;
     background: $primary-300;
     color: $grey-100;
-    z-index: 1000;
+    z-index: $keepmsg;
     .msg {
       @include font-h5(bold);
     }

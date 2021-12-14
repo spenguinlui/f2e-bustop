@@ -21,23 +21,10 @@
         :class="{ bike: isBike }"/>
 
       <!-- 單車雙版本皆有 -->
-      <div class="btn-filter"
-        v-show="isBike" @click="sortBlockShow = !sortBlockShow">
-        <div><i class="fas fa-sort-amount-down"></i>排序</div>
-        <div class="filter-select-block" v-show="sortBlockShow">
-          <div class="filter-select" @click.prevent.stop="sortBikeByDistace">距離較近</div>
-          <div class="filter-select" @click.prevent.stop="sortBikeByRent">可借車數</div>
-          <div class="filter-select" @click.prevent.stop="sortBikeByReturn">可還車數</div>
-        </div>
-      </div>
+      <BtnFilter v-show="isBike"/>
 
       <!-- 公車&客運 桌面版才出現 -->
-      <div class="btn-filter"
-        v-show="isCB && !isRouteDetail"
-        @click="selectBlockShow = !selectBlockShow">
-        <div><i class="fas fa-sort-amount-down"></i>篩選</div>
-        <SelectCityBlock v-show="selectBlockShow"/>
-      </div>
+      <BtnFilter v-show="isCB"/>
 
       <!-- 公車&客運 進入第二層細節才出現  -->
       <RouteHeader v-if="isBike ? false : isRouteDetail"
@@ -80,75 +67,41 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import SelectCityBlock from "./select-city-block.vue";
 import CardRotue from "./card-route.vue";
 import CardRealTime from "./card-real-time.vue";
 import CardBike from "./card-bike.vue";
 import SearchBar from "./search-bar.vue";
 import RouteHeader from "./route-header.vue";
 import RoutePathHeader from "./route-path-header.vue";
+import BtnFilter from "./btn-filter.vue";
 
 export default {
   data() {
     return {
-      keyword: "",
-      selectBlockShow: false,
-      sortBlockShow: false,
       mobileExpanding: false,
     }
   },
   computed: {
     ...mapGetters([
       'bikeDataList', 'busDataList', 'routeGoDetailList', 'routeBackDetailList',
-      'isCB', 'isICB', 'isBike', 'isRouteDetail', 'isGoDirection'])
+      'isCB', 'isBike', 'isRouteDetail', 'isGoDirection'])
   },
   methods: {
     mobileExpand() {
       this.mobileExpanding = !this.mobileExpanding;
     },
     locateCurrentPosition() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const currentPosition = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-          this.$store.dispatch("getCurrentPostion", currentPosition);
-          this.checkGoAndBackRoute(false);
-        }, () => {
-          window.alert("重新定位失敗");
-        })
-      } else {
-        window.alert("重新定位失敗");
-      }
-    },
-    sortBikeByDistace() {
-      this.$store.commit("SORT_BY_DISTANCE");
-      this.sortBlockShow = false;
-    },
-    sortBikeByRent() {
-      this.$store.commit("SORT_BY_RENT");
-      this.sortBlockShow = false;
-    },
-    sortBikeByReturn() {
-      this.$store.commit("SORT_BY_RETURN");
-      this.sortBlockShow = false;
-    },
-    checkGoAndBackRoute(toggle) {
-      this.$store.commit("CHECK_OUT_ROUTE_DIRCTION", toggle);
-
-      // 資料不變，但切換要顯示的資料
-      this.$store.dispatch("map/removeOtherLayers");
-      this.$store.dispatch("map/setBusStopDataOnMap");
-      this.$store.dispatch("map/setBusRouteDataOnMap");
-      this.$store.dispatch("map/setBusRealTimeOnMap");
+      this.$bus.$emit("get-position");
     }
   },
   components: {
-    SelectCityBlock,
     CardRotue,
     CardRealTime,
     CardBike,
     SearchBar,
     RouteHeader,
-    RoutePathHeader
+    RoutePathHeader,
+    BtnFilter
   }
 }
 </script>
@@ -205,34 +158,6 @@ export default {
           cursor: pointer;
           &.expanding {
             transform: rotate(180deg);
-          }
-        }
-        .btn-filter {
-          @include btn;
-          @include font-button(bold);
-          @include icon-m($icon-ma);
-          color: $primary-400;
-          background-color: $grey-100;
-          padding: $btn-msg-p;
-          position: relative;
-          overflow: visible;
-          .filter-select-block {
-            @include flex-column-center-center;
-            @include posi(a);
-            top: 2.5rem;
-            padding: .4em .8em;
-            border: 1px solid $primary-400;
-            box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);;
-            border-radius: $normal-bora;
-            background: $grey-100;
-            width: max-content;
-            cursor: pointer;
-            .filter-select {
-              padding: .5em 0;
-              &:nth-child(1), &:nth-child(2) {
-                border-bottom: 1px solid $grey-300;
-              }
-            }
           }
         }
         &.route {
@@ -293,39 +218,6 @@ export default {
         border-radius: $normal-bora $normal-bora 0 0;
         .header-expand-btn {
           display: none;
-        }
-        .btn-filter {
-          @include btn;
-          @include font-button(bold);
-          @include icon-m($tag-ma);
-          padding: 1.2vh 1em;
-          color: $primary-400;
-          background-color: $grey-100;
-          position: relative;
-          overflow: visible;
-          .filter-select-block {
-            @include flex-column-center-center;
-            position: absolute;
-            left: 0;
-            top: 40px;
-            padding: 11px;
-            border: 1px solid $primary-400;
-            box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);;
-            border-radius: $normal-bora;
-            background: $grey-100;
-            width: max-content;
-            cursor: pointer;
-            .filter-select {
-              padding: .5rem 0;
-              &:nth-child(1), &:nth-child(2) {
-                border-bottom: 1px solid $grey-300;
-              }
-            }
-            &:hover, &focus {
-              color: $primary-400;
-              background: $grey-100;
-            }
-          }
         }
         &.route {
           height: 11%;

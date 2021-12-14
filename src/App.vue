@@ -12,10 +12,12 @@
     </footer>
     <Map />
     <MobileOrientation v-if="isHorizontal"/>
+    <Bus />
   </div>
 </template>
 
 <script>
+import Bus from "./event-bus.vue";
 import Map from "./pages/map.vue";
 import NavBar from "./components/navbar.vue";
 import LandingPage from "./pages/landing-page-m.vue";
@@ -32,6 +34,7 @@ export default {
     }
   },
   components: {
+    Bus,
     Map,
     NavBar,
     LandingPage,
@@ -61,9 +64,11 @@ export default {
     this.getRealVH();
   },
   mounted() {
+    window.addEventListener("resize", this.getRealVH, false);
     window.addEventListener("orientationchange", this.orientationchange, false);
   },
   beforeDestroyed(){
+    window.removeEventListener("resize", this.getRealVH, false);
     window.removeEventListener("orientationchange", this.orientationchange, false);
   }
 }

@@ -23,29 +23,11 @@ export default {
 
       L.control.zoom({ position: 'topright' }).addTo(map);
       this.$store.commit("map/SET_MAP_OBJECT", map);
-    },
-    getCurrentPosition() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          this.$store.commit("UPDATE_ALLOW_POSITION");
-          this.setPosition(position);
-        }, () => {
-          window.alert("建議允許定位功能取用您的位置已獲得更完整的服務，預設定位於台北車站")
-        })
-      } else {
-        window.alert("無定位功能，預設定位於台北車站")
-      }
-    },
-    setPosition(position) {
-      const currentPosition = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-      this.$store.dispatch("getCurrentPostion", currentPosition);
     }
-  },
-  created() {
-    this.getCurrentPosition();
   },
   mounted() {
     this.initMap();
+    this.$bus.$emit("get-position");
   }
 }
 </script>
@@ -147,7 +129,6 @@ export default {
 
   .bike-tooltips {
     width: 344px;
-    // height: 96px;
     .leaflet-popup-content-wrapper {
       box-shadow: none;
     }

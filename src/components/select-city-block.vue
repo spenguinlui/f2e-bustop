@@ -40,9 +40,7 @@ import { mapGetters } from 'vuex';
         this.currentArea = area;
       },
       checkCity(city) {
-        this.$store.commit("CHECK_OUT_CITY", city);
-        this.$store.dispatch("getWeather");
-        this.$store.dispatch("getCBdataListWithKeyWord", { city: city, keyword: this.searchKeyword });
+        this.$bus.$emit("check-city", city);
       }
     }
   }

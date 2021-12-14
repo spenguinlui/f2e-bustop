@@ -77,9 +77,7 @@ export default {
       this.$store.dispatch("getBusDataWithKeyword");
     },
     checkCity(city) {
-      this.$store.commit("CHECK_OUT_CITY", city);
-      this.$store.dispatch("getWeather");
-      this.$store.dispatch("getBusDataWithKeyword");
+      this.$bus.$emit("check-city", city);
     }
   },
 }

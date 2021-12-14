@@ -9,7 +9,7 @@
   "Taichung": { "cityName": "臺中市", "enName": "Taichung", "locationName": "臺中","LocationCityCode": "TXG" },
   "ChanghuaCounty": { "cityName": "彰化縣", "enName": "ChanghuaCounty", "locationName": "彰師大","LocationCityCode": "CHA" },
   "NantouCounty": { "cityName": "南投縣", "enName": "NantouCounty", "locationName": "日月潭","LocationCityCode": "NAN" },
-  "YunlinCounty": { "cityName": "雲林縣", "enName": "YunlinCounty", "locationName": "雲林","LocationCityCode": "YUN" },
+  "YunlinCounty": { "cityName": "雲林縣", "enName": "YunlinCounty", "locationName": "古坑","LocationCityCode": "YUN" },
   "Chiayi": { "cityName": "嘉義市", "enName": "Chiayi", "locationName": "嘉義","LocationCityCode": "CYI" },
   "ChiayiCounty": { "cityName": "嘉義縣", "enName": "ChiayiCounty", "locationName": "阿里山","LocationCityCode": "CYQ" },
   "Tainan": { "cityName": "臺南市", "enName": "Tainan", "locationName": "南區中心","LocationCityCode": "TNN" },
