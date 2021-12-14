@@ -209,15 +209,15 @@ export default {
       .list-board-header {
         @include flex-row-center-center;
         width: 100%;
-        padding: .5rem 5vw;
+        padding: 1rem 5%;
         background-color: $primary-300;
         border-radius: $normal-bora $normal-bora 0 0;
         .header-expand-btn {
           display: none;
         }
-        &.route {
-          padding: 0rem 5vw;
-        }
+        // &.route {
+        //   padding: 1rem 5%;
+        // }
       }
       .searching-img-container {
         @include flex-row-center-center;
