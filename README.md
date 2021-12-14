@@ -3,7 +3,12 @@
 The F2E 全台公車動態時刻查詢應用服務，串接交通部 PTX 資料與氣象局開放資料，達到查詢公車、客運、自行車位置需求。
 作品為 RWD 環境，mobile 端不開放橫置瀏覽。
 
-設計稿授權於 Shiaohan
+## 網站 Demo
+[https://spenguinlui.github.io/f2e-bustop/](https://spenguinlui.github.io/f2e-bustop/)
+
+## 設計稿來源
+
+UI/UX 設計師：Shiaohan
 
 [figma 連結](https://www.figma.com/file/mAZZ9AMvcobxfAKDjXTZxN/The-F2E-Week-03?node-id=138%3A3144)
 
