@@ -53,7 +53,11 @@ const createBikePopupObj = (data) => {
 
 // 決定路線詳細資料去程返程，是要用哪一筆
 const getTargetDataList = ({ isGoDirection, routeDataList }) => {
-  return isGoDirection ? routeDataList[0] : routeDataList[1];
+  if (routeDataList.length > 1) {
+    return isGoDirection ? routeDataList[0] : routeDataList[1];
+  } else {
+    return routeDataList[0];
+  }
 }
 
 // 解析 geojson 純文字資料成 json

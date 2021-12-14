@@ -69,7 +69,7 @@ export const storeObject = {
     busDataList: state => state.busDataList,
     busStopDataList: state => state.busStopDataList,
     routeGoDetailList: state => state.routeDataList.length !== 0 ? state.routeDataList[0].Stops : [],
-    routeBackDetailList: state => state.routeDataList.length !== 0 ? state.routeDataList[1].Stops : [],
+    routeBackDetailList: state => state.routeDataList.length !== 0 ? state.routeDataList.length !== 1 ? state.routeDataList[1].Stops : state.routeDataList[0].Stops : [],
 
     // in charge
     isCB: state => state.targetType === "CB",
@@ -243,7 +243,6 @@ export const storeObject = {
         const realTimeStopList = res[4].data;
 
         let detailList = JSON.parse(JSON.stringify(stopList));
-        
         detailList = insertNearByStopToDetailList(detailList, this.state.map.currentPosition);
         detailList = insertTimeArrivalToDetailList(detailList, timeList);
         detailList = insertRouteShapeToDetailList(detailList, routeList);
@@ -271,6 +270,8 @@ export const storeObject = {
         city: targetCity,
         routeName: targetRoute.routeName
       };
+
+      if (!targetRoute.routeName) { return; }
 
       Promise.all([
         AJAX_getBusTimeIfArrival(targetParam),

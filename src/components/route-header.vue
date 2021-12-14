@@ -23,9 +23,6 @@ export default {
       this.$store.dispatch("map/removeOtherLayers");
       this.$store.dispatch("updateTargetData");
     }
-  },
-  created() {
-    console.log("route-header 誕生")
   }
 }
 </script>

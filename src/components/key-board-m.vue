@@ -145,14 +145,54 @@ export default {
         padding-bottom: $key-board-panel-padding;
         .panel-btn {
           @include btn(.5rem);
-          @include btn-outline-color($primary-500, $grey-100, $primary-500);
           @include font-content;
+          color: $primary-500;
+          background-color: $grey-100;
+          border: 1px solid $primary-500;
+          &:hover, &.hover, &:focus, &.focus, &.active {
+            background-color: $primary-200;
+          }
           padding: .4em 0;
-          &.red-line { @include btn-outline-color($alert-300, $alert-100, $alert-300) }
-          &.green-line { @include btn-outline-color($primary-500, $primary-100, $primary-500) }
-          &.orange-line { @include btn-outline-color($accent-400, $accent-100, $accent-400) }
-          &.blue-line { @include btn-outline-color(#59C3DA, #D9F4FF, #59C3DA) }
-          &.brown-line { @include btn-outline-color($accent-500, $accent-100, $accent-500) }
+          &.red-line { 
+            color: $alert-300;
+            background-color: $alert-100;
+            border: 1px solid $alert-300;
+            &:hover, &.hover, &:focus, &.focus, &.active {
+              background-color: $alert-200;
+            }
+          }
+          &.green-line {
+            color: $primary-500;
+            background-color: $primary-100;
+            border: 1px solid $primary-500;
+            &:hover, &.hover, &:focus, &.focus, &.active {
+              background-color: $primary-200;
+            }
+          }
+          &.orange-line {
+            color: $accent-400;
+            background-color: $accent-100;
+            border: 1px solid $accent-400;
+            &:hover, &.hover, &:focus, &.focus, &.active {
+              background-color: $accent-200;
+            }
+          }
+          &.blue-line {
+            color: #59C3DA;
+            background-color: #D9F4FF;
+            border: 1px solid #59C3DA;
+            &:hover, &.hover, &:focus, &.focus, &.active {
+              background-color: #C5EEFF;
+            }
+          }
+          &.brown-line {
+            color: $accent-500;
+            background-color: $accent-100;
+            border: 1px solid $accent-500;
+            &:hover, &.hover, &:focus, &.focus, &.active {
+              background-color: #EAD7C0;
+            }
+          }
           @media screen and (max-height: 600px) {
             @include font-button;  // 手機太短降一級距 SE~I8
           }
@@ -160,7 +200,12 @@ export default {
         &.back-btn {
           flex-grow: 1;
           .panel-btn {
-            @include btn-outline-color($alert-400, $grey-100, $alert-400);
+            color: $alert-400,;
+            background-color: $grey-100;
+            border: 1px solid $alert-400;
+            &:hover, &.hover, &:focus, &.focus, &.active {
+              background-color: $alert-200;
+            }
           }
         }
       }

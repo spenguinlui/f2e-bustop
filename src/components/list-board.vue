@@ -112,20 +112,21 @@ export default {
   @include pad-m {
     .list-board-container {
       @include transi(.3s);
-      @include heightvh(25);
+      @include posi(a);
       width: 100%;
+      height: 100%;
       border-radius: $normal-bora $normal-bora 0 0;
       background-color: $grey-100;
-      position: absolute;
-      left: 0;
-      bottom: 0;
+      top: 70vh;
+      top: calc(var(--vh, 1vh) * 70);
       overflow: visible;
       z-index: $list-board;
       &.hide {
         display: none;
       }
       &.expanding {
-        @include heightvh(65);
+        top: 30vh;
+        top: calc(var(--vh, 1vh) * 30);
       }
       .locate-icon {
         @include flex-row-center-center;
@@ -170,7 +171,7 @@ export default {
       .cards-container {
         $pading-top: .5rem;
         width: 100%;
-        height: calc(100% - #{$list-board-header-h}vh);
+        height: 100%;
         padding: $pading-top 1rem 0 1rem;
         .cards {
           width: 100%;

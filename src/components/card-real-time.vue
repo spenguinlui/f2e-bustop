@@ -105,7 +105,7 @@ export default {
       }
       .stop-closest {
         @include font-overline(500);
-        margin-right: 1rem;
+        margin-right: .5rem;
         padding: .5em;
         border-radius: $normal-bora;
         border: 1px solid $primary-400;
