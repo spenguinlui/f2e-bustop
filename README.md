@@ -119,23 +119,13 @@ Bus/RealTimeNearStop/City/{City}/{RouteName}
 PC 畫面
 
 ---
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-1.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-2.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-3.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-4.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-5.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-6.png){:height="50%" width="50%"}
+![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-1.png)
+![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-2.png)
+![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-3.png)
+![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-4.png)
+![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-5.png)
+![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-6.png)
 
 Mobile 畫面
 
----
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-1.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-2.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-3.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-4.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-5.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-6.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-7.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-8.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-9.png){:height="50%" width="50%"}
-![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-10.png){:height="50%" width="50%"}
+待補
