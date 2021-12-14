@@ -21,10 +21,10 @@
         :class="{ bike: isBike }"/>
 
       <!-- 單車雙版本皆有 -->
-      <BtnFilter v-show="isBike"/>
+      <BtnFilter v-show="isBike && !isRouteDetail"/>
 
       <!-- 公車&客運 桌面版才出現 -->
-      <BtnFilter v-show="isCB"/>
+      <BtnFilter v-show="isCB && !isRouteDetail"/>
 
       <!-- 公車&客運 進入第二層細節才出現  -->
       <RouteHeader v-if="isBike ? false : isRouteDetail"
@@ -147,9 +147,7 @@ export default {
       .list-board-header {
         @include flex-row-center-center;
         width: 100%;
-        height: #{$list-board-header-h}vh;
-        height: calc(var(--vh, 1vh) * #{$list-board-header-h});
-        padding: 0px 5vw;
+        padding: .5rem 5vw;
         background-color: $primary-300;
         border-radius: $normal-bora $normal-bora 0 0;
         .header-expand-btn {
@@ -162,7 +160,7 @@ export default {
           }
         }
         &.route {
-          @include heightvh(6);
+          padding: 0rem 5vw;
         }
       }
       .searching-img-container {
