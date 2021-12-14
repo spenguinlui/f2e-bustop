@@ -4,8 +4,11 @@ The F2E 全台公車動態時刻查詢應用服務，串接交通部 PTX 資料�
 作品為 RWD 環境，mobile 端不開放橫置瀏覽。
 
 設計稿授權於 Shiaohan
+
 [figma 連結](https://www.figma.com/file/mAZZ9AMvcobxfAKDjXTZxN/The-F2E-Week-03?node-id=138%3A3144)
+
 [系列相關設計連結](https://2021.thef2e.com/users/6296427084285739387)
+
 [作品集連結](https://www.behance.net/hsiaohan)
 
 ## 功能項目
@@ -121,26 +124,45 @@ Bus/RealTimeNearStop/City/{City}/{RouteName}
 
 # 畫面呈現
 
-PC 畫面
+## PC 畫面
 
 ---
 附近站點
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-1.png)
+
 指定站牌路線
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-2.png)
+
 預估到站時間
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-3.png)
+
 客運
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-5.png)
+
 城市篩選
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-6.png)
+
 自行車借車還車
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/pc-4.png)
 
-Mobile 畫面
+---
+
+## Mobile 畫面
+
 行動版首頁
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-1.png)
+
 行動版輸入
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-2.png)
+
 不同裝置縮放
+
 ![](https://github.com/spenguinlui/f2e-bustop/blob/master/readme-img/m-3.png)
