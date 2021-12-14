@@ -159,9 +159,6 @@ export default {
             transform: rotate(180deg);
           }
         }
-        &.route {
-          padding: 0rem 5vw;
-        }
       }
       .searching-img-container {
         display: none;
@@ -212,14 +209,14 @@ export default {
       .list-board-header {
         @include flex-row-center-center;
         width: 100%;
-        height: 15%;
+        padding: .5rem 5vw;
         background-color: $primary-300;
         border-radius: $normal-bora $normal-bora 0 0;
         .header-expand-btn {
           display: none;
         }
         &.route {
-          height: 11%;
+          padding: 0rem 5vw;
         }
       }
       .searching-img-container {
