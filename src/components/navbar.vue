@@ -184,7 +184,7 @@ export default {
           @include btn-outline-color($primary-500, $grey-100, $primary-500);
           @include icon-m($tag-ma, l);
           border-radius: $oval-bora;
-          padding: $btn-nav-p;
+          padding: .6rem 1.6rem;
           &.active {
             border: 3px solid $primary-300;
           }
