@@ -52,7 +52,7 @@ export default {
     @include icon-m($icon-ma);
     color: $primary-400;
     background-color: $grey-100;
-    padding: $btn-msg-p;
+    padding: .5rem .6875rem;
     position: relative;
     overflow: visible;
     &.bus {

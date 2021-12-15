@@ -41,7 +41,7 @@
     </div>
 
     <!-- 公車&客運 桌面版出現 -->
-    <div class="cards-container">
+    <div class="cards-container" :class="{ route: isBike ? false : isRouteDetail }">
       <!-- 路線列表 -->
       <div class="cards" v-show="isBike ? false : !isRouteDetail">
         <template v-if="busDataList.length > 0">
@@ -209,15 +209,16 @@ export default {
       .list-board-header {
         @include flex-row-center-center;
         width: 100%;
-        padding: 1rem 5%;
+        height: $list-board-header-h;
+        padding: 0 5%;
         background-color: $primary-300;
         border-radius: $normal-bora $normal-bora 0 0;
         .header-expand-btn {
           display: none;
         }
-        // &.route {
-        //   padding: 1rem 5%;
-        // }
+        &.route {
+          height: $route-list-board-header-h;
+        }
       }
       .searching-img-container {
         @include flex-row-center-center;
@@ -232,8 +233,11 @@ export default {
     .cards-container {
       $pading-top: .75rem;
       width: 100%;
-      height: calc(100% - 10% - 8%);
+      height: calc(100% - #{$list-board-header-h});
       padding: $pading-top 2rem;
+      &.route {
+        height: calc(100% - #{$route-list-board-header-h} - #{$route-path-header-h} - #{$route-path-header-bar-h});
+      }
       .cards {
         @include scroll;
         width: 100%;

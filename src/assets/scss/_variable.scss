@@ -61,19 +61,15 @@ $letter-spacing-caption: 0.01em;
 $letter-spacing-overline: 0.01em;
 
 // 版型 (固定 height、width) mobile 要用計算的
-$nav-bar-h: 78px;
+$nav-bar-h: 5rem;
 $nav-bar-m-h: 8;
 $footer-h: 3.75rem;
 $footer-m-h: 6;
 $list-board-w: 425px;
-$list-board-header-h: 10;
-
-// 內距 (padding)
-$btn-tag-p: 4px 6px;
-$btn-option-p: 2px 8px;
-$btn-input-p: 6px 19px;
-$btn-msg-p: 8px 11px;
-$btn-nav-p: 9px 21px;
+$list-board-header-h: 5rem;
+$route-list-board-header-h: 3.5rem;
+$route-path-header-h: 2.5rem;
+$route-path-header-bar-h: .3rem;
 
 // 外距 (margin)
 $icon-ma: .25rem;

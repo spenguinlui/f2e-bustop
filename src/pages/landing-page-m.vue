@@ -148,7 +148,7 @@ export default {
                 @include btn;
                 @include btn-filled($primary-500);
                 @include font-overline(bold);
-                padding: $btn-tag-p;
+                padding: .25rem .375rem;
               }
               .date-text {
                 @include font-caption(bold);

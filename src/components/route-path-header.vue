@@ -8,8 +8,8 @@
         :class="{ active: !isGoDirection }"
         @click="checkGoAndBackRoute(false)">往{{ targetRoute.departureStop }}</div>
     </div>
-    <div class="route-path-header-prgress-bar">
-      <div class="route-path-header-prgress-bar-fill" :style="`width: ${refreshTime * 20}%`"></div>
+    <div class="route-path-header-progress-bar">
+      <div class="route-path-header-progress-bar-fill" :style="`width: ${refreshTime * 20}%`"></div>
     </div>
   </div>
 </template>
@@ -65,8 +65,8 @@ export default {
       @include flex-row-center-center;
       @include font-button(bold);
       width: 100%;
+      height: $route-path-header-h;
       background-color: $primary-200;
-      padding: .5rem 0;
       .left-block, .right-block {
         @include flex-row-center-center;
         @include flex-col(6);
@@ -80,9 +80,9 @@ export default {
         border-left: 1px solid $grey-100;
       }
     }
-    &-prgress-bar {
+    &-progress-bar {
       width: 100%;
-      height: 5px;
+      height: $route-path-header-bar-h;
       &-fill {
         transition: all 1s linear;
         height: 100%;
