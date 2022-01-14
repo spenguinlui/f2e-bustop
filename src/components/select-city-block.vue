@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <div class="select-area-block">
-      <div class="area-container">
-        <div v-for="data in citysData" :key="data.area" class="area-block" :class="{ noshow: currentArea !== data.area }">
-          <div class="city-title" @click.prevent.stop="toggleList(data.area)">
-            <div class="city-text">{{ data.area }}</div>
-            <div class="title-icon" :class="{ show: currentArea === data.area }"></div>
-          </div>
-          <div class="area-list" v-show="currentArea === data.area">
-            <div class="area-item"
-              v-for="city in data.citys" :key="city.enName"
-              @click="checkCity(city.enName)"
-              :class="{ active: targetCity === city.enName }">
-              {{ city.cityName }}
-            </div>
-          </div>
+  <div class="select-area-block">
+    <div class="area-container">
+      <section v-for="data in citysData" :key="data.area" class="area-block" :class="{ noshow: currentArea !== data.area }">
+        <div class="city-title" @click.prevent.stop="toggleList(data.area)">
+          <p class="city-text">{{ data.area }}</p>
+          <div class="title-icon" :class="{ show: currentArea === data.area }"></div>
         </div>
-      </div>
+        <ul class="area-list" v-show="currentArea === data.area">
+          <li class="area-item"
+            v-for="city in data.citys" :key="city.enName"
+            @click="checkCity(city.enName)"
+            :class="{ active: targetCity === city.enName }">
+            {{ city.cityName }}
+          </li>
+        </ul>
+      </section>
     </div>
   </div>
 </template>

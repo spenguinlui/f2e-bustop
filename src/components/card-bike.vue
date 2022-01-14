@@ -1,53 +1,59 @@
 <template>
   <div class="card-container">
-    <div class="card-title">
-      <div class="card-title-text"><span>{{ data.StationName.Zh_tw }}</span></div>
+    <section class="card-title">
+      <h1 class="card-title-text"><span>{{ data.StationName.Zh_tw }}</span></h1>
       <div class="card-title-m-subtitle">
-        <div class="left-btn"
-          :class="{
-            limit: data.AvailableRentBikes == 0 || data.AvailableReturnBikes || 0,
-            available: data.AvailableRentBikes > 0 && data.AvailableReturnBikes > 0,
-            unavailable: data.AvailableRentBikes == 0 && data.AvailableReturnBikes == 0
-          }"
-        >{{
-          data.AvailableRentBikes > 0 && data.AvailableReturnBikes > 0 ? '可借可還' :
-          data.AvailableRentBikes > 0 && data.AvailableReturnBikes == 0 ? '只可借車' :
-          data.AvailableRentBikes == 0 && data.AvailableReturnBikes > 0 ? '只可還車' : '站點施工中'
-        }}</div>
-        <div class="right-msg"><i class="fas fa-map-marker-alt"></i>距離{{ data.DistanceZH }}</div>
+        <p class="left-btn" :class="subtitleClass">{{ subtitleText }}</p>
+        <p class="right-msg"><i class="fas fa-map-marker-alt"></i>距離{{ data.DistanceZH }}</p>
       </div>
-    </div>
-    <div class="card-content-row">
-      <div class="card-available" :class="{ limit: data.AvailableRentBikes <= 5, unavailable: data.AvailableRentBikes == 0 }">
-        <div class="icon-text"><i class="fas fa-bicycle"></i>可租借</div>
-        <div class="count">{{ data.AvailableRentBikes }}</div>
-      </div>
-      <div class="card-available" :class="{ limit: data.AvailableReturnBikes <= 5, unavailable: data.AvailableReturnBikes == 0 }">
-        <div class="icon-text"><i class="fas fa-parking"></i>可停車</div>
-        <div class="count">{{ data.AvailableReturnBikes }}</div>
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="left-btn"
-        :class="{
-          limit: data.AvailableRentBikes == 0 || data.AvailableReturnBikes || 0,
-          available: data.AvailableRentBikes > 0 && data.AvailableReturnBikes > 0,
-          unavailable: data.AvailableRentBikes == 0 && data.AvailableReturnBikes == 0
-        }"
-      >{{
-        data.AvailableRentBikes > 0 && data.AvailableReturnBikes > 0 ? '可借可還' :
-        data.AvailableRentBikes > 0 && data.AvailableReturnBikes == 0 ? '只可借車' :
-        data.AvailableRentBikes == 0 && data.AvailableReturnBikes > 0 ? '只可還車' : '站點施工中'
-      }}</div>
-      <div class="right-msg"><i class="fas fa-map-marker-alt"></i>距離{{ data.DistanceZH }}</div>
-    </div>
+    </section>
+    <section class="card-content-row">
+      <section class="card-available"
+        :class="{ limit: data.AvailableRentBikes <= 5, unavailable: data.AvailableRentBikes == 0 }">
+        <p class="icon-text"><i class="fas fa-bicycle"></i>可租借</p>
+        <p class="count">{{ data.AvailableRentBikes }}</p>
+      </section>
+      <section class="card-available"
+        :class="{ limit: data.AvailableReturnBikes <= 5, unavailable: data.AvailableReturnBikes == 0 }">
+        <p class="icon-text"><i class="fas fa-parking"></i>可停車</p>
+        <p class="count">{{ data.AvailableReturnBikes }}</p>
+      </section>
+    </section>
+    <section class="card-footer">
+      <p class="left-btn" :class="subtitleClass">{{ subtitleText }}</p>
+      <p class="right-msg"><i class="fas fa-map-marker-alt"></i>距離{{ data.DistanceZH }}</p>
+    </section>
   </div>
 </template>
 
 <script>
 
 export default {
-  props: ['data']
+  props: ['data'],
+  computed: {
+    subtitleClass() {
+      if (this.data.AvailableRentBikes == 0 || this.data.AvailableReturnBikes || 0) {
+        return "limit";
+      } else if (this.data.AvailableRentBikes > 0 && this.data.AvailableReturnBikes > 0) {
+        return "available";
+      } else if (this.data.AvailableRentBikes == 0 && this.data.AvailableReturnBikes == 0) {
+        return "unavailable";
+      } else {
+        return "";
+      }
+    },
+    subtitleText() {
+      if (this.data.AvailableRentBikes > 0 && this.data.AvailableReturnBikes > 0) {
+        return "可借可還";
+      } else if (this.data.AvailableRentBikes > 0 && this.data.AvailableReturnBikes == 0) {
+        return "只可借車";
+      } else if (this.data.AvailableRentBikes == 0 && this.data.AvailableReturnBikes > 0) {
+        return "只可還車";
+      } else {
+        return "站點施工中";
+      }
+    }
+  }
 }
 </script>
 

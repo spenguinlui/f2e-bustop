@@ -1,19 +1,19 @@
 <template>
   <div class="list-board-m" v-if="!isBike" v-show="!isRouteDetail">
-    <div class="search-container">
+    <section class="search-container">
       <SearchBar />
-    </div>
+    </section>
 
-    <div class="searching-img-container" v-show="busDataList.length === 0">
+    <section class="searching-img-container" v-show="busDataList.length === 0">
       <img src="../assets/images/searching.png" alt="搜尋無結果圖片">
-      <div class="text">點選下面的鍵盤搜尋公車吧！</div>
-    </div>
+      <p class="text">點選下面的鍵盤搜尋公車吧！</p>
+    </section>
 
-    <div class="cards-container">
+    <section class="cards-container">
       <template v-if="!isBike && busDataList.length > 0">
         <CardRotue v-for="data in busDataList" :data="data" :key="data.RouteUID"/>
       </template>
-    </div>
+    </section>
   </div>
 </template>
 

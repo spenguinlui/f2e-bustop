@@ -7,7 +7,7 @@
     <KeyboardMobile />
     <footer class="footer">
       <div class="footer-container">
-        <div>Released 2021 by Shiaohan & 阿柳 ©</div>
+        <p>Released 2021 by Shiaohan & 阿柳 ©</p>
       </div>
     </footer>
     <Map />

@@ -1,6 +1,6 @@
 <template>
   <div class="keepmsg">
-    <div class="msg">為了確保最佳的使用體驗，請將您的螢幕轉為直向，謝謝！</div>
+    <p class="msg">為了確保最佳的使用體驗，請將您的螢幕轉為直向，謝謝！</p>
   </div>
 </template>
 

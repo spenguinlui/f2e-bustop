@@ -2,37 +2,39 @@
   <div class="key-board-container"
     :class="{ inter: isICB, detail: isRouteDetail }"
     v-if="!landingPageShow && !isRouteDetail && !isBike">
-    <div class="select-city-container" v-if="isCB">
-      <div class="city-tag"
+    <section class="select-city-container" v-if="isCB">
+      <button type="button" class="city-tag"
         :class="{ active: targetCity === city.enName }"
         v-for="city in cityTagList" :key="city.enName"
         @click="checkCity(city.enName)">
         {{ city.cityName }}
-      </div>
-    </div>
-    <div class="key-board-panel">
+      </button>
+    </section>
+    <section class="key-board-panel">
       <div class="city-panel" v-if="isCB">
-        <div class="panel-container" @click="enterBtn('紅')"><div class="red-line panel-btn">紅</div></div>
-        <div class="panel-container" @click="enterBtn('綠')"><div class="green-line panel-btn">綠</div></div>
-        <div class="panel-container" @click="enterBtn('橘')"><div class="orange-line panel-btn">橘</div></div>
-        <div class="panel-container" @click="enterBtn('藍')"><div class="blue-line panel-btn">藍</div></div>
-        <div class="panel-container" @click="enterBtn('棕')"><div class="brown-line panel-btn">棕</div></div>
+        <button type="button" class="panel-container" @click="enterBtn('紅')"><span class="red-line panel-btn">紅</span></button>
+        <button type="button" class="panel-container" @click="enterBtn('綠')"><span class="green-line panel-btn">綠</span></button>
+        <button type="button" class="panel-container" @click="enterBtn('橘')"><span class="orange-line panel-btn">橘</span></button>
+        <button type="button" class="panel-container" @click="enterBtn('藍')"><span class="blue-line panel-btn">藍</span></button>
+        <button type="button" class="panel-container" @click="enterBtn('棕')"><span class="brown-line panel-btn">棕</span></button>
       </div>
       <div class="route-panel" v-if="isCB">
-        <div v-for="text in cityBusBtn"
+        <button type="button" v-for="text in cityBusBtn"
           class="panel-container" @click="enterBtn(text)" :key="text">
-          <div class="panel-btn">{{ text }}</div>
-        </div>
-        <div class="panel-container back-btn" @click="backSpaceBtn"><div class="panel-btn"><i class="fas fa-backspace"></i></div></div>
+          <span class="panel-btn">{{ text }}</span>
+        </button>
+        <button type="button" class="panel-container back-btn" @click="backSpaceBtn">
+          <span class="panel-btn"><i class="fas fa-backspace"></i></span>
+        </button>
       </div>
       <div class="inner-city-panel" v-if="isICB">
-        <div v-for="text in InterCityBusBtn"
+        <button type="button" v-for="text in InterCityBusBtn"
           class="panel-container" @click="enterBtn(text)" :key="text">
-          <div class="panel-btn">{{ text }}</div>
-        </div>
-        <div class="panel-container back-btn" @click="backSpaceBtn"><div class="panel-btn"><i class="fas fa-backspace"></i></div></div>
+          <span class="panel-btn">{{ text }}</span>
+        </button>
+        <button type="button" class="panel-container back-btn" @click="backSpaceBtn"><div class="panel-btn"><i class="fas fa-backspace"></i></div></button>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 

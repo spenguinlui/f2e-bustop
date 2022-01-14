@@ -1,11 +1,11 @@
 <template>
   <div class="route-header" @click="mobileExpand">
     <!-- 展開  切換函式先擺到母元素上比較好按 -->
-    <div class="expand-btn" :class="{ expanding: mobileExpanding}"><i class="fas fa-angle-up"></i></div>
+    <button type="button" class="expand-btn" :class="{ expanding: mobileExpanding}"><i class="fas fa-angle-up"></i></button>
     <!-- 回前一頁 -->
-    <div class="back-btn" @click.prevent.stop="goBackRouteList"><i class="fas fa-angle-left"></i></div>
-    <div class="route-name">{{ targetRoute.routeName }}</div>
-    <div class="info"><i class="fas fa-info-circle"></i></div>
+    <button type="button" class="back-btn" @click.prevent.stop="goBackRouteList"><i class="fas fa-angle-left"></i></button>
+    <h1 class="route-name">{{ targetRoute.routeName }}</h1>
+    <button type="button" class="info"><i class="fas fa-info-circle"></i></button>
   </div>
 </template>
 

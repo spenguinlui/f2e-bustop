@@ -14,6 +14,10 @@ body {
   overflow: hidden;
 }
 
+button {
+  cursor: pointer;
+}
+
 // 防止手機自動 zoom in input 
 @include pad-m {
   input {

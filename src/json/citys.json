@@ -2,48 +2,2388 @@
   {
     "area": "北部",
     "citys": [
-      { "cityName": "臺北市", "enName": "Taipei" },
-      { "cityName": "基隆市", "enName": "Keelung" },
-      { "cityName": "新北市", "enName": "NewTaipei" },
-      { "cityName": "桃園市", "enName": "Taoyuan" },
-      { "cityName": "新竹市", "enName": "Hsinchu" },
-      { "cityName": "新竹縣", "enName": "HsinchuCounty" }
+      {
+        "cityName": "臺北市",
+        "enName": "Taipei",
+        "towns": 
+        [
+          {
+            "TownName": "中山區",
+            "TownCode": "63000040",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "中正區",
+            "TownCode": "63000050",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "信義區",
+            "TownCode": "63000020",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "內湖區",
+            "TownCode": "63000100",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "北投區",
+            "TownCode": "63000120",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南港區",
+            "TownCode": "63000090",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "士林區",
+            "TownCode": "63000110",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大同區",
+            "TownCode": "63000060",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大安區",
+            "TownCode": "63000030",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "文山區",
+            "TownCode": "63000080",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "松山區",
+            "TownCode": "63000010",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "萬華區",
+            "TownCode": "63000070",
+            "CountyName": "臺北市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "基隆市",
+        "enName": "Keelung",
+        "towns":
+        [
+          {
+            "TownName": "七堵區",
+            "TownCode": "10017020",
+            "CountyName": "基隆市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "中山區",
+            "TownCode": "10017050",
+            "CountyName": "基隆市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "中正區",
+            "TownCode": "10017010",
+            "CountyName": "基隆市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "仁愛區",
+            "TownCode": "10017040",
+            "CountyName": "基隆市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "信義區",
+            "TownCode": "10017070",
+            "CountyName": "基隆市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "安樂區",
+            "TownCode": "10017060",
+            "CountyName": "基隆市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "暖暖區",
+            "TownCode": "10017030",
+            "CountyName": "基隆市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "新北市",
+        "enName": "NewTaipei",
+        "towns":
+        [
+          {
+            "TownName": "三峽區",
+            "TownCode": "65000090",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "三芝區",
+            "TownCode": "65000210",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "三重區",
+            "TownCode": "65000020",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "中和區",
+            "TownCode": "65000030",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "五股區",
+            "TownCode": "65000150",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "八里區",
+            "TownCode": "65000230",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "土城區",
+            "TownCode": "65000130",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "坪林區",
+            "TownCode": "65000200",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "平溪區",
+            "TownCode": "65000240",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新店區",
+            "TownCode": "65000060",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新莊區",
+            "TownCode": "65000050",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "板橋區",
+            "TownCode": "65000010",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "林口區",
+            "TownCode": "65000170",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "樹林區",
+            "TownCode": "65000070",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "永和區",
+            "TownCode": "65000040",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "汐止區",
+            "TownCode": "65000110",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "泰山區",
+            "TownCode": "65000160",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "淡水區",
+            "TownCode": "65000100",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "深坑區",
+            "TownCode": "65000180",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "烏來區",
+            "TownCode": "65000290",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "瑞芳區",
+            "TownCode": "65000120",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "石碇區",
+            "TownCode": "65000190",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "石門區",
+            "TownCode": "65000220",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "萬里區",
+            "TownCode": "65000280",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "蘆洲區",
+            "TownCode": "65000140",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "貢寮區",
+            "TownCode": "65000260",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "金山區",
+            "TownCode": "65000270",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "雙溪區",
+            "TownCode": "65000250",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鶯歌區",
+            "TownCode": "65000080",
+            "CountyName": "新北市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "桃園市",
+        "enName": "Taoyuan",
+        "towns":
+        [
+          {
+            "TownName": "中壢區",
+            "TownCode": "68000020",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "八德區",
+            "TownCode": "68000080",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大園區",
+            "TownCode": "68000060",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大溪區",
+            "TownCode": "68000030",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "平鎮區",
+            "TownCode": "68000100",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "復興區",
+            "TownCode": "68000130",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新屋區",
+            "TownCode": "68000110",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "桃園區",
+            "TownCode": "68000010",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "楊梅區",
+            "TownCode": "68000040",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "蘆竹區",
+            "TownCode": "68000050",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "觀音區",
+            "TownCode": "68000120",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "龍潭區",
+            "TownCode": "68000090",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "龜山區",
+            "TownCode": "68000070",
+            "CountyName": "桃園市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "新竹市",
+        "enName": "Hsinchu",
+        "towns":
+        [
+          {
+            "TownName": "北區",
+            "TownCode": "10018020",
+            "CountyName": "新竹市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東區",
+            "TownCode": "10018010",
+            "CountyName": "新竹市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "香山區",
+            "TownCode": "10018030",
+            "CountyName": "新竹市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "新竹縣",
+        "enName": "HsinchuCounty",
+        "towns":
+        [
+          {
+            "TownName": "五峰鄉",
+            "TownCode": "10004130",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "北埔鄉",
+            "TownCode": "10004090",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "寶山鄉",
+            "TownCode": "10004100",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "尖石鄉",
+            "TownCode": "10004120",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "峨眉鄉",
+            "TownCode": "10004110",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新埔鎮",
+            "TownCode": "10004030",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新豐鄉",
+            "TownCode": "10004060",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "橫山鄉",
+            "TownCode": "10004080",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "湖口鄉",
+            "TownCode": "10004050",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "竹北市",
+            "TownCode": "10004010",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "竹東鎮",
+            "TownCode": "10004020",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "芎林鄉",
+            "TownCode": "10004070",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "關西鎮",
+            "TownCode": "10004040",
+            "CountyName": "新竹縣",
+            "Version": "21.08.1"
+          }
+        ]
+      }
     ]
   },
   {
     "area": "中部",
     "citys": [
-      { "cityName": "苗栗縣", "enName": "MiaoliCounty" },
-      { "cityName": "臺中市", "enName": "Taichung" },
-      { "cityName": "彰化縣", "enName": "ChanghuaCounty" },
-      { "cityName": "南投縣", "enName": "NantouCounty" },
-      { "cityName": "雲林縣", "enName": "YunlinCounty" }
+      {
+        "cityName": "苗栗縣",
+        "enName": "MiaoliCounty",
+        "towns":
+        [
+          {
+            "TownName": "三灣鄉",
+            "TownCode": "10005160",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "三義鄉",
+            "TownCode": "10005130",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "公館鄉",
+            "TownCode": "10005090",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "卓蘭鎮",
+            "TownCode": "10005070",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南庄鄉",
+            "TownCode": "10005110",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大湖鄉",
+            "TownCode": "10005080",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "後龍鎮",
+            "TownCode": "10005060",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "泰安鄉",
+            "TownCode": "10005180",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "獅潭鄉",
+            "TownCode": "10005170",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "竹南鎮",
+            "TownCode": "10005040",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "苑裡鎮",
+            "TownCode": "10005020",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "苗栗市",
+            "TownCode": "10005010",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "西湖鄉",
+            "TownCode": "10005140",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "通霄鎮",
+            "TownCode": "10005030",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "造橋鄉",
+            "TownCode": "10005150",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "銅鑼鄉",
+            "TownCode": "10005100",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "頭份市",
+            "TownCode": "10005050",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "頭屋鄉",
+            "TownCode": "10005120",
+            "CountyName": "苗栗縣",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "臺中市",
+        "enName": "Taichung",
+        "towns":
+        [
+          {
+            "TownName": "中區",
+            "TownCode": "66000010",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "北區",
+            "TownCode": "66000050",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "北屯區",
+            "TownCode": "66000080",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南區",
+            "TownCode": "66000030",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南屯區",
+            "TownCode": "66000070",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "后里區",
+            "TownCode": "66000150",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "和平區",
+            "TownCode": "66000290",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "外埔區",
+            "TownCode": "66000210",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大安區",
+            "TownCode": "66000220",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大甲區",
+            "TownCode": "66000110",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大肚區",
+            "TownCode": "66000240",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大里區",
+            "TownCode": "66000280",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大雅區",
+            "TownCode": "66000180",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "太平區",
+            "TownCode": "66000270",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新社區",
+            "TownCode": "66000190",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東勢區",
+            "TownCode": "66000100",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東區",
+            "TownCode": "66000020",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "梧棲區",
+            "TownCode": "66000140",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "沙鹿區",
+            "TownCode": "66000130",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "清水區",
+            "TownCode": "66000120",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "潭子區",
+            "TownCode": "66000170",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "烏日區",
+            "TownCode": "66000230",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "石岡區",
+            "TownCode": "66000200",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "神岡區",
+            "TownCode": "66000160",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "西區",
+            "TownCode": "66000040",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "西屯區",
+            "TownCode": "66000060",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "豐原區",
+            "TownCode": "66000090",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "霧峰區",
+            "TownCode": "66000260",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "龍井區",
+            "TownCode": "66000250",
+            "CountyName": "臺中市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "彰化縣",
+        "enName": "ChanghuaCounty",
+        "towns":
+        [
+          {
+            "TownName": "二林鎮",
+            "TownCode": "10007200",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "二水鄉",
+            "TownCode": "10007180",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "伸港鄉",
+            "TownCode": "10007050",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "北斗鎮",
+            "TownCode": "10007190",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "和美鎮",
+            "TownCode": "10007030",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "員林市",
+            "TownCode": "10007100",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "埔心鄉",
+            "TownCode": "10007150",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "埔鹽鄉",
+            "TownCode": "10007140",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "埤頭鄉",
+            "TownCode": "10007220",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大城鄉",
+            "TownCode": "10007240",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大村鄉",
+            "TownCode": "10007130",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "彰化市",
+            "TownCode": "10007010",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "永靖鄉",
+            "TownCode": "10007160",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "溪州鄉",
+            "TownCode": "10007260",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "溪湖鎮",
+            "TownCode": "10007110",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "田中鎮",
+            "TownCode": "10007120",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "田尾鄉",
+            "TownCode": "10007210",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "社頭鄉",
+            "TownCode": "10007170",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "福興鄉",
+            "TownCode": "10007060",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "秀水鄉",
+            "TownCode": "10007070",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "竹塘鄉",
+            "TownCode": "10007250",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "線西鄉",
+            "TownCode": "10007040",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "芬園鄉",
+            "TownCode": "10007090",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "花壇鄉",
+            "TownCode": "10007080",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "芳苑鄉",
+            "TownCode": "10007230",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鹿港鎮",
+            "TownCode": "10007020",
+            "CountyName": "彰化縣",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "南投縣",
+        "enName": "NantouCounty",
+        "towns":
+        [
+          {
+            "TownName": "中寮鄉",
+            "TownCode": "10008080",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "仁愛鄉",
+            "TownCode": "10008130",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "信義鄉",
+            "TownCode": "10008120",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南投市",
+            "TownCode": "10008010",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "名間鄉",
+            "TownCode": "10008060",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "國姓鄉",
+            "TownCode": "10008100",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "埔里鎮",
+            "TownCode": "10008020",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "水里鄉",
+            "TownCode": "10008110",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "竹山鎮",
+            "TownCode": "10008040",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "草屯鎮",
+            "TownCode": "10008030",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "集集鎮",
+            "TownCode": "10008050",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "魚池鄉",
+            "TownCode": "10008090",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鹿谷鄉",
+            "TownCode": "10008070",
+            "CountyName": "南投縣",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "雲林縣",
+        "enName": "YunlinCounty",
+        "towns":
+        [
+          {
+            "TownName": "二崙鄉",
+            "TownCode": "10009110",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "元長鄉",
+            "TownCode": "10009170",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "北港鎮",
+            "TownCode": "10009060",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "口湖鄉",
+            "TownCode": "10009190",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "古坑鄉",
+            "TownCode": "10009070",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "臺西鄉",
+            "TownCode": "10009160",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "四湖鄉",
+            "TownCode": "10009180",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "土庫鎮",
+            "TownCode": "10009050",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大埤鄉",
+            "TownCode": "10009080",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "崙背鄉",
+            "TownCode": "10009120",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "斗六市",
+            "TownCode": "10009010",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "斗南鎮",
+            "TownCode": "10009020",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東勢鄉",
+            "TownCode": "10009140",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "林內鄉",
+            "TownCode": "10009100",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "水林鄉",
+            "TownCode": "10009200",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "莿桐鄉",
+            "TownCode": "10009090",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "虎尾鎮",
+            "TownCode": "10009030",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "褒忠鄉",
+            "TownCode": "10009150",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "西螺鎮",
+            "TownCode": "10009040",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "麥寮鄉",
+            "TownCode": "10009130",
+            "CountyName": "雲林縣",
+            "Version": "21.08.1"
+          }
+        ]
+      }
     ]
   },
   {
     "area": "南部",
     "citys": [
-      { "cityName": "嘉義市", "enName": "Chiayi" },
-      { "cityName": "嘉義縣", "enName": "ChiayiCounty" },
-      { "cityName": "臺南市", "enName": "Tainan" },
-      { "cityName": "高雄市", "enName": "Kaohsiung" },
-      { "cityName": "屏東縣", "enName": "PingtungCounty" }
+      {
+        "cityName": "嘉義市",
+        "enName": "Chiayi",
+        "towns":
+        [
+          {
+            "TownName": "東區",
+            "TownCode": "10020010",
+            "CountyName": "嘉義市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "西區",
+            "TownCode": "10020020",
+            "CountyName": "嘉義市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "嘉義縣",
+        "enName": "ChiayiCounty",
+        "towns":
+        [
+          {
+            "TownName": "中埔鄉",
+            "TownCode": "10010130",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "六腳鄉",
+            "TownCode": "10010080",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大埔鄉",
+            "TownCode": "10010170",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大林鎮",
+            "TownCode": "10010040",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "太保市",
+            "TownCode": "10010010",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "布袋鎮",
+            "TownCode": "10010030",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新港鄉",
+            "TownCode": "10010070",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "朴子市",
+            "TownCode": "10010020",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東石鄉",
+            "TownCode": "10010090",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "梅山鄉",
+            "TownCode": "10010150",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "民雄鄉",
+            "TownCode": "10010050",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "水上鄉",
+            "TownCode": "10010120",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "溪口鄉",
+            "TownCode": "10010060",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "番路鄉",
+            "TownCode": "10010160",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "竹崎鄉",
+            "TownCode": "10010140",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "義竹鄉",
+            "TownCode": "10010100",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "阿里山鄉",
+            "TownCode": "10010180",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鹿草鄉",
+            "TownCode": "10010110",
+            "CountyName": "嘉義縣",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "臺南市",
+        "enName": "Tainan",
+        "towns":
+        [
+          {
+            "TownName": "七股區",
+            "TownCode": "67000150",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "下營區",
+            "TownCode": "67000080",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "中西區",
+            "TownCode": "67000370",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "仁德區",
+            "TownCode": "67000270",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "佳里區",
+            "TownCode": "67000120",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "六甲區",
+            "TownCode": "67000090",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "北區",
+            "TownCode": "67000340",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "北門區",
+            "TownCode": "67000170",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南化區",
+            "TownCode": "67000250",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南區",
+            "TownCode": "67000330",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "善化區",
+            "TownCode": "67000190",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大內區",
+            "TownCode": "67000110",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "學甲區",
+            "TownCode": "67000130",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "安南區",
+            "TownCode": "67000350",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "安定區",
+            "TownCode": "67000210",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "安平區",
+            "TownCode": "67000360",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "官田區",
+            "TownCode": "67000100",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "將軍區",
+            "TownCode": "67000160",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "山上區",
+            "TownCode": "67000220",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "左鎮區",
+            "TownCode": "67000260",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "後壁區",
+            "TownCode": "67000050",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新化區",
+            "TownCode": "67000180",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新市區",
+            "TownCode": "67000200",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新營區",
+            "TownCode": "67000010",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東區",
+            "TownCode": "67000320",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東山區",
+            "TownCode": "67000060",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "柳營區",
+            "TownCode": "67000040",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "楠西區",
+            "TownCode": "67000240",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "歸仁區",
+            "TownCode": "67000280",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "永康區",
+            "TownCode": "67000310",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "玉井區",
+            "TownCode": "67000230",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "白河區",
+            "TownCode": "67000030",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "西港區",
+            "TownCode": "67000140",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "關廟區",
+            "TownCode": "67000290",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鹽水區",
+            "TownCode": "67000020",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "麻豆區",
+            "TownCode": "67000070",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "龍崎區",
+            "TownCode": "67000300",
+            "CountyName": "臺南市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "高雄市",
+        "enName": "Kaohsiung",
+        "towns":
+        [
+          {
+            "TownName": "三民區",
+            "TownCode": "64000050",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "仁武區",
+            "TownCode": "64000170",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "內門區",
+            "TownCode": "64000350",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "六龜區",
+            "TownCode": "64000320",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "前金區",
+            "TownCode": "64000070",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "前鎮區",
+            "TownCode": "64000090",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大寮區",
+            "TownCode": "64000140",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大樹區",
+            "TownCode": "64000150",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大社區",
+            "TownCode": "64000160",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "小港區",
+            "TownCode": "64000110",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "岡山區",
+            "TownCode": "64000190",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "左營區",
+            "TownCode": "64000030",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "彌陀區",
+            "TownCode": "64000280",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新興區",
+            "TownCode": "64000060",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "旗山區",
+            "TownCode": "64000300",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "旗津區",
+            "TownCode": "64000100",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "杉林區",
+            "TownCode": "64000340",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "林園區",
+            "TownCode": "64000130",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "桃源區",
+            "TownCode": "64000370",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "梓官區",
+            "TownCode": "64000290",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "楠梓區",
+            "TownCode": "64000040",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "橋頭區",
+            "TownCode": "64000200",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "永安區",
+            "TownCode": "64000270",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "湖內區",
+            "TownCode": "64000250",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "燕巢區",
+            "TownCode": "64000210",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "田寮區",
+            "TownCode": "64000220",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "甲仙區",
+            "TownCode": "64000330",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "美濃區",
+            "TownCode": "64000310",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "苓雅區",
+            "TownCode": "64000080",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "茂林區",
+            "TownCode": "64000360",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "茄萣區",
+            "TownCode": "64000260",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "路竹區",
+            "TownCode": "64000240",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "那瑪夏區",
+            "TownCode": "64000380",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "阿蓮區",
+            "TownCode": "64000230",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鳥松區",
+            "TownCode": "64000180",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鳳山區",
+            "TownCode": "64000120",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鹽埕區",
+            "TownCode": "64000010",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鼓山區",
+            "TownCode": "64000020",
+            "CountyName": "高雄市",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "屏東縣",
+        "enName": "PingtungCounty",
+        "towns":
+        [
+          {
+            "TownName": "三地門鄉",
+            "TownCode": "10013260",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "九如鄉",
+            "TownCode": "10013080",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "佳冬鄉",
+            "TownCode": "10013210",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "來義鄉",
+            "TownCode": "10013300",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "內埔鄉",
+            "TownCode": "10013130",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南州鄉",
+            "TownCode": "10013200",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "屏東市",
+            "TownCode": "10013010",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "崁頂鄉",
+            "TownCode": "10013180",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "恆春鎮",
+            "TownCode": "10013040",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新園鄉",
+            "TownCode": "10013170",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新埤鄉",
+            "TownCode": "10013150",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "春日鄉",
+            "TownCode": "10013310",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東港鎮",
+            "TownCode": "10013030",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "枋寮鄉",
+            "TownCode": "10013160",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "枋山鄉",
+            "TownCode": "10013250",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "林邊鄉",
+            "TownCode": "10013190",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "泰武鄉",
+            "TownCode": "10013290",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "滿州鄉",
+            "TownCode": "10013240",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "潮州鎮",
+            "TownCode": "10013020",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "牡丹鄉",
+            "TownCode": "10013330",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "獅子鄉",
+            "TownCode": "10013320",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "琉球鄉",
+            "TownCode": "10013220",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "瑪家鄉",
+            "TownCode": "10013280",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "竹田鄉",
+            "TownCode": "10013140",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "萬丹鄉",
+            "TownCode": "10013050",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "萬巒鄉",
+            "TownCode": "10013120",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "車城鄉",
+            "TownCode": "10013230",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "里港鄉",
+            "TownCode": "10013090",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "長治鄉",
+            "TownCode": "10013060",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "霧臺鄉",
+            "TownCode": "10013270",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "高樹鄉",
+            "TownCode": "10013110",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鹽埔鄉",
+            "TownCode": "10013100",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "麟洛鄉",
+            "TownCode": "10013070",
+            "CountyName": "屏東縣",
+            "Version": "21.08.1"
+          }
+        ]
+      }
     ]
   },
   {
     "area": "東部",
     "citys": [
-      { "cityName": "宜蘭縣", "enName": "YilanCounty" },
-      { "cityName": "花蓮縣", "enName": "HualienCounty" },
-      { "cityName": "臺東縣", "enName": "TaitungCounty" }
+      {
+        "cityName": "宜蘭縣",
+        "enName": "YilanCounty",
+        "towns":
+        [
+          {
+            "TownName": "三星鄉",
+            "TownCode": "10002100",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "五結鄉",
+            "TownCode": "10002090",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "冬山鄉",
+            "TownCode": "10002080",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南澳鄉",
+            "TownCode": "10002120",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "員山鄉",
+            "TownCode": "10002070",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "壯圍鄉",
+            "TownCode": "10002060",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大同鄉",
+            "TownCode": "10002110",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "宜蘭市",
+            "TownCode": "10002010",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "礁溪鄉",
+            "TownCode": "10002050",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "羅東鎮",
+            "TownCode": "10002020",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "蘇澳鎮",
+            "TownCode": "10002030",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "頭城鎮",
+            "TownCode": "10002040",
+            "CountyName": "宜蘭縣",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "花蓮縣",
+        "enName": "HualienCounty",
+        "towns":
+        [
+          {
+            "TownName": "光復鄉",
+            "TownCode": "10015070",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "卓溪鄉",
+            "TownCode": "10015130",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "吉安鄉",
+            "TownCode": "10015050",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "壽豐鄉",
+            "TownCode": "10015060",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "富里鄉",
+            "TownCode": "10015100",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "新城鄉",
+            "TownCode": "10015040",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "玉里鎮",
+            "TownCode": "10015030",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "瑞穗鄉",
+            "TownCode": "10015090",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "秀林鄉",
+            "TownCode": "10015110",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "花蓮市",
+            "TownCode": "10015010",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "萬榮鄉",
+            "TownCode": "10015120",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "豐濱鄉",
+            "TownCode": "10015080",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鳳林鎮",
+            "TownCode": "10015020",
+            "CountyName": "花蓮縣",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "臺東縣",
+        "enName": "TaitungCounty",
+        "towns":
+        [
+          {
+            "TownName": "卑南鄉",
+            "TownCode": "10014040",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "臺東市",
+            "TownCode": "10014010",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "大武鄉",
+            "TownCode": "10014100",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "太麻里鄉",
+            "TownCode": "10014090",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "延平鄉",
+            "TownCode": "10014130",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "成功鎮",
+            "TownCode": "10014020",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東河鄉",
+            "TownCode": "10014070",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "池上鄉",
+            "TownCode": "10014060",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "海端鄉",
+            "TownCode": "10014120",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "綠島鄉",
+            "TownCode": "10014110",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "蘭嶼鄉",
+            "TownCode": "10014160",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "達仁鄉",
+            "TownCode": "10014150",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "金峰鄉",
+            "TownCode": "10014140",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "長濱鄉",
+            "TownCode": "10014080",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "關山鎮",
+            "TownCode": "10014030",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "鹿野鄉",
+            "TownCode": "10014050",
+            "CountyName": "臺東縣",
+            "Version": "21.08.1"
+          }
+        ]
+      }
     ]
   },
   {
     "area": "離島",
     "citys": [
-      { "cityName": "金門縣", "enName": "KinmenCounty" },
-      { "cityName": "澎湖縣", "enName": "PenghuCounty" },
-      { "cityName": "連江縣", "enName": "LienchiangCounty" }
+      {
+        "cityName": "金門縣",
+        "enName": "KinmenCounty",
+        "towns":
+        [
+          {
+            "TownName": "烈嶼鄉",
+            "TownCode": "09020050",
+            "CountyName": "金門縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "金城鎮",
+            "TownCode": "09020010",
+            "CountyName": "金門縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "金寧鄉",
+            "TownCode": "09020040",
+            "CountyName": "金門縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "金沙鎮",
+            "TownCode": "09020020",
+            "CountyName": "金門縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "金湖鎮",
+            "TownCode": "09020030",
+            "CountyName": "金門縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "烏坵鄉",
+            "TownCode": "09020060",
+            "CountyName": "金門縣",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "澎湖縣",
+        "enName": "PenghuCounty",
+        "towns":
+        [
+          {
+            "TownName": "白沙鄉",
+            "TownCode": "10016030",
+            "CountyName": "澎湖縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "湖西鄉",
+            "TownCode": "10016020",
+            "CountyName": "澎湖縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "馬公市",
+            "TownCode": "10016010",
+            "CountyName": "澎湖縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "望安鄉",
+            "TownCode": "10016050",
+            "CountyName": "澎湖縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "西嶼鄉",
+            "TownCode": "10016040",
+            "CountyName": "澎湖縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "七美鄉",
+            "TownCode": "10016060",
+            "CountyName": "澎湖縣",
+            "Version": "21.08.1"
+          }
+        ]
+      },
+      {
+        "cityName": "連江縣",
+        "enName": "LienchiangCounty",
+        "towns":
+        [
+          {
+            "TownName": "北竿鄉",
+            "TownCode": "09007020",
+            "CountyName": "連江縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "南竿鄉",
+            "TownCode": "09007010",
+            "CountyName": "連江縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "東引鄉",
+            "TownCode": "09007040",
+            "CountyName": "連江縣",
+            "Version": "21.08.1"
+          },
+          {
+            "TownName": "莒光鄉",
+            "TownCode": "09007030",
+            "CountyName": "連江縣",
+            "Version": "21.08.1"
+          }
+        ]
+      }
     ]
   }
 ]

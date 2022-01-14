@@ -1,12 +1,14 @@
 <template>
   <div class="route-path-header">
     <div class="route-path-header-block">
-      <div class="left-block"
+      <section class="left-block"
         :class="{ active: isGoDirection }"
-        @click="checkGoAndBackRoute(true)">往{{ targetRoute.destinationStop }}</div>
-      <div class="right-block"
+        @click="checkGoAndBackRoute(true)">往{{ targetRoute.destinationStop }}
+      </section>
+      <section class="right-block"
         :class="{ active: !isGoDirection }"
-        @click="checkGoAndBackRoute(false)">往{{ targetRoute.departureStop }}</div>
+        @click="checkGoAndBackRoute(false)">往{{ targetRoute.departureStop }}
+      </section>
     </div>
     <div class="route-path-header-progress-bar">
       <div class="route-path-header-progress-bar-fill" :style="`width: ${refreshTime * 20}%`"></div>

@@ -1,32 +1,23 @@
 <template>
   <div>
     <div class="buffer-block" v-if="routeBuffer.bufferStartStop === data.StopName.Zh_tw">緩衝區</div>
-    <div class="real-time-block">
+    <section class="real-time-block">
       <div class="left-block">
-        <div class="time-btn"
-          :class="{
-            disable: data.StopStatus != 0 && data.EstimateTime === undefined,
-            colser: data.EstimateTime !== undefined && data.EstimateTime < 300,
-            }">
-          {{ !data.EstimateTime ? (data.IsLastBus ? '末班已過' : '尚未發車') : (data.EstimateTime > 180) ? `${Math.floor(data.EstimateTime / 60)} 分` : '即將到站' }}
-        </div>
-        <div class="stop-name">{{ data.StopName.Zh_tw }}</div>
+        <p class="time-btn" :class="timeBtnClass">{{ timeBtnText }}</p>
+        <p class="stop-name">{{ data.StopName.Zh_tw }}</p>
       </div>
       <div class="right-block">
-        <div v-if="data.ClosestStop" class="stop-closest">最近</div>
-        <div v-if="data.PlateNumb" class="bus-numb">{{ data.PlateNumb }}</div>
-        <div class="sinal" :class="{
-          disable: data.StopStatus != 0 || !data.EstimateTime,
-          colser: data.EstimateTime < 300 }">
-        </div>
+        <p v-if="data.ClosestStop" class="stop-closest">最近</p>
+        <p v-if="data.PlateNumb" class="bus-numb">{{ data.PlateNumb }}</p>
+        <div class="sinal" :class="timeBtnClass"></div>
       </div>
-    </div>
+    </section>
     <div class="buffer-block" v-if="routeBuffer.bufferEndStop === data.StopName.Zh_tw">緩衝區</div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   props: ['data'],
@@ -48,6 +39,28 @@ export default {
         }
       } else {
         return { bufferStartStop: '', bufferEndStop: '' }
+      }
+    },
+    timeBtnClass() {
+      const { EstimateTime, StopStatus } = this.data;
+      if (EstimateTime !== undefined && EstimateTime < 300) {
+        return "colser";
+      } else if (StopStatus != 0) {
+        return "disable";
+      } else {
+        return "";
+      }
+    },
+    timeBtnText() {
+      const { EstimateTime, IsLastBus } = this.data;
+      if (EstimateTime !== undefined) {
+        if (EstimateTime === 0) {
+          return "進站中";
+        } else {
+          return EstimateTime > 180 ? `${Math.floor(EstimateTime / 60)} 分` : "即將到站";
+        }
+      } else {
+        return IsLastBus ? "末班已過" : "尚未發車";
       }
     }
   }
@@ -95,19 +108,17 @@ export default {
     }
     .right-block {
       @include flex-row-center-center;
-      .bus-numb {
+      .bus-numb, .stop-closest {
         @include font-overline(500);
         margin-right: 1rem;
         padding: .5em;
         border-radius: $normal-bora;
+      }
+      .bus-numb {
         background-color: $primary-400;
         color: $grey-100;
       }
       .stop-closest {
-        @include font-overline(500);
-        margin-right: .5rem;
-        padding: .5em;
-        border-radius: $normal-bora;
         border: 1px solid $primary-400;
         background-color: $grey-100;
         color: $primary-400;

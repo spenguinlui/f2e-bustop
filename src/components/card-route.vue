@@ -1,20 +1,20 @@
 <template>
-  <div class="card-route" @click="goRuteDetail">
-    <div class="card-route-msg">
+  <section class="card-route" @click="goRuteDetail">
+    <section class="card-route-msg">
       <div class="left-block">
-        <div class="bus-number">{{ data.RouteName.Zh_tw }}</div>
+        <h1 class="bus-number">{{ data.RouteName.Zh_tw }}</h1>
       </div>
       <div class="right-block">
         <div class="city-tag" v-if="isCB">{{ cityZh }}</div>
-        <i class="fas fa-angle-right"></i>
+        <button type="button"><i class="fas fa-angle-right"></i></button>
       </div>
-    </div>
-    <div class="card-route-content">
-      <div class="star-stop">{{ data.DepartureStopNameZh }}</div>
+    </section>
+    <section class="card-route-content">
+      <p class="star-stop">{{ data.DepartureStopNameZh }}</p>
       <div class="line"></div>
-      <div class="end-stop">{{ data.DestinationStopNameZh }}</div>
-    </div>
-  </div>
+      <p class="end-stop">{{ data.DestinationStopNameZh }}</p>
+    </section>
+  </section>
 </template>
 
 <script>

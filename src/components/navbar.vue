@@ -1,29 +1,29 @@
 <template>
-  <div>
-    <nav class="nav">
-      <div class="nav-list-m" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-bars"></i></div>
+  <nav>
+    <section class="nav">
+      <button type="button" class="nav-list-m" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-bars"></i></button>
       <div class="nav-brand" @click="checkLandingPage"><img src="../assets/images/logo-g.svg" alt="LOGO 圖片"></div>
-      <div class="nav-list">
-        <div class="nav-list-item" :class="{ active: isCB }" @click="toggleCityBus">找公車<i class="fas fa-bus-alt"></i></div>
-        <div class="nav-list-item" :class="{ active: isICB }" @click="toggleInterCityBus">找客運<i class="fas fa-road"></i></div>
-        <div class="nav-list-item" :class="{ active: isBike }" @click="toggleBike">找單車<i class="fas fa-bicycle"></i></div>
-        <div class="nav-list-item disabled">轉乘資訊<i class="fas fa-subway"></i></div>
-      </div>
-      <div class="bus-goback"
+      <ul class="nav-list">
+        <li class="nav-list-item" :class="{ active: isCB }" @click="toggleCityBus">找公車<i class="fas fa-bus-alt"></i></li>
+        <li class="nav-list-item" :class="{ active: isICB }" @click="toggleInterCityBus">找客運<i class="fas fa-road"></i></li>
+        <li class="nav-list-item" :class="{ active: isBike }" @click="toggleBike">找單車<i class="fas fa-bicycle"></i></li>
+        <li class="nav-list-item disabled">轉乘資訊<i class="fas fa-subway"></i></li>
+      </ul>
+      <button type="button" class="bus-goback"
         v-show="isRouteDetail && !isBike && !landingPageShow"
         @click="goBackRouteList"
-      ><i class="fas fa-angle-left"></i></div>
-    </nav>
-    <div class="nav-popup" :class="{ show: navBarPopUp }">
-      <div class="nav-popup-close" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-times"></i></div>
-      <div class="nav-popup-list">
-        <div class="nav-popup-list-item" :class="{ active: isCB }" @click="toggleCityBus"><i class="fas fa-bus-alt"></i>找公車</div>
-        <div class="nav-popup-list-item" :class="{ active: isICB }" @click="toggleInterCityBus"><i class="fas fa-road"></i>找客運</div>
-        <div class="nav-popup-list-item" :class="{ active: isBike }" @click="toggleBike"><i class="fas fa-bicycle"></i>找單車</div>
-        <div class="nav-popup-list-item disabled"><i class="fas fa-subway"></i>轉乘資訊</div>
-      </div>
-    </div>
-  </div>
+      ><i class="fas fa-angle-left"></i></button>
+    </section>
+    <section class="nav-popup" :class="{ show: navBarPopUp }">
+      <button type="button" class="nav-popup-close" @click="navBarPopUp = !navBarPopUp"><i class="fas fa-times"></i></button>
+      <ul class="nav-popup-list">
+        <li class="nav-popup-list-item" :class="{ active: isCB }" @click="toggleCityBus"><i class="fas fa-bus-alt"></i>找公車</li>
+        <li class="nav-popup-list-item" :class="{ active: isICB }" @click="toggleInterCityBus"><i class="fas fa-road"></i>找客運</li>
+        <li class="nav-popup-list-item" :class="{ active: isBike }" @click="toggleBike"><i class="fas fa-bicycle"></i>找單車</li>
+        <li class="nav-popup-list-item disabled"><i class="fas fa-subway"></i>轉乘資訊</li>
+      </ul>
+    </section>
+  </nav>
 </template>
 
 <script>

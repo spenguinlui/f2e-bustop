@@ -1,71 +1,71 @@
 <template>
   <div class="landing-page-container" v-if="landingPageShow">
     <div class="landing-page">
-      <div class="landing-page-weater">
-        <div class="landing-page-weater-icon">
+      <section class="landing-page-weater">
+        <section class="landing-page-weater-icon">
           <div v-show="parseInt(weatherData.Wx.parameterValue) === 1"><i class="fas fa-sun"></i></div>
           <div v-show="parseInt(weatherData.Wx.parameterValue) === 2 || parseInt(weatherData.Wx.parameterValue) === 3"><i class="fas fa-cloud-sun"></i></div>
           <div v-show="parseInt(weatherData.Wx.parameterValue) >= 4 && parseInt(weatherData.Wx.parameterValue) <= 7"><i class="fas fa-cloud"></i></div>
           <div v-show="parseInt(weatherData.Wx.parameterValue) > 7"><i class="fas fa-cloud-showers-heavy"></i></div>
-        </div>
-        <div class="landing-page-weater-detail">
+        </section>
+        <section class="landing-page-weater-detail">
           <div class="detail-tags">
             <div class="tag-block">
-              <div class="tag">{{ cityZh }}</div>
-              <div class="date-text">{{ date }}</div>
+              <p class="tag">{{ cityZh }}</p>
+              <p class="date-text">{{ date }}</p>
             </div>
             <div class="tag-block" @click="checkCity">
-              <div class="tag">重新定位</div>
-              <div class="change" :class="{ loading: weatherLoading }"><i class="fas fa-redo-alt"></i></div>
+              <p class="tag">重新定位</p>
+              <button type="button" class="change" :class="{ loading: weatherLoading }"><i class="fas fa-redo-alt"></i></button>
             </div>
           </div>
           <div class="detail-values">
             <div class="temperature">
-              <div class="temperature-max">{{ weatherData.TEMP }}°C</div>
+              <p class="temperature-max">{{ weatherData.TEMP }}°C</p>
               <!-- <div class="temperature-min">| {{ weatherData.MinT.parameterName }}°C</div> -->
             </div>
             <div class="rain-rate"><i class="fas fa-cloud-showers-heavy"></i>{{ weatherData.PoP.parameterName }}%</div>
           </div>
-        </div>
-      </div>
-      <div class="landing-page-boxs">
-        <div class="landing-page-box-container" @click="toggleDataType('CB')">
+        </section>
+      </section>
+      <section class="landing-page-boxs">
+        <section class="landing-page-box-container" @click="toggleDataType('CB')">
           <div class="landing-page-box-outside">
             <div class="landing-page-box">
               <div class="box-icon"><i class="fas fa-bus-alt"></i></div>
-              <div class="box-text">找公車</div>
+              <p class="box-text">找公車</p>
             </div>
           </div>
-        </div>
-        <div class="landing-page-box-container" @click="toggleDataType('ICB')">
+        </section>
+        <section class="landing-page-box-container" @click="toggleDataType('ICB')">
           <div class="landing-page-box-outside">
             <div class="landing-page-box">
               <div class="box-icon"><i class="fas fa-road"></i></div>
-            <div class="box-text">找客運</div>
+              <p class="box-text">找客運</p>
             </div>
           </div>
-        </div>
-        <div class="landing-page-box-container" @click="toggleDataType('Bike')">
+        </section>
+        <section class="landing-page-box-container" @click="toggleDataType('Bike')">
           <div class="landing-page-box-outside">
             <div class="landing-page-box">
               <div class="box-icon"><i class="fas fa-bicycle"></i></div>
-            <div class="box-text">找單車</div>
+              <p class="box-text">找單車</p>
             </div>
           </div>
-        </div>
-        <div class="landing-page-box-container">
+        </section>
+        <section class="landing-page-box-container">
           <div class="landing-page-box-outside">
             <div class="landing-page-box">
               <div class="box-icon disable"><i class="fas fa-subway"></i></div>
-            <div class="box-text">轉乘資訊</div>
+              <p class="box-text">轉乘資訊</p>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="landing-page-service" :class="{ accent: allowPosition, alert: !allowPosition }">
+        </section>
+      </section>
+      <section class="landing-page-service" :class="{ accent: allowPosition, alert: !allowPosition }">
         <div class="service-icon"><i class="fas fa-crosshairs"></i></div>
-        <div class="service-text">{{ allowPosition ? "您已同意開啟定位服務" : "您未同意開啟定位服務" }}</div>
-      </div>
+        <p class="service-text">{{ allowPosition ? "您已同意開啟定位服務" : "您未同意開啟定位服務" }}</p>
+      </section>
     </div>
   </div>
 </template>

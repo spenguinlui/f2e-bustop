@@ -1,11 +1,11 @@
 <template>
   <div class="btn-filter" :class="{ bus: isCB }" @click="selectBlockShow = !selectBlockShow">
-    <div><i class="fas fa-sort-amount-down"></i>{{ isBike ? "排序" : "篩選" }}</div>
-    <div class="filter-select-block" v-if="isBike" v-show="selectBlockShow">
-      <div class="filter-select" @click.prevent.stop="sortBikeByDistace">距離較近</div>
-      <div class="filter-select" @click.prevent.stop="sortBikeByRent">可借車數</div>
-      <div class="filter-select" @click.prevent.stop="sortBikeByReturn">可還車數</div>
-    </div>
+    <button type="button"><i class="fas fa-sort-amount-down"></i>{{ isBike ? "排序" : "篩選" }}</button>
+    <ul class="filter-select-block" v-if="isBike" v-show="selectBlockShow">
+      <li class="filter-select" @click.prevent.stop="sortBikeByDistace">距離較近</li>
+      <li class="filter-select" @click.prevent.stop="sortBikeByRent">可借車數</li>
+      <li class="filter-select" @click.prevent.stop="sortBikeByReturn">可還車數</li>
+    </ul>
     <SelectCityBlock v-if="isCB" v-show="selectBlockShow"/>
   </div>
 </template>

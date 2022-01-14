@@ -6,7 +6,7 @@
       hide: isBike ? false : !isRouteDetail }
   ">
     <div @click="locateCurrentPosition" class="locate-icon"><i class="fas fa-crosshairs"></i></div>
-    <div class="list-board-header"
+    <header class="list-board-header"
       :class="{ route: isBike ? false : isRouteDetail }">
 
       <!-- 單車手機版出現 -->
@@ -29,19 +29,19 @@
       <!-- 公車&客運 進入第二層細節才出現  -->
       <RouteHeader v-if="isBike ? false : isRouteDetail"
         :mobileExpand="mobileExpand" :mobileExpanding="mobileExpanding"/>
-    </div>
+    </header>
 
     <!-- 公車&客運 進入第二層細節才出現 -->
     <RoutePathHeader v-if="isBike ? false : isRouteDetail"/>
 
     <!-- 公車&客運 桌面版一開始出現 -->
-    <div class="searching-img-container"
+    <section class="searching-img-container"
       v-show="!isBike && busDataList.length === 0" >
       <img src="../assets/images/searching.png" alt="搜尋無結果圖片">
-    </div>
+    </section>
 
     <!-- 公車&客運 桌面版出現 -->
-    <div class="cards-container" :class="{ route: isBike ? false : isRouteDetail }">
+    <section class="cards-container" :class="{ route: isBike ? false : isRouteDetail }">
       <!-- 路線列表 -->
       <div class="cards" v-show="isBike ? false : !isRouteDetail">
         <template v-if="busDataList.length > 0">
@@ -61,7 +61,7 @@
       <div class="cards" v-show="isBike">
         <CardBike v-for="data in bikeDataList" :data="data" :key="data.StationUID"/>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 

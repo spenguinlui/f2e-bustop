@@ -1,9 +1,8 @@
 <template>
   <div class="search-bar" :class="{ icb: isICB }" @click="$refs.inputEl.focus()">
     <input v-model="localKeyword" ref="inputEl" type="text" 
-      :placeholder="isBike ? '搜尋站點' : '搜尋公車路線及站牌'"
-    >
-    <div class="search-icon" @click.prevent.stop="goSearch"><i class="fas fa-search"></i></div>
+      :placeholder="isBike ? '搜尋站點' : '搜尋公車路線及站牌'">
+    <button type="button" class="search-icon" @click.prevent.stop="goSearch"><i class="fas fa-search"></i></button>
   </div>
 </template>
 
