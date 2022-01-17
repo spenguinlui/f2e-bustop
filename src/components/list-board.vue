@@ -43,24 +43,30 @@
     <!-- 公車&客運 桌面版出現 -->
     <section class="cards-container" :class="{ route: isBike ? false : isRouteDetail }">
       <!-- 路線列表 -->
-      <div class="cards" v-show="isBike ? false : !isRouteDetail">
+      <ul class="cards" v-show="isBike ? false : !isRouteDetail">
         <template v-if="busDataList.length > 0">
           <CardRotue v-for="data in busDataList" :data="data" :key="data.RouteUID"/>
         </template>
-      </div>
-
-      <!-- 即時路況 -->
-      <div class="cards" v-show="isBike ? false : isRouteDetail && isGoDirection">
-        <CardRealTime v-for="(data, index) in routeGoDetailList" :data="data" :key="index"/>
-      </div>
-      <div class="cards" v-show="isBike ? false : isRouteDetail && !isGoDirection">
-        <CardRealTime v-for="(data, index) in routeBackDetailList" :data="data" :key="index"/>
-      </div>
+      </ul>
 
       <!-- 單車站點 -->
-      <div class="cards" v-show="isBike">
+      <ul class="cards" v-show="isBike">
         <CardBike v-for="data in bikeDataList" :data="data" :key="data.StationUID"/>
-      </div>
+      </ul>
+
+      <!-- 公車&客運 第二層細節 -->
+      <!-- 即時路況 -->
+      <ul class="cards" v-show="isBike ? false : isRouteDetail && isGoDirection && !isDetailContent">
+        <CardRealTime v-for="(data, index) in routeGoDetailList" :data="data" :key="index"/>
+      </ul>
+      <ul class="cards" v-show="isBike ? false : isRouteDetail && !isGoDirection && !isDetailContent">
+        <CardRealTime v-for="(data, index) in routeBackDetailList" :data="data" :key="index"/>
+      </ul>
+      <!-- 路線詳細資訊 -->
+
+      <template v-if="isBike ? false : isRouteDetail && isDetailContent">
+        <RouteDetail :detail="routeDetail"/>
+      </template>
     </section>
   </div>
 </template>
@@ -74,6 +80,7 @@ import SearchBar from "./search-bar.vue";
 import RouteHeader from "./route-header.vue";
 import RoutePathHeader from "./route-path-header.vue";
 import BtnFilter from "./btn-filter.vue";
+import RouteDetail from "./route-detail.vue";
 
 export default {
   data() {
@@ -82,9 +89,16 @@ export default {
     }
   },
   computed: {
+    routeDetail() {
+      if (this.routeDataList) {
+        return this.routeDataList[0].Data;
+      } else {
+        return {};
+      }
+    },
     ...mapGetters([
-      'bikeDataList', 'busDataList', 'routeGoDetailList', 'routeBackDetailList',
-      'isCB', 'isBike', 'isRouteDetail', 'isGoDirection'])
+      'bikeDataList', 'busDataList', 'routeDataList','routeGoDetailList', 'routeBackDetailList',
+      'isCB', 'isBike', 'isRouteDetail', 'isGoDirection', 'isDetailContent'])
   },
   methods: {
     mobileExpand() {
@@ -101,7 +115,8 @@ export default {
     SearchBar,
     RouteHeader,
     RoutePathHeader,
-    BtnFilter
+    BtnFilter,
+    RouteDetail
   }
 }
 </script>
@@ -168,7 +183,7 @@ export default {
         width: 100%;
         height: 100%;
         padding: $pading-top 1rem 0 1rem;
-        .cards {
+        .cards, .content {
           width: 100%;
           height: 100%;
           overflow: auto;

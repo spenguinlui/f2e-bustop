@@ -4,7 +4,10 @@ import {
   insertTimeArrivalToDetailList,
   insertRouteShapeToDetailList,
   insertRealTimeToDetailList,
-  insertReailTimeStopToDeatailList
+  insertReailTimeStopToDeatailList,
+  insertRouteDataToDetailList,
+  insertScheduleToDetailList,
+  insertOperatorToDetailList
 } from "../modules/data-insert.js";
 import {
   AJAX_getBusStopNearBy,
@@ -17,9 +20,12 @@ import {
   AJAX_getBustRealTimeStop,
   AJAX_getBikeStation,
   AJAX_getBikeAvailability,
+  AJAX_getBusRouteDetail,
+  AJAX_getBusOperator,
   AJAX_getCurrentLocation,
   AJAX_getWeaterTep,
-  AJAX_getWeaterRain
+  AJAX_getWeaterRain,
+  AJAX_getBusSchedule
 } from "../modules/api";
 
 import citysHash from "../json/cityshash.json";
@@ -48,6 +54,7 @@ export const storeObject = {
 
     isRouteDetail: false,   // 是否顯示路線詳細資料
     isGoDirection: true,    // 是否去程
+    isDetailContent: false, // 是否顯示路線資訊(只有文字沒有列表)
 
     // 天氣資訊
     weatherData: {
@@ -68,6 +75,7 @@ export const storeObject = {
     bikeDataList: state => state.bikeDataList,
     busDataList: state => state.busDataList,
     busStopDataList: state => state.busStopDataList,
+    routeDataList: state => state.routeDataList,
     routeGoDetailList: state => state.routeDataList.length !== 0 ? state.routeDataList[0].Stops : [],
     routeBackDetailList: state => state.routeDataList.length !== 0 ? state.routeDataList.length !== 1 ? state.routeDataList[1].Stops : state.routeDataList[0].Stops : [],
 
@@ -77,6 +85,7 @@ export const storeObject = {
     isBike: state => state.targetType === "Bike",
     isRouteDetail: state => state.isRouteDetail,
     isGoDirection: state => state.isGoDirection,
+    isDetailContent: state => state.isDetailContent,
 
     weatherData: state => state.weatherData
   },
@@ -117,6 +126,8 @@ export const storeObject = {
     CLOSE_ROUTE_DETAIL_LIST: (state) => state.isRouteDetail = false,
     // 路線細節判斷
     CHECK_OUT_ROUTE_DIRCTION: (state, isGo) => state.isGoDirection = isGo,
+    // 切換路線細節資訊
+    CHECK_OUT_ROUTE_INFO: (state, toggle) => state.isDetailContent = toggle,
 
     // 公車 & 客運
     UPDATE_BUS_DATA_LIST: (state, dataList) => state.busDataList = dataList,
@@ -234,27 +245,42 @@ export const storeObject = {
         AJAX_getBusTimeIfArrival(targetParam),
         AJAX_getBusShapOfRoute(targetParam),
         AJAX_getBusRealTime(targetParam),
-        AJAX_getBustRealTimeStop(targetParam)
+        AJAX_getBustRealTimeStop(targetParam),
+        AJAX_getBusRouteDetail(targetParam),
+        AJAX_getBusSchedule(targetParam)
       ]).then(res => {
         const stopList = res[0].data;
         const timeList = res[1].data;
         const routeList = res[2].data;
         const realTimeList = res[3].data;
         const realTimeStopList = res[4].data;
-
+        const routeDataList = res[5].data;
+        const scheduleList = res[6].data;
+        
         let detailList = JSON.parse(JSON.stringify(stopList));
         detailList = insertNearByStopToDetailList(detailList, this.state.map.currentPosition);
         detailList = insertTimeArrivalToDetailList(detailList, timeList);
         detailList = insertRouteShapeToDetailList(detailList, routeList);
         detailList = insertRealTimeToDetailList(detailList, realTimeList);
         detailList = insertReailTimeStopToDeatailList(detailList, realTimeStopList);
+        detailList = insertRouteDataToDetailList(detailList, routeDataList);
+        detailList = insertScheduleToDetailList(detailList, scheduleList);
         
-        commit("UPDATE_BUS_ROUTE_DATA_LIST", detailList);
-        
-        // 地圖分別打上 站點、路線、動態
-        this.dispatch("map/setBusStopDataOnMap");
-        this.dispatch("map/setBusRouteDataOnMap");
-        this.dispatch("map/setBusRealTimeOnMap");
+        const operatorAjaxList = detailList[0].Data.Operators.map((operator) => {
+          return AJAX_getBusOperator({ type: targetType, city: targetCity, operator: operator.OperatorID });
+        })
+        Promise.all(operatorAjaxList)
+        .then((ress) => {
+          ress.forEach((res) => {
+            detailList = insertOperatorToDetailList(detailList, res.data);
+          })
+          commit("UPDATE_BUS_ROUTE_DATA_LIST", detailList);
+
+          // 地圖分別打上 站點、路線、動態
+          this.dispatch("map/setBusStopDataOnMap");
+          this.dispatch("map/setBusRouteDataOnMap");
+          this.dispatch("map/setBusRealTimeOnMap");
+        })
       }).catch(error => {
         let errorMsg = `getRouteDetail 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `

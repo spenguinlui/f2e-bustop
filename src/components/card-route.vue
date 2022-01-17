@@ -1,5 +1,5 @@
 <template>
-  <section class="card-route" @click="goRuteDetail">
+  <li class="card-route" @click="goRuteDetail">
     <section class="card-route-msg">
       <div class="left-block">
         <h1 class="bus-number">{{ data.RouteName.Zh_tw }}</h1>
@@ -14,7 +14,7 @@
       <div class="line"></div>
       <p class="end-stop">{{ data.DestinationStopNameZh }}</p>
     </section>
-  </section>
+  </li>
 </template>
 
 <script>

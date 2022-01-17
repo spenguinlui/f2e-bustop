@@ -5,7 +5,7 @@
     <!-- 回前一頁 -->
     <button type="button" class="back-btn" @click.prevent.stop="goBackRouteList"><i class="fas fa-angle-left"></i></button>
     <h1 class="route-name">{{ targetRoute.routeName }}</h1>
-    <button type="button" class="info"><i class="fas fa-info-circle"></i></button>
+    <button type="button" class="info" @click="goDetailContent"><i class="fas fa-info-circle"></i></button>
   </div>
 </template>
 
@@ -15,13 +15,20 @@ import { mapGetters } from 'vuex';
 export default {
   props: ['mobileExpand', 'mobileExpanding'],
   computed: {
-    ...mapGetters(['targetRoute'])
+    ...mapGetters(['targetRoute', 'isDetailContent'])
   },
   methods: {
     goBackRouteList() {
-      this.$store.commit("CLOSE_ROUTE_DETAIL_LIST");
-      this.$store.dispatch("map/removeOtherLayers");
-      this.$store.dispatch("updateTargetData");
+      if (this.isDetailContent) {
+        this.$store.commit("CHECK_OUT_ROUTE_INFO", false);
+      } else {
+        this.$store.commit("CLOSE_ROUTE_DETAIL_LIST");
+        this.$store.dispatch("map/removeOtherLayers");
+        this.$store.dispatch("updateTargetData");
+      }
+    },
+    goDetailContent() {
+      this.$store.commit("CHECK_OUT_ROUTE_INFO", true);
     }
   }
 }

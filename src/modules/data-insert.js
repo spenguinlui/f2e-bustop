@@ -91,3 +91,73 @@ export const insertReailTimeStopToDeatailList = (detailList, realTimeStopList) =
   }
   return detailList;
 }
+
+// 路線細節塞入基本資料
+export const insertRouteDataToDetailList = (detailList, dataList) => {
+  try {
+    detailList.map((detailListDir) => {
+      let findData = dataList.find(data => data.RouteName.Zh_tw === detailListDir.RouteName.Zh_tw)
+      if (findData) detailListDir.Data = findData
+      return detailListDir;
+    });
+  } catch(error) {
+    console.log(`insertRouteDataToDetailList Error: ${error}`);
+    return detailList;
+  }
+  return detailList;
+}
+
+// 將班表時程塞入基本資料
+export const insertScheduleToDetailList = (detailList, scheduleList) => {
+  try {
+    detailList.map((detailListDir) => {
+      const direction = detailListDir.Direction;
+      scheduleList.map(schedule => {
+        if (schedule.Direction === direction && schedule.Frequencys) {
+          let scheduleTime = schedule.Frequencys.reduce(
+            (pre, frequency) => {
+              if (frequency.ServiceDay.Sunday || frequency.ServiceDay.Saturday) {
+                if (frequency.StartTime < pre.HolidayFirstBusTime) pre.HolidayFirstBusTime = frequency.StartTime;
+                if (frequency.EndTime > pre.HolidayLastBusTime) pre.HolidayLastBusTime = frequency.EndTime;
+              } else {
+                if (frequency.StartTime < pre.FirstBusTime) pre.FirstBusTime = frequency.StartTime;
+                if (frequency.EndTime > pre.LastBusTime) pre.LastBusTime = frequency.EndTime;
+              }
+              return pre;
+            }, {
+              FirstBusTime: "24:00",
+              LastBusTime: "00:00",
+              HolidayFirstBusTime: "24:00",
+              HolidayLastBusTime: "00:00"
+            }
+          )
+          detailListDir.Data = { ...detailListDir.Data, ...schedule, Schedule: scheduleTime }
+        }
+      })
+      return detailListDir;
+    })
+  } catch(error) {
+    console.log(`insertScheduleToDetailList Error: ${error}`);
+    return detailList;
+  }
+  return detailList;
+}
+
+// 將指定業者資料塞入基本資料
+export const insertOperatorToDetailList = (detailList, operatorList) => {
+  try {
+    detailList.map((detailListDir) => {
+      operatorList.forEach((operator) => {
+        detailListDir.Data.Operators = detailListDir.Data.Operators.map((deta) => {
+          if (deta.OperatorID === operator.OperatorID) deta = { ...deta, ...operator }
+          return deta;
+        })
+      })
+      return detailListDir;
+    })
+  } catch(error) {
+    console.log(`insertOperatorToDetailList Error: ${error}`);
+    return detailList;
+  }
+  return detailList;
+}

@@ -36,7 +36,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['landingPageShow', 'isCB', 'isICB', 'isBike', 'isRouteDetail'])
+    ...mapGetters(['landingPageShow', 'isCB', 'isICB', 'isBike', 'isRouteDetail', 'isDetailContent'])
   },
   methods: {
     checkLandingPage() {
@@ -65,9 +65,13 @@ export default {
       this.$store.dispatch("map/focusCurrentPosition");
     },
     goBackRouteList() {
-      this.$store.commit("CLOSE_ROUTE_DETAIL_LIST")
-      this.$store.dispatch("map/focusCurrentPosition");
-      this.$store.dispatch("updateTargetData");
+      if (this.isDetailContent) {
+        this.$store.commit("CHECK_OUT_ROUTE_INFO", false);
+      } else {
+        this.$store.commit("CLOSE_ROUTE_DETAIL_LIST");
+        this.$store.dispatch("map/focusCurrentPosition");
+        this.$store.dispatch("updateTargetData");
+      }
     },
   }
 }

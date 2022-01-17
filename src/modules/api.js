@@ -41,6 +41,9 @@ export const urlQueryStr = (dataType, query = { top: null, position: null, selec
   // 指定路線要全部符合
   if (query.routeName) queryStr += `&$filter=RouteName/Zh_tw eq '${query.routeName}'`;
 
+  // 指定業者
+  if (query.operator) queryStr += `&$filter=OperatorID eq '${query.operator}'`;
+
   return encodeURI(`${API_DOMAIN}${dataType}?$format=JSON${queryStr}`);
 }
 
@@ -77,6 +80,18 @@ export const AJAX_getBusRoute = ({ type = "CB", city = null, keyword = null }) =
   return axios({
     method: 'get',
     url: urlQueryStr(path, { keyword: keyword, select: ['RouteUID', 'RouteName','DepartureStopNameZh', 'DestinationStopNameZh', 'City', 'FareBufferZoneDescriptionZh'] }),
+    headers: authorizationHeader()
+  })
+}
+
+// 指定路線公車路線細節
+export const AJAX_getBusRouteDetail = ({ type = "CB", city = null, routeName = null }) => {
+  const path = type === "CB" ?
+    `Bus/Route/City/${city}/${routeName}` :
+    `Bus/Route/InterCity/${routeName}`;
+  return axios({
+    method: 'get',
+    url: urlQueryStr(path),
     headers: authorizationHeader()
   })
 }
@@ -137,6 +152,30 @@ export const AJAX_getBustRealTimeStop = ({ type = "CB", city = null, routeName =
   return axios({
     method: 'get',
     url: urlQueryStr(path, { select: ['PlateNumb', 'Direction', 'BusStatus', 'StopName', 'StopUID'], routeName: routeName }),
+    headers: authorizationHeader()
+  })
+}
+
+// 指定路線班表資料
+export const AJAX_getBusSchedule = ({ type = "CB", city = null, routeName = null }) => {
+  const path = type === "CB" ?
+    `Bus/Schedule/City/${city}/${routeName}` :
+    `Bus/Schedule/InterCity/${routeName}`;
+  return axios({
+    method: 'get',
+    url: urlQueryStr(path, { routeName: routeName }),
+    headers: authorizationHeader()
+  })
+}
+
+// 指定業者資料
+export const AJAX_getBusOperator = ({ type = "CB", city = null, operator = null }) => {
+  const path = type === "CB" ?
+    `Bus/Operator/City/${city}` :
+    `Bus/Operator/InterCity`;
+  return axios({
+    method: 'get',
+    url: urlQueryStr(path, { operator }),
     headers: authorizationHeader()
   })
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <li>
     <div class="buffer-block" v-if="routeBuffer.bufferStartStop === data.StopName.Zh_tw">緩衝區</div>
     <section class="real-time-block">
       <div class="left-block">
@@ -13,7 +13,7 @@
       </div>
     </section>
     <div class="buffer-block" v-if="routeBuffer.bufferEndStop === data.StopName.Zh_tw">緩衝區</div>
-  </div>
+  </li>
 </template>
 
 <script>

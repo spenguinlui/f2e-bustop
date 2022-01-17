@@ -1,5 +1,5 @@
 <template>
-  <div class="card-container">
+  <li class="card-container">
     <section class="card-title">
       <h1 class="card-title-text"><span>{{ data.StationName.Zh_tw }}</span></h1>
       <div class="card-title-m-subtitle">
@@ -23,7 +23,7 @@
       <p class="left-btn" :class="subtitleClass">{{ subtitleText }}</p>
       <p class="right-msg"><i class="fas fa-map-marker-alt"></i>距離{{ data.DistanceZH }}</p>
     </section>
-  </div>
+  </li>
 </template>
 
 <script>

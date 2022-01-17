@@ -10,9 +10,9 @@
     </section>
 
     <section class="cards-container">
-      <template v-if="!isBike && busDataList.length > 0">
+      <ul v-if="!isBike && busDataList.length > 0">
         <CardRotue v-for="data in busDataList" :data="data" :key="data.RouteUID"/>
-      </template>
+      </ul>
     </section>
   </div>
 </template>
