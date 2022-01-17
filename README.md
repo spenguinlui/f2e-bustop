@@ -44,7 +44,10 @@ yarn run serve
 * assets/scss - scss 引用檔
 * components - vue 元件
 * json - 靜態 json 檔引用
-* modules - 引用 js function 或物件
+* modules
+  - api.js - api 串接 function 
+  - calculate.js - 計算 function
+  - data-insert.js - 資料整合 function
 * pages - 畫面主要底版
 * store - vuex 資料存放
 
@@ -62,8 +65,7 @@ yarn run serve
 
 # 串接 API 資料
 
-## PTX
-### v2 (https://ptx.transportdata.tw/MOTC/v2/)
+## PTX (https://ptx.transportdata.tw/MOTC/v2/)
 市區公車
 ```
 取得指定[縣市]的市區公車顯示用路線站序資料
@@ -81,7 +83,11 @@ yarn run serve
 取得指定[縣市],[路線名稱]的公車動態定時資料(A1)[批次更新]
 - Bus/RealTimeByFrequency/City/{City}/{RouteName}
 取得指定[縣市],[路線名稱]的公車動態定點資料(A2)[批次更新]
-Bus/RealTimeNearStop/City/{City}/{RouteName}
+- Bus/RealTimeNearStop/City/{City}/{RouteName}
+取得指定[縣市],[路線名稱]的市區公車路線班表資料
+- Bus/Schedule/City/{City}/{RouteName}
+取得指定[縣市]的市區公車營運業者資料
+- Bus/Operator/City/{City}
 ```
 
 公路客運
@@ -102,6 +108,10 @@ Bus/RealTimeNearStop/City/{City}/{RouteName}
 - Bus/RealTimeByFrequency/InterCity/{RouteName}
 取得指定[路線名稱]的公路客運動態定點資料(A2)[批次更新]
 - Bus/RealTimeNearStop/InterCity/{RouteName}
+取得公路客運路線班表資料
+- Bus/Schedule/InterCity
+取得公路客運的營運業者資料
+- Bus/Operator/InterCity
 ```
 
 自行車
@@ -112,7 +122,7 @@ Bus/RealTimeNearStop/City/{City}/{RouteName}
 - Bike/Availability/NearBy
 ```
 
-### v3 (https://gist.motc.gov.tw/gist_api/V3/)
+## GIST (https://gist.motc.gov.tw/gist_api/V3/)
 
 ```
 依座標取得行政區域
