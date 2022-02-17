@@ -130,51 +130,58 @@ export const storeObject = {
 
   actions: {
     // 取得目前位置
-    getCurrentPostion({ commit }, currentPosition) {
+    getCurrentPostion({ commit, dispatch }, currentPosition) {
       commit("map/SET_POSITION", currentPosition);
-      this.dispatch("updateTargetData");
-      this.dispatch("getCurrentCity", currentPosition);
-      this.dispatch("map/setCurrentPosition", currentPosition);
+      dispatch("updateTargetData");
+      dispatch("getCurrentCity", currentPosition);
+      dispatch("getWeather");
+      dispatch("map/setCurrentPosition", currentPosition);
+    },
+
+    // 更新目前位置(移動地圖)
+    updateCurrentPosition({ commit, dispatch }, currentPosition) {
+      dispatch("map/removeOtherLayers", currentPosition);
+      commit("map/SET_POSITION", currentPosition);
+      dispatch("updateTargetData", false);
     },
 
     // 依座標取得目前行政區域(城市)
     getCurrentCity({ commit }, currentPosition) {
       AJAX_getCurrentLocation(currentPosition)
-        .then(res => {
-          commit("CHECK_OUT_CITY", res.data[0].City);
-          this.dispatch("getWeather");
-        })
-        .catch(error => {
-          const errorMsg = `
-            getCurrentCity 發生錯誤: ${error}
-            currentPosition: [${currentPosition.latitude}, ${currentPosition.longitude}]
-          `;
-          commit("CHECK_OUT_CITY", "Taipei");
-          console.log(errorMsg);
-        })
+      .then(res => {
+        commit("CHECK_OUT_CITY", res.data[0].City);
+      })
+      .catch(error => {
+        const errorMsg = `
+          getCurrentCity 發生錯誤: ${error}
+          currentPosition: [${currentPosition.latitude}, ${currentPosition.longitude}]
+        `;
+        commit("CHECK_OUT_CITY", "Taipei");
+        console.log(errorMsg);
+      })
     },
 
     // 切換目標型態
-    checkOutTargetType({ commit }, targetType) {
+    checkOutTargetType({ commit, dispatch }, targetType) {
       commit("CHECK_OUT_TARGET_TYPE", targetType);
       commit("CLOSE_ROUTE_DETAIL_LIST");
-      this.dispatch("updateTargetData");
+      dispatch("updateTargetData");
     },
 
     // 無搜尋狀態下更新資料
-    updateTargetData() {
-      const { targetType } = this.state;
+    updateTargetData({ state, dispatch }, focus = true) {
+      const { targetType } = state;
       if (targetType !== "Bike") {
-        this.dispatch("getBusStopList");
+        dispatch("getBusStopList");
       } else {
-        this.dispatch("getBikeDataList");
+        dispatch("getBikeDataList");
       }
-      this.dispatch("map/focusCurrentPosition");
+      if (focus) dispatch("map/focusCurrentPosition");
     },
 
     // 尋找附近公車站牌
-    getBusStopList({ commit }) {
-      const { targetType, targetCity, map } = this.state;
+    getBusStopList({ commit, state, dispatch }) {
+      const { targetType, targetCity, map } = state;
       const targetParam = {
         type: targetType,
         city: targetCity,
@@ -182,7 +189,7 @@ export const storeObject = {
       };
       AJAX_getBusStopNearBy(targetParam).then(res => {
         commit("UPDATE_BUS_STOP_DATA_LIST", res.data);
-        this.dispatch("map/setBusStopDataOnMap", res.data);
+        dispatch("map/setBusStopDataOnMap", res.data);
       }).catch(error => {
         let errorMsg = `getBusStopList 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
@@ -211,8 +218,8 @@ export const storeObject = {
     },
 
     // 依照公車站牌尋找路線
-    getBusRoutebyStop({ commit }, stationId) {
-      const { targetType, targetCity } = this.state;
+    getBusRoutebyStop({ commit, state }, stationId) {
+      const { targetType, targetCity } = state;
       const targetParam = {
         type: targetType,
         city: targetCity,
@@ -228,7 +235,7 @@ export const storeObject = {
     },
 
     // 取得路線細節
-    getRouteDetail({ commit, state }, targetRoute) {
+    getRouteDetail({ commit, state, dispatch }, targetRoute) {
       commit("CHECK_OUT_ROUTE_DETAIL_LIST");
       commit("UPDATE_TARGET_ROUTE", targetRoute);
       commit("CLEAR_OUT_SEARCH_KEY_WORD");
@@ -245,9 +252,9 @@ export const storeObject = {
         commit("UPDATE_BUS_ROUTE_DATA_LIST", res);
 
         // 地圖分別打上 站點、路線、動態
-        this.dispatch("map/setBusStopDataOnMap");
-        this.dispatch("map/setBusRouteDataOnMap");
-        this.dispatch("map/setBusRealTimeOnMap");
+        dispatch("map/setBusStopDataOnMap");
+        dispatch("map/setBusRouteDataOnMap");
+        dispatch("map/setBusRealTimeOnMap");
       })
       .catch(error => {
         let errorMsg = `getRouteDetail 發生錯誤: ${error},\ntargetParam: `;
@@ -257,8 +264,8 @@ export const storeObject = {
     },
 
     // 刷新路線細節
-    refreshRouteDetail({ commit }) {
-      const { targetType, targetCity, targetRoute, routeDataList } = this.state;
+    refreshRouteDetail({ commit, state, dispatch }) {
+      const { targetType, targetCity, targetRoute, routeDataList } = state;
       const targetParam = {
         type: targetType,
         city: targetCity,
@@ -273,8 +280,8 @@ export const storeObject = {
         commit("UPDATE_BUS_ROUTE_DATA_LIST", res);
 
         // 只清掉公車動態再重新打新的上去
-        this.dispatch("map/removeBusPointLayers");
-        this.dispatch("map/setBusRealTimeOnMap");
+        dispatch("map/removeBusPointLayers");
+        dispatch("map/setBusRealTimeOnMap");
       })
       .catch(error => {
         let errorMsg = `refreshRouteDetail 發生錯誤: ${error},\ntargetParam: `;
@@ -284,13 +291,13 @@ export const storeObject = {
     },
 
     // 取得附近單車站點
-    getBikeDataList({ commit }) {
-      const position = this.state.map.currentPosition;
+    getBikeDataList({ commit, state, dispatch }) {
+      const position = state.map.currentPosition;
 
       getbikeStation(position)
       .then(res => {
         commit("UPDATE_BIKE_DATA_LIST", res);
-        this.dispatch("map/setBikeRentDataOnMap", res);
+        dispatch("map/setBikeRentDataOnMap", res);
       })
       .catch(error => {
         console.log(`getBikeDataList 發生錯誤: ${error}`)
@@ -298,9 +305,9 @@ export const storeObject = {
     },
 
     // 取得天氣資料
-    getWeather({ commit }) {
-      const location = citysHash[this.state.targetCity].cityName;
-      const weatherLocation = citysHash[this.state.targetCity].locationName;
+    getWeather({ commit, state }) {
+      const location = citysHash[state.targetCity].cityName;
+      const weatherLocation = citysHash[state.targetCity].locationName;
 
       getWeatherNowData(location, weatherLocation)
       .then(res => {

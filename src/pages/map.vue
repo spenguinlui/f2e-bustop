@@ -13,8 +13,9 @@ export default {
   },
   methods: {
     initMap() {
+      const { latitude, longitude } = this.currentPosition;
       const map = L.map('map', { zoomControl: false })
-        .setView([this.currentPosition.latitude, this.currentPosition.longitude], 16);
+        .setView([latitude, longitude], 16);
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -23,6 +24,12 @@ export default {
 
       L.control.zoom({ position: 'topright' }).addTo(map);
       this.$store.commit("map/SET_MAP_OBJECT", map);
+
+      map.on("moveend", () => {
+        const newCenter = map.getCenter();
+        this.$store.dispatch("updateCurrentPosition", { latitude: newCenter.lat, longitude: newCenter.lng });
+        console.log(newCenter.lat, newCenter.lng)
+      })
     }
   },
   mounted() {

@@ -122,23 +122,23 @@ export default {
   },
   actions: {
     // 將地圖中心鎖定現在位置
-    focusCurrentPosition() {
-      this.state.map.storeMap.flyTo([this.state.map.currentPosition.latitude, this.state.map.currentPosition.longitude], 16);
+    focusCurrentPosition({ state }) {
+      state.storeMap.flyTo([state.currentPosition.latitude, state.currentPosition.longitude], 16);
     },
 
     // 取得目前位置
-    setCurrentPosition({ commit }, currentPosition) {
+    setCurrentPosition({ commit, state, dispatch }, currentPosition) {
       commit("REMOVE_OLD_CENTER");
       // 地圖更新及移動位置
       const lat = currentPosition.latitude;
       const lon = currentPosition.longitude;
-      L.marker([lat, lon], { icon: centerIcon, layerName: 'center' }).addTo(this.state.map.storeMap);
-      this.dispatch("map/focusCurrentPosition");
+      L.marker([lat, lon], { icon: centerIcon, layerName: 'center' }).addTo(state.storeMap);
+      dispatch("focusCurrentPosition");
     },
 
     // 清除底圖與中心點以外圖層 (盡量在 vue 元件呼叫)
-    removeOtherLayers() {
-      const { storeMap } = this.state.map;
+    removeOtherLayers({ state }) {
+      const { storeMap } = state;
       storeMap.eachLayer(layer => { 
         if (!(layer instanceof L.TileLayer)) {
           if (layer.options.layerName !== 'center') storeMap.removeLayer(layer);
@@ -146,16 +146,16 @@ export default {
       });
     },
 
-    removeBusPointLayers() {
-      const { storeMap } = this.state.map;
+    removeBusPointLayers({ state }) {
+      const { storeMap } = state;
       storeMap.eachLayer(layer => {
         if (layer.options.layerName === 'buspoint') storeMap.removeLayer(layer);
       })
     },
 
     // 將單車資料打上地圖
-    setBikeRentDataOnMap({ commit }, bikeDataList) {
-      const { storeMap } = this.state.map;
+    setBikeRentDataOnMap({ commit, state }, bikeDataList) {
+      const { storeMap } = state;
       let bikeLayer = new L.LayerGroup().addTo(storeMap);
       bikeDataList.map(data => {
         const divIcon = createBikeMarker(data.AvailableRentBikes);
@@ -168,21 +168,21 @@ export default {
     },
 
     // 將公車站點打上地圖
-    setBusStopDataOnMap({ commit }, targetDataList = []) {
+    setBusStopDataOnMap({ commit, state, rootState, dispatch }, targetDataList = []) {
       // if bus stop data given, else find it
-      const { storeMap } = this.state.map;
+      const { storeMap } = state;
       const istargetGiven = targetDataList.length !== 0;
-      const targetStops = istargetGiven ? targetDataList : getTargetDataList(this.state).Stops;
+      const targetStops = istargetGiven ? targetDataList : getTargetDataList(rootState).Stops;
 
       let busLayer = new L.LayerGroup().addTo(storeMap);
       targetStops.map((data, index) => {
         const marker = L.marker([data.StopPosition.PositionLat, data.StopPosition.PositionLon], { icon: busStopIcon, title: data.StationID })
-          .bindPopup(createBusPopupObj(data, this.state.targetRoute.destinationStop), { minWidth: 100, offset: [90, 20], className: "bus-popup" })
+          .bindPopup(createBusPopupObj(data, rootState.targetRoute.destinationStop), { minWidth: 100, offset: [90, 20], className: "bus-popup" })
           .addTo(busLayer);
-        if (index === 0 && this.state.targetRoute.destinationStop) marker.openPopup();
+        if (index === 0 && rootState.targetRoute.destinationStop) marker.openPopup();
         marker.on("click", (e) => {
           const stationId = e.target.options.title;
-          this.dispatch("getBusRoutebyStop", stationId);
+          dispatch("getBusRoutebyStop", stationId);
         })
       })
       if (storeMap.tap) storeMap.tap.disable();  // 解決 safari、edge popup失效
@@ -191,10 +191,10 @@ export default {
     },
 
     // 將公車路線打上地圖
-    setBusRouteDataOnMap() {
-      const { storeMap } = this.state.map;
+    setBusRouteDataOnMap({ state, rootState }) {
+      const { storeMap } = state;
       const busRouteLayer = new L.LayerGroup().addTo(storeMap);
-      const targetGeometry = getTargetDataList(this.state).Geometry;
+      const targetGeometry = getTargetDataList(rootState).Geometry;
       const geoJsonData = geometryStrToGeoJson(targetGeometry);
       const lineStyle = { color: "#4EA476", weight: 4 };
       try {
@@ -205,10 +205,10 @@ export default {
     },
 
     // 將公車動態打上地圖
-    setBusRealTimeOnMap() {
-      const { storeMap } = this.state.map;
+    setBusRealTimeOnMap({ state, rootState }) {
+      const { storeMap } = state;
       const busRealTimeLayer = new L.LayerGroup().addTo(storeMap);
-      const targetRealTime = getTargetDataList(this.state).BusRealTime;
+      const targetRealTime = getTargetDataList(rootState).BusRealTime;
       targetRealTime.map(data => {
         L.marker([data.BusPosition.PositionLat, data.BusPosition.PositionLon], { icon: busPointIcon, zIndexOffset: 1000, layerName: "buspoint" })
           .addTo(busRealTimeLayer);

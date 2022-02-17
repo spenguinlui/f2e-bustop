@@ -30,7 +30,7 @@ const urlQueryStr = (dataType, query = { top: null, position: null, select: null
   let queryStr = "";
 
   if (query.top) queryStr += `&$top=${query.top}`;
-  if (!query.top) queryStr += `&$top=30`;           // 安全機制
+  if (!query.top) queryStr += `&$top=100`;           // 安全機制
   
   if (query.position) queryStr += createNearByStr(query.position);
   if (query.select) queryStr += createSelectByStr(query.select);
