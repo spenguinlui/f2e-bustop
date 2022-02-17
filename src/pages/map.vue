@@ -45,12 +45,15 @@ export default {
   #map {
     @include posi(f);
     width: 100%;
-    height: 100%;
+    height: calc(100% - #{$nav-bar-m-h}vh - 27vh);
+    height: calc(100% - #{$nav-bar-m-h}vh - var(--vh, 1vh) * 27);
     margin-top: #{$nav-bar-m-h}vh;
     margin-top: calc(var(--vh, 1vh) * #{$nav-bar-m-h});
     z-index: $map;
     @include screen-up {
+      height: calc(100% - #{$nav-bar-h} - #{$footer-h});
       margin-top: $nav-bar-h;
+      margin-bottom: $footer-h;
     }
   }
 
