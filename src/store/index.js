@@ -1,32 +1,12 @@
-import { distance, distanceZh } from "../modules/calculate";
-import {
-  insertNearByStopToDetailList,
-  insertTimeArrivalToDetailList,
-  insertRouteShapeToDetailList,
-  insertRealTimeToDetailList,
-  insertReailTimeStopToDeatailList,
-  insertRouteDataToDetailList,
-  insertScheduleToDetailList,
-  insertOperatorToDetailList
-} from "../modules/data-insert.js";
+import { AJAX_getCurrentLocation } from "../modules/gist";
 import {
   AJAX_getBusStopNearBy,
   AJAX_getBusRouteByStop,
   AJAX_getBusRoute,
-  AJAX_getBusStopOfRoute,
-  AJAX_getBusTimeIfArrival,
-  AJAX_getBusShapOfRoute,
-  AJAX_getBusRealTime,
-  AJAX_getBustRealTimeStop,
-  AJAX_getBikeStation,
-  AJAX_getBikeAvailability,
-  AJAX_getBusRouteDetail,
-  AJAX_getBusOperator,
-  AJAX_getCurrentLocation,
-  AJAX_getWeaterTep,
-  AJAX_getWeaterRain,
-  AJAX_getBusSchedule
-} from "../modules/api";
+  getBusRouteData, refreshBusRouteData
+} from "../modules/ptx_bus";
+import { getbikeStation } from "../modules/ptx_bike";
+import { getWeatherNowData } from "../modules/weather";
 
 import citysHash from "../json/cityshash.json";
 import mapModules from "./map";
@@ -210,6 +190,26 @@ export const storeObject = {
       })
     },
 
+    // 關鍵字搜尋公車客運
+    getBusDataWithKeyword({ commit, state }) {
+      const { targetType, targetCity, searchKeyword } = state;
+      let targetParam = {
+        type: targetType,
+        keyword: searchKeyword
+      }
+      if (targetType === "CB") targetParam.city = targetCity;
+
+      AJAX_getBusRoute(targetParam)
+      .then(res => {
+        commit("UPDATE_BUS_DATA_LIST", res.data);
+      })
+      .catch(error => {
+        let errorMsg = `getBusDataWithKeyword 發生錯誤: ${error},\ntargetParam: `;
+        for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
+        console.log(errorMsg)
+      })
+    },
+
     // 依照公車站牌尋找路線
     getBusRoutebyStop({ commit }, stationId) {
       const { targetType, targetCity } = this.state;
@@ -228,60 +228,28 @@ export const storeObject = {
     },
 
     // 取得路線細節
-    getRouteDetail({ commit }, targetRoute) {
+    getRouteDetail({ commit, state }, targetRoute) {
       commit("CHECK_OUT_ROUTE_DETAIL_LIST");
       commit("UPDATE_TARGET_ROUTE", targetRoute);
       commit("CLEAR_OUT_SEARCH_KEY_WORD");
 
-      const { targetType, targetCity } = this.state;
       const targetParam = {
-        type: targetType,
-        city: targetCity,
-        routeName: targetRoute.routeName
+        type: state.targetType,
+        city: state.targetCity,
+        routeName: targetRoute.routeName,
+        currentPosition: state.map.currentPosition
       };
 
-      Promise.all([
-        AJAX_getBusStopOfRoute(targetParam),
-        AJAX_getBusTimeIfArrival(targetParam),
-        AJAX_getBusShapOfRoute(targetParam),
-        AJAX_getBusRealTime(targetParam),
-        AJAX_getBustRealTimeStop(targetParam),
-        AJAX_getBusRouteDetail(targetParam),
-        AJAX_getBusSchedule(targetParam)
-      ]).then(res => {
-        const stopList = res[0].data;
-        const timeList = res[1].data;
-        const routeList = res[2].data;
-        const realTimeList = res[3].data;
-        const realTimeStopList = res[4].data;
-        const routeDataList = res[5].data;
-        const scheduleList = res[6].data;
-        
-        let detailList = JSON.parse(JSON.stringify(stopList));
-        detailList = insertNearByStopToDetailList(detailList, this.state.map.currentPosition);
-        detailList = insertTimeArrivalToDetailList(detailList, timeList);
-        detailList = insertRouteShapeToDetailList(detailList, routeList);
-        detailList = insertRealTimeToDetailList(detailList, realTimeList);
-        detailList = insertReailTimeStopToDeatailList(detailList, realTimeStopList);
-        detailList = insertRouteDataToDetailList(detailList, routeDataList);
-        detailList = insertScheduleToDetailList(detailList, scheduleList);
-        
-        const operatorAjaxList = detailList[0].Data.Operators.map((operator) => {
-          return AJAX_getBusOperator({ type: targetType, city: targetCity, operator: operator.OperatorID });
-        })
-        Promise.all(operatorAjaxList)
-        .then((ress) => {
-          ress.forEach((res) => {
-            detailList = insertOperatorToDetailList(detailList, res.data);
-          })
-          commit("UPDATE_BUS_ROUTE_DATA_LIST", detailList);
+      getBusRouteData(targetParam)
+      .then(res => {
+        commit("UPDATE_BUS_ROUTE_DATA_LIST", res);
 
-          // 地圖分別打上 站點、路線、動態
-          this.dispatch("map/setBusStopDataOnMap");
-          this.dispatch("map/setBusRouteDataOnMap");
-          this.dispatch("map/setBusRealTimeOnMap");
-        })
-      }).catch(error => {
+        // 地圖分別打上 站點、路線、動態
+        this.dispatch("map/setBusStopDataOnMap");
+        this.dispatch("map/setBusRouteDataOnMap");
+        this.dispatch("map/setBusRealTimeOnMap");
+      })
+      .catch(error => {
         let errorMsg = `getRouteDetail 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
         console.log(errorMsg)
@@ -297,82 +265,35 @@ export const storeObject = {
         routeName: targetRoute.routeName
       };
 
+      // 假如沒有指定路線就不更新
       if (!targetRoute.routeName) { return; }
 
-      Promise.all([
-        AJAX_getBusTimeIfArrival(targetParam),
-        AJAX_getBusRealTime(targetParam),
-        AJAX_getBustRealTimeStop(targetParam)
-      ]).then(res => {
-        const timeList = res[0].data;
-        const realTimeList = res[1].data;
-        const realTimeStopList = res[2].data;
-
-        let detailList = JSON.parse(JSON.stringify(routeDataList));
-        detailList = insertTimeArrivalToDetailList(detailList, timeList);
-        detailList = insertRealTimeToDetailList(detailList, realTimeList);
-        detailList = insertReailTimeStopToDeatailList(detailList, realTimeStopList);
-
-        commit("UPDATE_BUS_ROUTE_DATA_LIST", detailList);
+      refreshBusRouteData(targetParam, routeDataList)
+      .then(res => {
+        commit("UPDATE_BUS_ROUTE_DATA_LIST", res);
 
         // 只清掉公車動態再重新打新的上去
         this.dispatch("map/removeBusPointLayers");
         this.dispatch("map/setBusRealTimeOnMap");
-      }).catch(error => {
+      })
+      .catch(error => {
         let errorMsg = `refreshRouteDetail 發生錯誤: ${error},\ntargetParam: `;
         for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
         console.log(errorMsg)
       })
     },
 
-    // 關鍵字搜尋公車客運
-    getBusDataWithKeyword({ commit }) {
-      const { targetType, targetCity, searchKeyword } = this.state;
-      let targetParam = {
-        type: targetType,
-        keyword: searchKeyword
-      }
-      if (targetType === "CB") targetParam.city = targetCity;
-
-      AJAX_getBusRoute(targetParam)
-        .then(res => {
-          commit("UPDATE_BUS_DATA_LIST", res.data);
-        })
-        .catch(error => {
-          let errorMsg = `getBusDataWithKeyword 發生錯誤: ${error},\ntargetParam: `;
-          for (let param in targetParam) errorMsg += `${param}: ${targetParam[param]}, `
-          console.log(errorMsg)
-        })
-    },
-
     // 取得附近單車站點
     getBikeDataList({ commit }) {
       const position = this.state.map.currentPosition;
 
-      Promise.all([
-        AJAX_getBikeAvailability(position),
-        AJAX_getBikeStation(position)
-      ]).then(res => {
-        const dataList = res[0].data;
-        let avaDataList = res[1].data;
-        avaDataList = avaDataList.map(
-          data => {
-            const { PositionLat, PositionLon } = data.StationPosition;
-            let findData = dataList.find((d) => d.StationUID === data.StationUID);
-            if (findData) data = {...data, ...findData}
-            // 改個名字
-            data.StationName.Zh_tw = data.StationName.Zh_tw.replace("YouBike1.0_", "");
-            data.StationName.Zh_tw = data.StationName.Zh_tw.replace("YouBike2.0_", "");
-            data.Distance = distance(PositionLat, PositionLon, position.latitude, position.longitude);
-            data.DistanceZH = distanceZh(data.Distance);
-            return data;
-          }
-        );
-        commit("UPDATE_BIKE_DATA_LIST", avaDataList);
-        this.dispatch("map/setBikeRentDataOnMap", avaDataList);
-      }).catch(error => {
-        let errorMsg = `getBikeDataList 發生錯誤: ${error}`;
-        console.log(errorMsg)
+      getbikeStation(position)
+      .then(res => {
+        commit("UPDATE_BIKE_DATA_LIST", res);
+        this.dispatch("map/setBikeRentDataOnMap", res);
+      })
+      .catch(error => {
+        console.log(`getBikeDataList 發生錯誤: ${error}`)
       })
     },
 
@@ -381,31 +302,12 @@ export const storeObject = {
       const location = citysHash[this.state.targetCity].cityName;
       const weatherLocation = citysHash[this.state.targetCity].locationName;
 
-      Promise.all([
-        AJAX_getWeaterRain(location), AJAX_getWeaterTep(weatherLocation)
-      ]).then(res => {
-        const locationData = res[0].data.records.location[0];
-        const weatherElements = locationData.weatherElement.reduce(
-          (neededElements, item) => {
-            if (["Wx", "MaxT", "MinT", "PoP"].includes(item.elementName)) {
-              neededElements[item.elementName] = item.time[0].parameter;
-            }
-            return neededElements;
-          },
-          {}
-        );
-        const TepLocationData = res[1].data.records.location[0];
-        TepLocationData.weatherElement.forEach(
-          item => {
-            if (["TEMP"].includes(item.elementName)) {
-              weatherElements[item.elementName] = item.elementValue;
-            }
-          }
-        );
-        commit("UPDATE_WEATHER_DATA", weatherElements);
-      }).catch(error => {
-        let errorMsg = `getWeather 發生錯誤: ${error}`;
-        console.log(errorMsg)
+      getWeatherNowData(location, weatherLocation)
+      .then(res => {
+        commit("UPDATE_WEATHER_DATA", res);
+      })
+      .catch(error => {
+        console.log(`getWeather 發生錯誤: ${error}`)
       })
     }
   },

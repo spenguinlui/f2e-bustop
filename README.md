@@ -45,7 +45,9 @@ yarn run serve
 * components - vue 元件
 * json - 靜態 json 檔引用
 * modules
-  - api.js - api 串接 function 
+  - gist.js - 串接 gist api function
+  - ptx_bus.js - 串接 ptx 公車&客運 function
+  - ptx_bike.js - 串接 ptx 自行車 function
   - calculate.js - 計算 function
   - data-insert.js - 資料整合 function
 * pages - 畫面主要底版
