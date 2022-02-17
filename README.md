@@ -46,8 +46,9 @@ yarn run serve
 * json - 靜態 json 檔引用
 * modules
   - gist.js - 串接 gist api function
-  - ptx_bus.js - 串接 ptx 公車&客運 function
-  - ptx_bike.js - 串接 ptx 自行車 function
+  - ptx_bus.js - 串接 ptx 公車&客運 api function
+  - ptx_bike.js - 串接 ptx 自行車 api function
+  - weather.js - 串接氣象局 api function
   - calculate.js - 計算 function
   - data-insert.js - 資料整合 function
 * pages - 畫面主要底版
